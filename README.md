@@ -21,4 +21,5 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+등등 기본적인 파일들은 구성되어있으며 앞으로 여기에 뭐가 더 추가 될지는 모르겠습니다.
+
