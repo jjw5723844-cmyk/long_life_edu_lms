@@ -4,7 +4,7 @@ class User < ApplicationRecord
   :confirmable, :trackable, :lockable
 
   # 역할(eunm)
-  eum role: { learner: 0, insturctor: 1, admin: 2 }, _prefix: :role
+  eunm role: { learner: 0, insturctor: 1, admin: 2 }, _prefix: :role
 
   # 유저 모델 간 연관 관계
   has_many :taught_courses,
@@ -13,8 +13,8 @@ class User < ApplicationRecord
     dependent: :nullify,
     inverse_of: :instructor
 
-  has_many :enrollments, dependent: :destroy
-  has_many :enrolled_courses, through: :enrollments, source: :course
+  has_many :registrations, dependent: :destroy
+  has_many :enrolled_courses, through: :registrations, source: :course
   has_one_attached :avatar
 
   # 유효성 검사

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  instructor_name: MyString
+  max_students: 1
+  category: one
+
+two:
+  title: MyString
+  description: MyText
+  instructor_name: MyString
+  max_students: 1
+  category: two
