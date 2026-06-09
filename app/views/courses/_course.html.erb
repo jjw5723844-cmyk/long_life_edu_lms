@@ -1,22 +1,28 @@
-<div id="<%= dom_id course %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Title:</strong>
-    <%= course.title %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= course.description %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Instructor name:</strong>
-    <%= course.instructor_name %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Max students:</strong>
-    <%= course.max_students %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Category:</strong>
-    <%= course.category_id %>
-  </div>
+<div id="<%= dom_id course %>" class="prose max-w-none">
+  <table class="w-full text-left border-collapse">
+    <tbody>
+      <tr class="border-b border-stone-200">
+        <th class="py-4 px-2 text-stone-600 font-bold w-1/4 text-lg">강좌명</th>
+        <td class="py-4 px-2 text-stone-900 font-extrabold text-2xl"><%= course.title %></td>
+      </tr>
+      <tr class="border-b border-stone-200">
+        <th class="py-4 px-2 text-stone-600 font-bold text-lg">담당 강사</th>
+        <td class="py-4 px-2 text-stone-800 text-lg"><%= course.instructor_name %> 선생님</td>
+      </tr>
+      <tr class="border-b border-stone-200">
+        <th class="py-4 px-2 text-stone-600 font-bold text-lg">강좌 분류</th>
+        <td class="py-4 px-2 text-stone-800 text-lg">
+          <span class="bg-stone-200 px-3 py-1 rounded-full text-sm font-medium">
+            <%= course.category&.name || "미지정" %>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <th class="py-4 px-2 text-stone-600 font-bold text-lg valign-top pt-6">강좌 소개</th>
+        <td class="py-4 px-2 text-stone-800 text-lg whitespace-pre-line pt-6 leading-relaxed">
+          <%= course.description %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

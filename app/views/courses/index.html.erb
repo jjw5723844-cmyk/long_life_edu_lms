@@ -1,29 +1,46 @@
-<% content_for :title, "Courses" %>
-
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Courses</h1>
-    <%= link_to "New course", new_course_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+<% content_for :title, "전체 강좌 목록" %>
+<div class="w-full max-w-6xl mx-auto py-8 px-4">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-5 border-b border-stone-200">
+    <div>
+      <h1 class="font-bold text-3xl text-stone-900 tracking-tight">🏛️ 시민 평생학습관 강좌 안내</h1>
+      <p class="text-stone-500 mt-1 text-base">배움에는 나이가 없습니다. 원하는 강좌를 자유롭게 신청해 보세요.</p>
+    </div>
+    <%= link_to "새 강좌 개설하기", new_course_path, class: "rounded-xl px-5 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-base shadow-sm transition duration-200 block text-center" %>
   </div>
-
-  <div id="courses" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @courses.any? %>
+  <% if notice.present? %>
+    <p class="py-3 px-4 bg-green-50 mb-6 text-green-700 font-medium rounded-lg border border-green-200 inline-block text-lg" id="notice"><%= notice %></p>
+  <% end %>
+  <% if @courses.empty? %>
+    <div class="text-center py-20 bg-stone-50 rounded-2xl border border-stone-200 border-dashed">
+      <p class="text-xl text-stone-500 font-medium">현재 개설된 평생교육 강좌가 없습니다.</p>
+      <p class="text-stone-400 mt-2 text-sm">오른쪽 상단의 '새 강좌 개설하기' 버튼을 눌러 첫 번째 수업을 등록해 보세요!</p>
+    </div>
+  <% else %>
+    <div id="courses" class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <% @courses.each do |course| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render course %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", course, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_course_path(course), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", course, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+        <div class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition duration-200">
+          <div>
+            <span class="inline-block bg-stone-100 text-stone-700 text-xs font-semibold px-2.5 py-1 rounded-full mb-3">
+              <%= course.category&.name || "일반 분류" %>
+            </span>
+            <h2 class="font-bold text-2xl text-stone-900 mb-2 truncate">
+              <%= course.title %>
+            </h2>
+            <p class="text-stone-600 text-sm mb-4">
+              <strong>담당 강사:</strong> <%= course.instructor_name %> 선생님
+            </p>
+            <p class="text-stone-500 text-base line-clamp-2 mb-4 leading-relaxed">
+              <%= course.description %>
+            </p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-stone-100 flex items-center justify-between">
+            <span class="text-base text-stone-600">
+              신청: <strong class="text-emerald-700 font-bold"><%= course.registrations.count %></strong> / <%= course.max_students %>명
+            </span>
+            <%= link_to "상세보기 및 신청", course, class: "rounded-lg px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-sm border border-stone-300 transition" %>
           </div>
         </div>
       <% end %>
-    <% else %>
-      <p class="text-center my-10">No courses found.</p>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>

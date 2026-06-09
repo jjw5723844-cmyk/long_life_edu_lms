@@ -3,8 +3,8 @@ class User < ApplicationRecord
   :recoverable, :rememberable, :validatable,
   :confirmable, :trackable, :lockable
 
-  # 역할(eunm)
-  eunm role: { learner: 0, insturctor: 1, admin: 2 }, _prefix: :role
+  # 역할(enum)
+  enum :role, { learner: 0, insturctor: 1, admin: 2 }, prefix: :role
 
   # 유저 모델 간 연관 관계
   has_many :taught_courses,

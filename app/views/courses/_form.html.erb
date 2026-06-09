@@ -1,42 +1,37 @@
-<%= form_with(model: course, class: "contents") do |form| %>
+<%= form_with(model: course, class: "space-y-6") do |form| %>
   <% if course.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(course.errors.count, "error") %> prohibited this course from being saved:</h2>
-
-      <ul class="list-disc ml-6">
+    <div id="error_explanation" class="bg-red-50 text-red-700 px-4 py-3 rounded-xl border border-red-200 text-base font-medium">
+      <h2><%= course.errors.count %>개의 문제가 발생하여 강좌를 저장할 수 없습니다:</h2>
+      <ul class="list-disc list-inside mt-2 text-sm">
         <% course.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
-
-  <div class="my-5">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": course.errors[:title].none?, "border-red-400 focus:outline-red-600": course.errors[:title].any?}] %>
+  <div>
+    <%= form.label :category_id, "강좌 분류", class: "block font-bold text-lg text-stone-800 mb-2" %>
+    <%= form.collection_select :category_id, Category.all, :id, :name, 
+          { prompt: "--- 강좌에 맞는 대분류를 선택해 주세요 ---" }, 
+          { class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition cursor-pointer" } %>
   </div>
-
-  <div class="my-5">
-    <%= form.label :description %>
-    <%= form.textarea :description, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": course.errors[:description].none?, "border-red-400 focus:outline-red-600": course.errors[:description].any?}] %>
+  <div>
+    <%= form.label :title, "강좌명", class: "block font-bold text-lg text-stone-800 mb-2" %>
+    <%= form.text_field :title, placeholder: "예) 어르신을 위한 스마트폰 기초 활용 반", class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition" %>
   </div>
-
-  <div class="my-5">
-    <%= form.label :instructor_name %>
-    <%= form.text_field :instructor_name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": course.errors[:instructor_name].none?, "border-red-400 focus:outline-red-600": course.errors[:instructor_name].any?}] %>
+  <div>
+    <%= form.label :instructor_name, "담당 강사명", class: "block font-bold text-lg text-stone-800 mb-2" %>
+    <%= form.text_field :instructor_name, placeholder: "강사 이름을 입력하세요", class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition" %>
   </div>
-
-  <div class="my-5">
-    <%= form.label :max_students %>
-    <%= form.number_field :max_students, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": course.errors[:max_students].none?, "border-red-400 focus:outline-red-600": course.errors[:max_students].any?}] %>
+  <div>
+    <%= form.label :max_students, "수강 정원 (명)", class: "block font-bold text-lg text-stone-800 mb-2" %>
+    <%= form.number_field :max_students, placeholder: "예) 20", min: 1, class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition" %>
   </div>
-
-  <div class="my-5">
-    <%= form.label :category_id %>
-    <%= form.text_field :category_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": course.errors[:category_id].none?, "border-red-400 focus:outline-red-600": course.errors[:category_id].any?}] %>
+  <div>
+    <%= form.label :description, "강좌 상세 소개", class: "block font-bold text-lg text-stone-800 mb-2" %>
+    <%= form.text_area :description, rows: 6, placeholder: "교육 대상, 강의 준비물, 주차별 강의 계획 등 상세 내용을 친절하게 적어주세요.", class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition leading-relaxed" %>
   </div>
-
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  <div class="pt-4">
+    <%= form.submit "강좌 개설 신청 완료하기", class: "w-full text-center rounded-xl px-6 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xl shadow-md transition duration-200 cursor-pointer" %>
   </div>
 <% end %>

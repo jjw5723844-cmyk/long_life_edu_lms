@@ -1,9 +1,13 @@
-<% content_for :title, "New course" %>
-
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New course</h1>
-
-  <%= render "form", course: @course %>
-
-  <%= link_to "Back to courses", courses_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+<% content_for :title, "새 강좌 개설" %>
+<div class="w-full max-w-2xl mx-auto py-8 px-4">
+  <div class="mb-8 pb-4 border-b border-stone-200">
+    <h1 class="font-bold text-3xl text-stone-900 tracking-tight">📝 새 평생교육 강좌 개설 신청서</h1>
+    <p class="text-stone-500 mt-1 text-base">시민들을 위한 가치 있는 배움의 기회를 열어주세요. 각 항목을 정확히 입력해 주시기 바랍니다.</p>
+  </div>
+  <div class="bg-white p-8 rounded-2xl border border-stone-200 shadow-sm mb-6">
+    <%= render "form", course: @course %>
+  </div>
+  <div class="text-center mt-4">
+    <%= link_to "← 강좌 목록으로 돌아가기", courses_path, class: "text-stone-600 hover:text-stone-900 font-medium text-base underline underline-offset-4 transition" %>
+  </div>
 </div>
