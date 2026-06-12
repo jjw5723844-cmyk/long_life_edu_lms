@@ -1,6 +1,7 @@
 class CoursesController < ApplicationController
   # 액션 실행전 @course 자동 조회
   before_action :set_course, only: %i[ show edit update destroy ]
+  allow_unauthenticated_access only: %i[ index show ]
 
   # 1. 개설된 모든 강좌들을 가져오는 액션
   def index
@@ -10,7 +11,12 @@ class CoursesController < ApplicationController
   # 2. 특정 혹은 키워드별 강좌 하나를 가져오는 세부 액션
   # GET /courses/1 or /courses/1.json
   def show
-    @course = Course.find(params[:id])
+    @course = Course.find_by(params[:id])
+
+    if @course.nil?
+      redirect_to courses_url, alert: "존재하지 않거나 이미 폐강된 강좌입니다.", status: :see_other
+      nil
+    end
   end
 
   # GET /courses/new
@@ -41,16 +47,22 @@ class CoursesController < ApplicationController
     end
   end
 
-  # 강좌 삭제
+  # 강좌 삭제 액션
   def destroy
-    @course.destroy
-    redirect_to course_path, notice: "강좌가 성공적으로 폐강(삭제)되었습니다."
+    @course = Course.find(params[:id])
+    if @course.present? # 강좌가 존재할 경우에만 삭제를 진행하도록 서버 안정성을 강화시킨다.
+      @course.destroy # set_course 액션으로 찾아낸 강좌 삭제
+      flash[:notice] = "강좌가 성공적으로 폐강되었습니다."
+    else
+      flash[:notice] = "이미 폐강 처리된 강좌입니다."
+    end
+
+    redirect_to courses_url, notice: "강좌가 성공적으로 폐강(삭제)되었습니다.", status: :see_other
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_course
-      @course = Course.find(params.expect(:id))
+      @course = Course.find_by(id: params.expect(:id)) # 코드 삭제시 서버 안정성 강화
     end
 
     # 스트롱 파라미터를 통해 허용할 컬럼들을 DB 구조에 맞게 확인
