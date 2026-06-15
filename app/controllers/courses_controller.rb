@@ -1,6 +1,9 @@
 class CoursesController < ApplicationController
   # 액션 실행전 @course 자동 조회
   before_action :set_course, only: %i[ show edit update destroy ]
+  # 강좌 개설 화면(new)과 강좌 개설 후 저장(create)의 접근 권한은 반드시 '강사 혹은 관리자'만 접근할 수 있다.
+  before_action :require_login, only: [ :new, :create ]
+  before_action :require_teacher_or_admin, only: [ :new, :create ]
   allow_unauthenticated_access only: %i[ index show ]
 
   # 1. 개설된 모든 강좌들을 가져오는 액션

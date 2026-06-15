@@ -1,17 +1,38 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <% if alert = flash[:alert] %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-  <% end %>
+<div class="flex min-h-screen flex-col justify-center bg-gray-50 px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="mt-6 text-center text-3xl font-extrabold tracking-tight text-gray-900">롱 라이프 평생교육 LMS</h2>
+    <p class="mt-2 text-center text-sm text-gray-600">비밀번호를 재설정하기 위해 가입하신 이메일을 입력해주세요.</p>
+  </div>
 
-  <h1 class="font-bold text-4xl">Forgot your password?</h1>
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white p-8 rounded-xl shadow-md border border-gray-100">
+    <%= form_with url: passwords_path, class: "space-y-6" do |form| %>
+      <% if flash[:alert] %>
+        <div class="p-3 bg-red-50 border-red-200 text-red-600 text-sm rounded-lg font-medium">
+          <%= flash[:alert]%>
+        </div>
+      <% end %>
 
-  <%= form_with url: passwords_path, class: "contents" do |form| %>
-    <div class="my-5">
-      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], class: "block shadow-sm rounded-md border border-gray-400 focus:outline-solid focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
+<!--비밀번호 재설정을 위한 이메일 주소 입력-->
+      <div>
+        <%= form.label :email_address, "이메일 주소", class: "block text-sm font-semibold text-gray-700" %>
+          <div class="mt-2">
+            <%= form.email_field :email_address,
+              value: params[:email_address],
+              required: true,
+              autofocus: true,
+              placeholder: "example@email.com",
+              class: "block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" %>
+          </div>
+      </div>
 
-    <div class="inline">
-      <%= form.submit "Email reset instructions", class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-    </div>
-  <% end %>
+      <div>
+        <%= form.submit "비밀번호 재설정 메일 발송", class: "flex w-full justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer transition-colors" %>
+      </div>
+
+<!--이전 페이지로 이동하는 버튼-->
+      <div class="mt-4">
+        <%= link_to "이전 화면으로", :back, class: "flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 cursor-pointer transition-colors" %>
+      </div>
+    <% end %>
+  </div>
 </div>

@@ -8,9 +8,9 @@ class SessionsController < ApplicationController
   def create
     if user = User.authenticate_by(params.permit(:email_address, :password))
       start_new_session_for user
-      redirect_to after_authentication_url
+      redirect_to after_authentication_url, notice: "성공적으로 로그인 되었습니다."
     else
-      redirect_to new_session_path, alert: "Try another email address or password."
+      redirect_to new_session_path, alert: "이메일 주소 또는 비밀번호가올바르지 않습니다."
     end
   end
 
