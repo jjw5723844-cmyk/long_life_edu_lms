@@ -7,7 +7,6 @@
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white p-8 rounded-xl shadow-md border border-gray-100">
       <%= fore_with url: session_url, class: "space-y-6" dp |form| %>
-
       	<% if flash[:alert] %>
         	<div class="p-3 bg-red-50 border-red-200 text-red-600 text-sm rounded-lg font-medium">
           	<%= flash[:alert]%>
@@ -15,17 +14,17 @@
         <% end %>
 
 <!--이메일 구조 생성-->
-    <div>
-    	<%= form.lable :email_address, "이메일 주소", class: "block text-sm font-semibold text-gray-700" %>
-      	<div class="mt-2">
-        	<%= form.email_field :email_address, 
-																value: params[:email_address],
-                								required: true,
-                								autofocus: true,
-                								autocomplete: "username",
-                								placeholder: "example@email.com",
-                								class: "block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" %>
-        </div>
+    	<div>
+    		<%= form.lable :email_address, "이메일 주소", class: "block text-sm font-semibold text-gray-700" %>
+      		<div class="mt-2">
+        		<%= form.email_field :email_address, 
+																	value: params[:email_address],
+                									required: true,
+                									autofocus: true,
+                									autocomplete: "username",
+                									placeholder: "example@email.com",
+                									class: "block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" %>
+        	</div>
     	</div>
     </div>
 </div>
