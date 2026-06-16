@@ -3,12 +3,16 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   stale_when_importmap_changes
 
+  def current_user
+    Current.user
+  end
+  helper_method :current_user # 뷰 파일에서도 current_user를 쓸 수 있게 설정
+
   private
 
   # 1. 로그인 여부 확인 및 이동 경로 기억
-  def require_login
-    unless current_user
-      session["forwarding_url"] = request.original_url if request.get?
+  def require_authentication
+    unless authenticated?
       redirect_to new_session_path, alert: "로그인이 필요한 서비스입니다."
     end
   end

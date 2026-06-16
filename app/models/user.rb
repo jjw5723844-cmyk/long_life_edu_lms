@@ -11,4 +11,9 @@ class User < ApplicationRecord
   # user.teacher?  => 강사면 true
   # user.admin?    => 관리자면 true
   # user.teacher!  => 해당 유저를 강사 권한으로 즉시 변경
+
+  # 강사의 강좌 개설 권한 정의
+  has_many :courses, dependent: :destroy
+  # 학생의 수강신청 권한 정의
+  has_many :registrations, dependent: :destroy
 end

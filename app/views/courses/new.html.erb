@@ -1,13 +1,16 @@
-<% content_for :title, "새 강좌 개설" %>
-<div class="w-full max-w-2xl mx-auto py-8 px-4">
-  <div class="mb-8 pb-4 border-b border-stone-200">
-    <h1 class="font-bold text-3xl text-stone-900 tracking-tight">📝 새 평생교육 강좌 개설 신청서</h1>
-    <p class="text-stone-500 mt-1 text-base">시민들을 위한 가치 있는 배움의 기회를 열어주세요. 각 항목을 정확히 입력해 주시기 바랍니다.</p>
+<div class="course-form-container" style="max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; font-family: sans-serif;">
+  
+  <div style="margin-bottom: 25px; display: flex; gap: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+    <%= link_to "메인 홈으로", root_path, style: "color: #007bff; text-decoration: none; font-size: 14px; font-weight: bold;" %>
+    
+    <span style="color: #ccc;">|</span>
+    
+    <a href="javascript:history.back()" style="color: #6c757d; text-decoration: none; font-size: 14px; font-weight: bold;">이전 페이지로</a>
   </div>
-  <div class="bg-white p-8 rounded-2xl border border-stone-200 shadow-sm mb-6">
-    <%= render "form", course: @course %>
-  </div>
-  <div class="text-center mt-4">
-    <%= link_to "← 강좌 목록으로 돌아가기", courses_path, class: "text-stone-600 hover:text-stone-900 font-medium text-base underline underline-offset-4 transition" %>
-  </div>
+
+  <h2 style="margin-bottom: 10px; color: #333;">🎓 새 강좌 개설하기</h2>
+  <p style="color: #666; margin-bottom: 30px; font-size: 14px;">수강생들에게 제공할 멋진 강좌의 정보를 입력해 주세요.</p>
+
+  <%= render "form", course: @course %>
+
 </div>

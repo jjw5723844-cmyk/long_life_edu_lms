@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
+  # 로그인/로그아웃 담당
   resource :session
+
+  # 비밀번호 재설정 관련 라우트
   resources :passwords, param: :token
+
+  # 카테고리 관련 라우트
   resources :categories
-  devise_for :users
 
   # 강좌 안에 수강신청 경로를 중첩시킨다.
   resources :courses do

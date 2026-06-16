@@ -14,8 +14,9 @@ class SessionsController < ApplicationController
     end
   end
 
+  # 로그아웃 기능 추가
   def destroy
     terminate_session
-    redirect_to new_session_path, status: :see_other
+    redirect_to root_path, notice: "안전하게 로그아웃 되었습니다.", status: :see_other
   end
 end

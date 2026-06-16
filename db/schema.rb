@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_12_023123) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_16_020540) do
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -25,7 +25,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_023123) do
     t.integer "max_students"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["category_id"], name: "index_courses_on_category_id"
+    t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
   create_table "registrations", force: :cascade do |t|
@@ -55,7 +57,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_023123) do
     t.datetime "created_at", null: false
     t.datetime "current_sign_in_at"
     t.string "current_sign_in_ip"
-    t.string "email", default: "", null: false
     t.string "email_address"
     t.string "encrypted_password", default: "", null: false
     t.integer "failed_attempts", default: 0, null: false
@@ -75,7 +76,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_023123) do
     t.string "unlock_token"
     t.datetime "updated_at", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
@@ -83,6 +83,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_023123) do
   end
 
   add_foreign_key "courses", "categories"
+  add_foreign_key "courses", "users"
   add_foreign_key "registrations", "courses"
   add_foreign_key "registrations", "users"
   add_foreign_key "sessions", "users"
