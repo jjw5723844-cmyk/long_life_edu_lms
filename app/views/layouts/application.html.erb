@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Long Life Edu Lms" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Long Life Edu Lms">
-    <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
+    <title>long_life_Edu</title>
+    <%= csrr_mete_tags %>
     <%= csp_meta_tag %>
-
-    <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_linh_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body style="margin: 0 font-family: sans-serif background-color: #f8f9fa">
+    <nav style="background-color: #212529 padding: 15px 30px display: flex justify-content: space-between align-items: center color: white">
+      <div class="logo">
+        <a href="<%= root_path %>" style="color: white text-decoration: none font-weight: bold font-size: 20px">🏛️ 시민 평생학습관</a>
+      </div>
+
+      <div class="nav-links" style="display: flex align-items: center gap: 20px">
+        <% if current_user %>
+        <span style="font-size: 14px color: #adb5bd">
+          🙋‍♂️<strong><%= current_user.name || current_user.email_adress.split('@').first %></strong>님 로그인 중
+        </span>
+
+        <!--로그아웃 및 로그인 디자인-->
+          <%= button_to "로그아웃", session_path, metmethod: :delete,
+            style: "background-color: #dc3545 color: white border: none padding: 8px 16px border-radius: 4px,
+            cursor: pointer font-size: 14px font- weight: bold" %>
+        <% else %>
+          <%= link_to "로그인", new_session_path,
+            style: "color: white text=decoration: none background-color: #007bff padding: 8px 16px border-radius: 4px font-size: 14px font-weight: bold" %>
+        <% end %>
+      </div>
+    </nav>
+
+    <% if flash[:notice] %>
+      <div style="background-color: #d4edda"><%= flash[:notice] %></div>
   </body>
 </html>
