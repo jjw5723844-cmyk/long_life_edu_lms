@@ -10,6 +10,7 @@
     </div>
   <% end %>
 
+<!--강좌 카테고리 및 강좌 세부사항-->
   <div>
     <%= form.label :category_id, "강좌 분류(카테고리)", class: "block font-bold text-lg text-stone-800 mb-2" %>
     <%= form.collection_select :category_id, Category.all, :id, :name, 
@@ -33,6 +34,8 @@
     <%= form.label :description, "강좌 상세 소개", class: "block font-bold text-lg text-stone-800 mb-2" %>
     <%= form.text_area :description, rows: 6, placeholder: "교육 대상, 강의 준비물, 주차별 강의 계획 등 상세 내용을 친절하게 적어주세요.", class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition leading-relaxed" %>
   </div>
+  
+<!--강좌 개설 신청 완료 버튼-->
   <div class="pt-4">
     <%= form.submit "강좌 개설 신청 완료하기", class: "w-full text-center rounded-xl px-6 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xl shadow-md transition duration-200 cursor-pointer" %>
   </div>
