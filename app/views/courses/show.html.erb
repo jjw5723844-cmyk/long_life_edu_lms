@@ -1,12 +1,19 @@
-<!--강좌 상세 정보-->
+<!-- 강좌 상세 정보 -->
 <% content_for :title, "강좌 상세 정보" %>
 <div class="md:w-2/3 w-full mx-auto py-6">
+
   <% if notice.present? %>
-    <p class="py-3 px-4 bg-green-50 mb-5 text-green-700 font-medium rounded-lg border border-green-200 inline-block text-lg" id="notice"><%= notice %></p>
+    <p class="py-3 px-4 bg-green-50 mb-5 text-green-700 font-medium rounded-lg border border-green-200 inline-block text-lg" id="notice">
+      <%= notice %>
+    </p>
   <% end %>
   <% if alert.present? %>
-    <p class="py-3 px-4 bg-red-50 mb-5 text-red-700 font-medium rounded-lg border border-red-200 inline-block text-lg" id="alert"><%= alert %></p>
+    <p class="py-3 px-4 bg-red-50 mb-5 text-red-700 font-medium rounded-lg border border-red-200 inline-block text-lg" id="alert">
+      <%= alert %>
+    </p>
   <% end %>
+
+  <!-- 강좌 정보 -->
   <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6">
     <span class="text-sm font-semibold text-stone-500 tracking-wider uppercase">강좌 정보</span>
     <div class="mt-2 text-stone-900">
@@ -14,36 +21,75 @@
     </div>
   </div>
 
-  <!--강좌 수강 신청 확인 여부 출력-->
+  <!-- 강좌 수강 신청 확인 여부 출력 -->
   <div class="bg-stone-50 border border-stone-200 rounded-xl p-6 mb-8 text-center">
     <% if @course.users.include?(current_user) %>
+
       <div class="text-emerald-700 text-xl font-bold py-3">
-        ✓ 회원님은 현재 이 강좌를 수강 중입니다.
+        회원님은 현재 이 강좌를 수강 중입니다.
       </div>
+      <%= 
+        button_to "수강 신청 취소하기",
+        course_registration_path(@couser, 0),
+        mathod: :delete,
+        data: { turbo_confirm: "정말 수강을 취소하시겠습니까?" },
+        class: "w-full max-w-md mx-auto block text-center rounded-xl px-6 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xl shadow-md transition duration-200 cursor-pointer"
+      %>
+
+    <% elsif @course.registrations.count >= @course.max_students %>
+      <p class="text-lg text-stone-600 mb-4">
+          현재 신청 인원: <span class="font-bold text-stone-950 text-xl"><%= @course.registrations.count %></span>명 / 
+          정원: <span class="font-semibold text-stone-800"><%= @course.max_students %></span>명 </p>
+        <button disabled class="w-full max-w-md mx-auto block text-center rounded-xl px-6 py-4 bg-stone-400 text-white font-bold text-xl shadow-md cursor-not-allowed">
+          정원 마감 (신청 불가)
+        </button>
+
     <% else %>
       <p class="text-lg text-stone-600 mb-4">
         현재 신청 인원: <span class="font-bold text-stone-950 text-xl"><%= @course.registrations.count %></span>명 / 
-        정원: <span class="font-stone-800"><%= @course.max_students %></span>명
+        정원: <span class="font-semibold text-stone-800"><%= @course.max_students %></span>명
       </p>
-      <%= button_to "이 강좌 수강신청 하기", 
-                    course_registrations_path(@course), 
-                    method: :post, 
-                    class: "w-full max-w-md mx-auto block text-center rounded-xl px-6 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xl shadow-md transition duration-200 cursor-pointer" %>
+      <%= 
+        button_to "이 강좌 수강신청 하기",
+        course_registrations_path(@course),
+        method: :post,
+        class: "w-full max-w-md mx-auto block text-center rounded-xl px-6 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xl shadow-md transition duration-200 cursor-pointer"
+      %>
+    <% end %>
+
+  <% else %>
+      <p class="text-lg text-stone-600 mb-4">
+        현재 신청 인원: <span class="font-bold text-stone-950 text-xl"><%= @course.registrations.count %></span>명 / 
+        정원: <span class="font-semibold text-stone-800"><%= @course.max_students %></span>명
+      </p>
+      <div class="bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4 max-w-md mx-auto text-base">
+        수강신청을 하려면 <%= link_to "로그인", new_session_path, class: "font-bold underline text-amber-950 hover:text-black" %>이 필요합니다.
+      </div>
     <% end %>
   </div>
 
   <hr class="border-stone-200 mb-6">
-  
-  <!--강좌 정보 수정 및 폐강-->
+
+<!-- 강좌 정보 수정 맟 삭제 기능 추가, 수강 신청 목록으로 돌아가는 경로 설정 -->
   <div class="flex flex-col sm:flex-row gap-2">
-    <%= link_to "강좌 정보 수정", edit_course_path(@course),
-    class: "w-full sm:w-auto text-center rounded-md px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 inline-block font-medium border border-stone-300 transition" %>
-    <%= link_to "목록으로 돌아가기", courses_path,
-    class: "w-full sm:w-auto text-center rounded-md px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 inline-block font-medium border border-stone-300 transition" %>
-    <%= button_to "강좌 폐강(삭제)", course_path(@course),
-    method: :delete,
-    form_class: "sm:inline-block w-full sm:w-auto",
-    class: "w-full rounded-md px-4 py-2.5 text-white bg-red-600 hover:bg-red-700 font-medium cursor-pointer transition",
-    data: { turbo_confirm: "정말 이 강좌를 삭제하시겠습니까?" } %>
+    <%= 
+      link_to "목록으로 돌아가기", courses_path,
+      class: "w-full sm:w-auto text-center rounded-md px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 inline-block font-medium border border-stone-300 transition"
+    %>
+
+    <% if current_user && (current_user.teacher? || current_user.admin?) %> <!-- 강좌 정보 수정 및 삭제 기능의 권한자 판단 -->
+      <%= 
+        link_to "강좌 정보 수정", edit_course_path(@course),
+        class: "w-full sm:w-auto text-center rounded-md px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 inline-block font-medium border border-stone-300 transition"
+      %>
+
+      <%= 
+        button_to "강좌 폐강 및 삭제", course_path(@course),
+        method: :delete,
+        form_class: "sm:inline-block w-full sm:w-auto",
+        class: "w-full rounded-md px-4 py-2.5 text-white bg-red-600 hover:bg-red-700 font-medium cursor-pointer transition",
+        data: { turbo_ confirm: "정말 이 강좌를 삭제하시겠습니끼? 삭제할시 수강생들의 모든 정보가 사라집니다." }
+      %>
+    <% end %>
   </div>
 </div>

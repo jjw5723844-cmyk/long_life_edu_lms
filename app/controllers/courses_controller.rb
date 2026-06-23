@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  # 1. 액션 실행 전 @course 자동 조회
+  # 액션 실행 전 @course 자동 조회
   before_action :set_course, only: %i[ show edit update destroy ]
 
   # 1차 보안 차단: 비로그인 및 학생 유저가 강좌를 '조작'하는 것을 전면 차단
@@ -11,18 +11,17 @@ class CoursesController < ApplicationController
   # 목록과 상세 페이지는 누구나 볼 수 있게 허용
   allow_unauthenticated_access only: %i[ index show ]
 
+  # 비로그인 허용 페이지라 하더라도, 로그인한 계정이라면 쿠키를 읽어 세션을 복구
+  before_action :resume_session, only: %i[ index show ]
+
   # 1. 개설된 모든 강좌들을 가져오는 액션
   def index
-    @courses = Course.all
+    @courses = Course.includes(:category, :registrations).all.order(created_at: :desc)
   end
 
   # 2. 특정 강좌 하나를 가져오는 세부 액션
   def show
-    # 버그 수정: @course는 이미 맨 위 set_course에서 안전하게 조회
-    # 불필요한 중복 조회를 제거하고, 데이터가 없을 때의 예외 처리 수행
-    if @course.nil?
-      redirect_to courses_url, alert: "존재하지 않거나 이미 폐강된 강좌입니다.", status: :see_other
-    end
+    # @set_course에서 필터링을 통한 예외 처리를 하기에 안전하게 조회
   end
 
   # GET /courses/new
@@ -61,18 +60,18 @@ class CoursesController < ApplicationController
 
   # 강좌 삭제 액션
   def destroy
-    if @course.present?
-      @course.destroy
+    @course.destroy
       redirect_to courses_url, notice: "강좌가 성공적으로 폐강(삭제)되었습니다.", status: :see_other
-    else
-      redirect_to courses_url, alert: "이미 폐강 처리된 강좌입니다.", status: :see_other
-    end
   end
 
   private
     # 파라미터 매칭 규격
     def set_course
-      @course = Course.find_by(id: params.expect(:id))
+      @course = Course.find_by(id: params.expect(:id)) # 존재하지 않는 강좌에 접근 시 다른 보안 필터로 가기 전에 여기서 즉시 차단(강력한 보안성 보장)
+
+      if @course.nil?
+        redirect_to courses_url, alert: "존재하지 않거나 이미 폐강된 강좌입니다.", status: :see_other
+      end
     end
 
     # 최고 관리자(admin)이거나, 강좌의 user_id가 현재 로그인한 유저와 일치해야 함

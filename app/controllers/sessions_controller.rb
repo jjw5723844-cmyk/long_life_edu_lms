@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       start_new_session_for user
       redirect_to after_authentication_url, notice: "성공적으로 로그인 되었습니다."
     else
-      redirect_to new_session_path, alert: "이메일 주소 또는 비밀번호가올바르지 않습니다."
+      redirect_to new_session_path, alert: "이메일 주소 또는 비밀번호가 올바르지 않습니다."
     end
   end
 
