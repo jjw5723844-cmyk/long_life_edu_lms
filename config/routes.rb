@@ -22,4 +22,7 @@ Rails.application.routes.draw do
 
   # 강사용 대시보드 주소 추가
   get "teacher/dashboard", to: "teacher_dashboards#index", as: :teacher_dashboard
+
+  # 관리자용 대시보드 주소 추가
+  get "admin/dashboard", to: "admin_dashboards#index", as: :admin_dashboard
 end

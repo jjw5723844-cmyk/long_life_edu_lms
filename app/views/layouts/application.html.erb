@@ -39,14 +39,20 @@
       <div style="background-color: #f8d7da; color: #721c24 padding: 12px text-align: center border-bottom: 1px solid #f5c6cb"><%= flash[:alert] %></div>
     <% end %>
 
-    <!-- 학습자용 대시보드 링크 -->
-    <% if current_user %>
-      <%= 
-        link_to "🎒 나의 강의실", dashboard_path, 
-        class: "text-stone-700 hover:text-emerald-700 font-medium"
-      %>
-      <% else %>
+    <!-- 각 권한을 가진 유저들의 로그인 이후 페이지 대시보드 링크 -->
+    <div style="padding: 10px 20px 0 20px;">
+      <% if current_user %>
+        <% if current_user.admin? %>
+          <%= link_to "🛠️ 관리자 시스템 제어", admin_dashboard_path, class: "text-red-700 hover:text-red-900 font-bold tracking-tight" %>
+
+        <% elsif current_user.teacher? %>
+          <%= link_to "👨‍🏫 강사 대시보드", teacher_dashboard_path, class: "text-stone-700 hover:text-emerald-700 font-medium" %>
+
+        <% else %>
+          <%= link_to "🎒 나의 강의실", dashboard_path, class: "text-stone-700 hover:text-emerald-700 font-medium" %>
+        <% end %>
       <% end %>
+    </div>
 
     <div class="container" style="padding: 20px">
       <%= yield %>
