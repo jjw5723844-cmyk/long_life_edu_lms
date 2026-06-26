@@ -16,4 +16,7 @@ Rails.application.routes.draw do
   # 강좌 목록 페이지 설정
   root "courses#index"
   get "up" => "rails/health#show", as: :rails_health_check
+
+  # 학습자용 강의실 대시보드 주소 추가
+  get "dashboard", to: "dashboards#index", as: :dashboard
 end

@@ -16,4 +16,6 @@ class User < ApplicationRecord
   has_many :courses, dependent: :destroy
   # 학생의 수강신청 권한 정의
   has_many :registrations, dependent: :destroy
+  # 등록 대장을 거쳐서 이용자가 최종적으로 수강 중인 강좌 내역 출력
+  has_many :enrolled_courses, through: :registrations, source: :course
 end
