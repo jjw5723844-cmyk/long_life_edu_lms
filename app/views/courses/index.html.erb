@@ -24,7 +24,7 @@
     <div class="text-center py-20 bg-stone-50 rounded-2xl border border-stone-200 border-dashed">
       <p class="text-xl text-stone-500 font-medium">현재 개설된 평생교육 강좌가 없습니다.</p>
 
-      <% if current_user&.instructor? %>
+      <% if current_user&.teacher? %>
         <p class="text-stone-400 mt-2 text-sm">상단의 '새 강좌 개설하기' 버튼을 눌러 첫 번째 수업을 등록해 보세요!</p>
       <% else %>
         <p class="text-stone-400 mt-2">새로운 강좌가 곧 개설될 예정이니 조금만 기다려주세요!</p>

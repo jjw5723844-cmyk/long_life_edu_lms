@@ -19,4 +19,7 @@ Rails.application.routes.draw do
 
   # 학습자용 강의실 대시보드 주소 추가
   get "dashboard", to: "dashboards#index", as: :dashboard
+
+  # 강사용 대시보드 주소 추가
+  get "teacher/dashboard", to: "teacher_dashboards#index", as: :teacher_dashboard
 end
