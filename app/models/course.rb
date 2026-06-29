@@ -5,4 +5,8 @@ class Course < ApplicationRecord
 
   has_many :registrations
   has_many :students, through: :registrations, source: :user
+  has_many :lessons, dependent: :destroy # 강좌와 강의 간 관계 선언
+  # 레일즈의 표준 메크로 메서드(ActiveStorage) 적용
+  # 각 강좌별 대표 썸네일 이미지 파일을 첨부할 수 있도록 선언
+  has_one_attached :thumbnail
 end

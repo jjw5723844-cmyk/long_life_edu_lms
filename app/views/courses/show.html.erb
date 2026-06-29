@@ -15,6 +15,13 @@
 
   <!-- 강좌 정보 -->
   <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6">
+    <!-- 강좌에 업로드된 썸네일 이미지가 존재할 경우 상세 화면 상단데 출력되도록 ActiveStorage 렌더링 코드 추가 -->
+    <% if @course.thumbnail.attached? %>
+      <div class="w-full h-64 overflow-hidden rounded-xl mb-6 bg-stone-100 border border-stone-200">
+        <% image_tag @course.thumbnail, class: "w-full h-full object-cover" %>
+      </div>
+    <% end %>
+
     <span class="text-sm font-semibold text-stone-500 tracking-wider uppercase">강좌 정보</span>
     <div class="mt-2 text-stone-900">
       <%= render @course %>
@@ -23,15 +30,17 @@
 
   <!-- 강좌 수강 신청 확인 여부 출력 -->
   <div class="bg-stone-50 border border-stone-200 rounded-xl p-6 mb-8 text-center">
-    <% if @course.users.include?(current_user) %>
+    <!-- 단의 로그인 유도 else 문과 정상 대응되도록 최외각 로그인 체크 조건문을 주입 오류 예방 -->
+    <% if current_user %>
+      <% if @course.registrations.exists?(user_id: current_user.id) %>
 
       <div class="text-emerald-700 text-xl font-bold py-3">
         회원님은 현재 이 강좌를 수강 중입니다.
       </div>
       <%= 
         button_to "수강 신청 취소하기",
-        course_registration_path(@couser, 0),
-        mathod: :delete,
+        course_registration_path(@course, 0),
+        method: :delete,
         data: { turbo_confirm: "정말 수강을 취소하시겠습니까?" },
         class: "w-full max-w-md mx-auto block text-center rounded-xl px-6 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xl shadow-md transition duration-200 cursor-pointer"
       %>
@@ -88,7 +97,7 @@
         method: :delete,
         form_class: "sm:inline-block w-full sm:w-auto",
         class: "w-full rounded-md px-4 py-2.5 text-white bg-red-600 hover:bg-red-700 font-medium cursor-pointer transition",
-        data: { turbo_ confirm: "정말 이 강좌를 삭제하시겠습니끼? 삭제할시 수강생들의 모든 정보가 사라집니다." }
+        data: { turbo_confirm: "정말 이 강좌를 삭제하시겠습니끼? 삭제할시 수강생들의 모든 정보가 사라집니다." }
       %>
     <% end %>
   </div>

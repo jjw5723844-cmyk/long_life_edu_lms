@@ -18,4 +18,6 @@ class User < ApplicationRecord
   has_many :registrations, dependent: :destroy
   # 등록 대장을 거쳐서 이용자가 최종적으로 수강 중인 강좌 내역 출력
   has_many :enrolled_courses, through: :registrations, source: :course
+  # 진도율 트래킹(학습자별 개별 강의 수강 상태 기록)을 위한 User와 LessonProgress 간의 관계를 선언
+  has_many :lesson_progresses, dependent: :destroy
 end

@@ -4,8 +4,6 @@ class RegistrationsController < ApplicationController
 
   # 1. 기본 수강 신청 처리 과정
   def create
-    @course = Course.find(params[:course_id])
-
     # 2. 이미 수강신청한 학습자인가?(강의 신청 진행상황에 따른 판단 1)
     if @course.registrations.exists?(user: current_user)
       redirect_to @course, alert: "이미 신청 완료된 강좌입니다. [나의 강의실]에서 확인해 주세요."
@@ -33,16 +31,19 @@ class RegistrationsController < ApplicationController
     # 현재 로그인한 유저가 해당 강좌에 등록한 내역을 정확하게 찾는다.(표적 추적)
     @registration = @course.registrations.find_by(user: current_user)
 
-    if @registration&.destroy
-      redirect_to @course, notice: "수강신청이 정상적으로 취소되었습니다."
-    elseif
-      redirect_to @course, alert: "취소 처리 중 오류가 발생했습니다."
+    if @registration
+      if @registration&.destroy
+        redirect_to @course, notice: "수강신청이 정상적으로 취소되었습니다."
+      else
+        redirect_to @course, alert: "취소 처리 중 오류가 발생했습니다."
+      end
     else
       redirect_to @course, alert: "해당 권한이 없습니다."
     end
   end
 
   private
+
   # 중첩 라우팅 구조에 맞는 부모 클래스 강좌 찾기의 안정성 강화
   def set_course
     @course = Course.find(params[:course_id])

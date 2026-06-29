@@ -83,6 +83,6 @@ class CoursesController < ApplicationController
 
     # 스트롱 파라미터를 통해 허용할 컬럼들을 DB 구조에 맞게 확인 (params.expect 사양)
     def course_params
-      params.expect(course: [ :title, :description, :instructor_name, :max_students, :category_id ])
+      params.expect(course: [ :title, :description, :instructor_name, :max_students, :category_id, :thumbnail ])
     end
 end

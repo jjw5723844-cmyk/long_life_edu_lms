@@ -13,30 +13,59 @@
 <!--강좌 카테고리 및 강좌 세부사항-->
   <div>
     <%= form.label :category_id, "강좌 분류(카테고리)", class: "block font-bold text-lg text-stone-800 mb-2" %>
-    <%= form.collection_select :category_id, Category.all, :id, :name, 
+    <%= 
+      form.collection_select :category_id, Category.all, :id, :name, 
           { prompt: "--- 강좌에 맞는 대분류를 선택해 주세요 ---" }, 
-          { class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition cursor-pointer" } %>
+          { class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition cursor-pointer" }
+    %>
   </div>
   
   <div>
     <%= form.label :title, "강좌명", class: "block font-bold text-lg text-stone-800 mb-2" %>
-    <%= form.text_field :title, placeholder: "예) 어르신을 위한 스마트폰 기초 활용 반", class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition" %>
+    <%=
+      form.text_field :title, placeholder: "예) 어르신을 위한 스마트폰 기초 활용 반",
+      class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition"
+    %>
   </div>
+
   <div>
     <%= form.label :instructor_name, "담당 강사명", class: "block font-bold text-lg text-stone-800 mb-2" %>
-    <%= form.text_field :instructor_name, placeholder: "강사 이름을 입력하세요", class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition" %>
+    <%=
+      form.text_field :instructor_name, placeholder: "강사 이름을 입력하세요",
+      class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition" 
+    %>
   </div>
+
   <div>
     <%= form.label :max_students, "수강 정원 (명)", class: "block font-bold text-lg text-stone-800 mb-2" %>
-    <%= form.number_field :max_students, placeholder: "예) 20", min: 1, class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition" %>
+    <%=
+      form.number_field :max_students, placeholder: "예) 20", min: 1,
+      class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition"
+    %>
   </div>
+
   <div>
     <%= form.label :description, "강좌 상세 소개", class: "block font-bold text-lg text-stone-800 mb-2" %>
-    <%= form.text_area :description, rows: 6, placeholder: "교육 대상, 강의 준비물, 주차별 강의 계획 등 상세 내용을 친절하게 적어주세요.", class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition leading-relaxed" %>
+    <%=
+      form.text_area :description, rows: 6, placeholder: "교육 대상, 강의 준비물, 주차별 강의 계획 등 상세 내용을 친절하게 적어주세요.",
+      class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition leading-relaxed"
+    %>
+  </div>
+
+  <div>
+    <%= form.label :thumbnail, "강좌 썸네일 이미지", class: "block font-bold text-lg text-stone-800 mb-2" %>
+    <!-- 전체 UI 테마와 통일감을 주는 Tailwind 스타일이 적용된 ActiveStorage 전용 파일 업로드 필드를 새롭게 추가 -->
+    <%=
+      form.file_field :thumbnail, accept: 'image/*',
+      class: "w-full rounded-xl border border-stone-300 px-4 py-3 text-base text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 transition file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer"
+    %>
   </div>
   
 <!--강좌 개설 신청 완료 버튼-->
   <div class="pt-4">
-    <%= form.submit "강좌 개설 신청 완료하기", class: "w-full text-center rounded-xl px-6 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xl shadow-md transition duration-200 cursor-pointer" %>
+    <%=
+      form.submit "강좌 개설 신청 완료하기",
+      class: "w-full text-center rounded-xl px-6 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xl shadow-md transition duration-200 cursor-pointer"
+    %>
   </div>
 <% end %>
