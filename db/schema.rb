@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_29_013940) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_30_021046) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -58,6 +58,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_29_013940) do
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
+  create_table "institutions", force: :cascade do |t|
+    t.text "core_values"
+    t.datetime "created_at", null: false
+    t.text "greeting_content"
+    t.string "greeting_title"
+    t.text "mission"
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "lesson_progresses", force: :cascade do |t|
     t.boolean "completed"
     t.datetime "created_at", null: false
@@ -76,6 +86,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_29_013940) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_lessons_on_course_id"
+  end
+
+  create_table "notices", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.boolean "is_pinned"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.integer "view_count"
   end
 
   create_table "registrations", force: :cascade do |t|

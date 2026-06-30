@@ -23,4 +23,12 @@ class ApplicationController < ActionController::Base
       redirect_to root_path, alert: "강좌 개설 권한이 없습니다. 강사 또는 관리자 계정으로 로그인해 주세요."
     end
   end
+
+  # 3. 관리자 전용 검증 메서드
+  def ensure_admin!
+    # 로그인 정보가 없거나, 로그인이 되었더라도 관리자가 아니라면 해당 계정의 접근을 차단
+    unless current_user && current_user.admin?
+      redirect_to root_path, alert: "관리자 전용 시스템입니다. 해당 이용자는 접근 권한이 없습니다."
+    end
+  end
 end

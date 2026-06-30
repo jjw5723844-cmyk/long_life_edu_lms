@@ -1,90 +1,107 @@
 <% content_for :title, "전체 강좌 목록" %>
-<div class="w-full max-w-6xl mx-auto py-8 px-4">
 
-  <!-- 평생학습 강좌 소개 문구 디자인 -->
-  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-5 border-b border-stone-200">
+<div class="w-full bg-gradient-to-br from-emerald-800 via-emerald-900 to-stone-900 text-white py-16 px-6 shadow-inner" style="background: linear-gradient(135deg, #065f46, #022c22); color: white; padding: 60px 24px;">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6" style="max-width: 1152px; margin: 0 auto; display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 24px;">
     <div>
-      <h1 class="font-bold text-3xl text-stone-900 tracking-tight">🏛️ 시민 평생학습 강좌 안내</h1>
-      <p class="text-stone-500 mt-1 text-base">배움에는 나이가 없습니다. 원하는 강좌를 자유롭게 신청해 보세요.</p>
+      <span style="display: inline-block; background-color: rgba(4, 120, 87, 0.4); color: #a7f3d0; font-size: 12px; font-weight: bold; padding: 4px 12px; border-radius: 9999px; margin-bottom: 12px; tracking-wider: 0.05em;">LIFELONG LMS</span>
+      <h1 style="font-bold: bold; font-size: 32px; margin: 0; line-height: 1.3;">배움으로 채우는 일상,<br> 내일을 바꾸는 평생학습</h1>
+      <p style="color: rgba(167, 243, 208, 0.8); margin-top: 8px; font-size: 16px; font-weight: 300;">시민 누구에게나 열려 있는 고품격 맞춤형 교육 과정을 롱라이프에서 만나보세요.</p>
     </div>
 
-    <!-- 강좌 개설의 디자인 및 개설 권한자 판단(강사인가? 관리자인가?) -->
     <% if current_user && (current_user.teacher? || current_user.admin?) %>
-      <%= link_to "새 강좌 개설하기", new_course_path,
-        class: "rounded-xl px-5 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-base shadow-sm transition duration-200 block text-center" %>
+      <%= link_to "＋ 새 강좌 개설하기", new_course_path,
+        style: "border-radius: 12px; padding: 14px 24px; background-color: white; color: #022c22; font-weight: bold; text-decoration: none; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: 0.2s;" %>
     <% end %>
+  </div>
+</div>
+
+<div class="w-full max-w-6xl mx-auto py-12 px-6" style="max-width: 1152px; margin: 0 auto; padding: 48px 24px;">
+
+  <div style="margin-bottom: 32px; padding-bottom: 16px; border-b: 1px solid #e7e5e4; display: flex; justify-content: space-between; align-items: center;">
+    <h2 style="font-weight: bold; font-size: 24px; color: #1c1917; margin: 0;">
+      <span style="color: #047857; margin-right: 8px;">■</span> 현재 모집 중인 강좌 안내
+    </h2>
+    <span style="font-size: 14px; color: #78716c;">총 <strong style="color: #047857; font-weight: bold;"><%= @courses.count %></strong>개의 교육 과정</span>
   </div>
 
   <% if notice.present? %>
-    <p class="py-3 px-4 bg-green-50 mb-6 text-green-700 font-medium rounded-lg border border-green-200 inline-block text-lg" id="notice"><%= notice %></p>
+    <p style="padding: 12px 16px; background-color: #f0fdf4; color: #166534; font-weight: 500; border-radius: 8px; border: 1px solid #bbf7d0; display: inline-block; margin-bottom: 24px;" id="notice">✨ <%= notice %></p>
   <% end %>
 
-  <!-- 강좌가 개설되어있는지 판단되었을 경우와 강좌 개설 버튼 안내 -->
   <% if @courses.empty? %>
-    <div class="text-center py-20 bg-stone-50 rounded-2xl border border-stone-200 border-dashed">
-      <p class="text-xl text-stone-500 font-medium">현재 개설된 평생교육 강좌가 없습니다.</p>
-
+    <div style="text-center: center; padding: 96px 24px; background-color: white; border-radius: 16px; border: 2px dashed #e7e5e4; text-align: center;">
+      <span style="font-size: 48px; display: block; margin-bottom: 12px;">🎓</span>
+      <p style="font-size: 20px; color: #78716c; font-weight: 500; margin: 0;">현재 개설된 평생교육 강좌가 없습니다.</p>
       <% if current_user&.teacher? || current_user&.admin? %>
-        <p class="text-stone-400 mt-2 text-sm">상단의 '새 강좌 개설하기' 버튼을 눌러 첫 번째 수업을 등록해 보세요!</p>
+        <p style="color: #a8a29e; margin-top: 8px; font-size: 14px;">상단의 '새 강좌 개설하기' 버튼을 눌러 첫 번째 수업을 등록해 보세요!</p>
       <% else %>
-        <p class="text-stone-400 mt-2">새로운 강좌가 곧 개설될 예정이니 조금만 기다려주세요!</p>
+        <p style="color: #a8a29e; margin-top: 8px; font-size: 14px;">새로운 강좌가 곧 개설될 예정이니 조금만 기다려주세요!</p>
       <% end %>
     </div>
   <% else %>
-    <div id="course" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <div id="course" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <% @courses.each do |course| %>
+        <%
+          is_enrolled = current_user && course.registrations.exists?(user_id: current_user)
+          is_full = course.registrations.count >= course.max_students
+        %>
 
-      <!-- 비즈니스 로직 변수화(뷰 코드의 가독성 유지) -->
-      <%
-        is_enrolled = current_user && course.users.include?(current_user)
-        is_full = course.registrations.count >= course.max_students
-      %>
-
-      <!-- 강좌 카테고리의 형식과 강좌 현황 명시 -->
-      <div class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition duration-200 position-relative">
-        <div>
-          <div class="flex itmes-center justify-between mb-3">
-            <span class="inline-block bg-stone-100 text-stone-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-              <%= course.category&.name || "일반 분류" %> 
-            </span>
-
-            <% if is_enrolled %>
-              <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-md border border-emerald-200">
-                수강 중
+        <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-xl transition duration-300 group" style="background-color: white; border-radius: 16px; border: 1px solid #e7e5e4; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">
+          
+          <div>
+            <div style="width: 100%; height: 192px; overflow: hidden; background-color: #f5f5f4; position: relative; border-bottom: 1px solid #f5f5f4;">
+              <% if course.image.attached? %>
+                <%= image_tag course.image, class: "w-full h-full object-cover transition duration-500", style: "width: 100%; height: 100%; object-fit: cover;" %>
+              <% else %>
+                <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #a8a29e;">
+                  <span style="font-size: 32px;">🖼️</span>
+                  <span style="font-size: 12px;">등록된 강좌 이미지가 없습니다</span>
+                </div>
+              <% end %>
+              
+              <span style="position: absolute; top: 12px; left: 12px; background-color: rgba(28, 25, 23, 0.85); color: white; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px;">
+                <%= course.category&.name || "일반 분류" %> 
               </span>
-            <% elsif is_full %>
-              <span class="inline-block bg-red-50 text-red-600 text-xs font-bold px-2.5 py-1 rounded-md border border-red-200">
-                마감
+            </div>
+
+            <div style="padding: 24px;">
+              <div style="margin-bottom: 8px;">
+                <% if is_enrolled %>
+                  <span style="background-color: #ecfdf5; color: #047857; font-size: 12px; font-weight: bold; padding: 2px 8px; border-radius: 4px; border: 1px solid #a7f3d0;">수강 중</span>
+                <% elsif is_full %>
+                  <span style="background-color: #fff1f2; color: #e11d48; font-size: 12px; font-weight: bold; padding: 2px 8px; border-radius: 4px; border: 1px solid #fecdd3;">정원 마감</span>
+                <% else %>
+                  <span style="background-color: #eff6ff; color: #1d4ed8; font-size: 12px; font-weight: bold; padding: 2px 8px; border-radius: 4px; border: 1px solid #bfdbfe;">접수 중</span>
+                <% end %>
+              </div>
+
+              <h3 style="font-weight: bold; font-size: 20px; color: #1c1917; margin: 0 0 8px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <%= course.title %>
+              </h3>
+              
+              <p style="color: #78716c; font-size: 13px; margin: 0 0 12px 0;">
+                <span>👨‍🏫</span> <strong>담당 강사:</strong> <%= course.instructor_name %> 선생님
+              </p>
+              <p class="line-clamp-2" style="color: #57534e; font-size: 14px; margin: 0; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 42px;">
+                <%= course.description %>
+              </p>
+            </div>
+          </div>
+
+          <div style="padding: 24px; padding-top: 0;">
+            <div style="padding-top: 16px; border-top: 1px solid #f5f5f4; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <span style="font-size: 14px; color: #57534e;">
+                신청현황: <strong style="color: <%= is_full ? '#dc2626' : '#047857' %>; font-weight: bold;"><%= course.registrations.count %></strong> / <%= course.max_students %>명
               </span>
+            </div>
+
+            <%= link_to course, style: "width: 100%; text-align: center; display: block; border-radius: 12px; padding: 12px 0; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.2s; #{is_enrolled ? 'background-color: #f5f5f4; color: #1c1917; border: 1px solid #e7e5e4;' : 'background-color: #047857; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05);'}" do %>
+              <%= is_enrolled ? "강의실 입장 / 취소" : "강좌 상세보기 및 신청" %>
             <% end %>
           </div>
 
-          <h2 class="font-bold text-2xl text-stone-900 mb-2 truncate">
-            <% course.title %>
-          </h2>
-          <!-- 강의할 강사 표기 -->
-          <p class="text-stone-600 text-sm mb-4">
-            <strong>담당 강사:</strong> <% course.instructor_name %> 선생님
-          </p>
-          <p class="text-stone-500 text-base line-clamp-2 mb-4 leading-relaxed">
-            <%= course.description %>
-          </p>
         </div>
-
-        <!-- 수강 인원 현황 표시 -->
-        <div class="mt-4 pt-4 border-t border-stone-100 flex items-center justify-between">
-          <span class="text-base text-stone-600">
-            신청: <strong class="<%= is_full ? 'text-red-600' : 'text-emerald-700' %> font-bold"><%= course.registrations.count %></strong>
-            / <%= course.max_students %>명
-          </span>
-
-          <%=
-            link_to is_enrolled ? "상세보기 / 취소" : "상세보기 및 신청", course,
-            class: "rounded-lg px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-sm border border-stone-300 transition shrink-0"
-          %>
-        </div>
-      </div>
-
       <% end %>
     </div>
   <% end %>
