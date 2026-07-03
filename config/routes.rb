@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "notcices/index"
+  get "pags/about"
   ## 1. 인증 및 계정 관리 시스템
   # 로그인/로그아웃 담당
   resource :session
@@ -22,6 +24,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   ## 3. 권한별 전역 제어 대시보드
+
   # 일반 학습자용 마이페이지 강의실
   get "dashboard", to: "dashboards#index", as: :dashboard
 
@@ -30,4 +33,11 @@ Rails.application.routes.draw do
 
   # 관리자용 시스템 제어 센터
   get "admin/dashboard", to: "admin_dashboards#index", as: :admin_dashboard
+
+  # 기관소개 정적 페이지 라우트
+  get "about", to: "static_pages#about", as: :about
+
+  # 공지사항 게시판 라우트
+  get "notices", to: "notices#index", as: :notices
+  resources :notices, only: [ :index, :show ]
 end
