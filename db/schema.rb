@@ -59,22 +59,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_30_021046) do
   end
 
   create_table "institutions", force: :cascade do |t|
-    t.text "core_values"
+    t.text "core_values", null: false
     t.datetime "created_at", null: false
-    t.text "greeting_content"
-    t.string "greeting_title"
-    t.text "mission"
-    t.string "name"
+    t.text "greeting_content", null: false
+    t.string "greeting_title", null: false
+    t.text "mission", null: false
+    t.string "name", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "lesson_progresses", force: :cascade do |t|
-    t.boolean "completed"
+    t.boolean "completed", default: false, null: false
     t.datetime "created_at", null: false
     t.integer "lesson_id", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["lesson_id"], name: "index_lesson_progresses_on_lesson_id"
+    t.index ["user_id", "lesson_id"], name: "index_lesson_progresses_on_user_id_and_lesson_id", unique: true
     t.index ["user_id"], name: "index_lesson_progresses_on_user_id"
   end
 
@@ -89,12 +90,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_30_021046) do
   end
 
   create_table "notices", force: :cascade do |t|
-    t.text "content"
+    t.text "content", null: false
     t.datetime "created_at", null: false
-    t.boolean "is_pinned"
-    t.string "title"
+    t.boolean "is_pinned", default: false, null: false
+    t.string "title", null: false
     t.datetime "updated_at", null: false
-    t.integer "view_count"
+    t.integer "view_count", default: 0, null: false
   end
 
   create_table "registrations", force: :cascade do |t|
