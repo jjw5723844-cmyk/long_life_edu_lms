@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_30_021046) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_05_054311) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -66,6 +66,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_30_021046) do
     t.text "mission", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "instructor_profiles", force: :cascade do |t|
+    t.text "bio"
+    t.datetime "created_at", null: false
+    t.string "specialty"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_instructor_profiles_on_user_id"
   end
 
   create_table "lesson_progresses", force: :cascade do |t|
@@ -154,6 +163,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_30_021046) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "courses", "categories"
   add_foreign_key "courses", "users"
+  add_foreign_key "instructor_profiles", "users"
   add_foreign_key "lesson_progresses", "lessons"
   add_foreign_key "lesson_progresses", "users"
   add_foreign_key "lessons", "courses"

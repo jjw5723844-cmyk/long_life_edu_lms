@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "instructors/index"
   get "notcices/index"
   get "pags/about"
   ## 1. 인증 및 계정 관리 시스템
@@ -40,4 +41,7 @@ Rails.application.routes.draw do
   # 공지사항 게시판 라우트
   get "notices", to: "notices#index", as: :notices
   resources :notices, only: [ :index, :show ]
+
+  # 강사 소개 페이지 라우트
+  resources :instructors, only: [:index]
 end

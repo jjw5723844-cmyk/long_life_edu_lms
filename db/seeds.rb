@@ -7,9 +7,10 @@ Category.destroy_all
 User.destroy_all
 Notice.destroy_all
 Institution.destroy_all
+InstructorProfile.destroy_all
 
 # 강의 카테고리 생성
-Default_category = Category.create!(name: "실용/취미교육")
+default_category = Category.create!(name: "실용/취미교육")
 puts "-> 기본 카테고리 생성 완료 (실용/취미교육)"
 
 # 1. 학습자 계정
@@ -29,6 +30,13 @@ User.create!(
   name: "오맹달"
 )
 puts "-> 강사 계정 생성 완료 (teacher@test.com / password456)"
+
+InstructorProfile.create!(
+  user: teacher_user,
+  specialty: "문화/취미 예술 전문",
+  bio: "오맹달 강사는 다양한 문화와 취미 예술 분야에서 풍부한 경험을 가지고 있으며, 학습자들에게 창의적이고 실용적인 교육을 제공하는 것을 목표로 합니다."
+)
+puts "-> 강사 프로필 생성 완료 (오맹달 강사)"
 
 # 3. 운영관리자 계정
 User.create!(

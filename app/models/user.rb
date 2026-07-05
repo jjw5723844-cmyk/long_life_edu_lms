@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
 
-  # 권한 설정
+  # 1. 권한 설정
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   # 권한 설정 후 사용자 확인 절차 설정
@@ -12,7 +12,7 @@ class User < ApplicationRecord
   # user.admin?    => 관리자면 true
   # user.teacher!  => 해당 유저를 강사 권한으로 즉시 변경
 
-  # 강사의 강좌 개설 권한 정의
+  # 2. 강사의 강좌 개설 권한 정의
   has_many :courses, dependent: :destroy
   # 학생의 수강신청 권한 정의
   has_many :registrations, dependent: :destroy
@@ -20,4 +20,9 @@ class User < ApplicationRecord
   has_many :enrolled_courses, through: :registrations, source: :course
   # 진도율 트래킹(학습자별 개별 강의 수강 상태 기록)을 위한 User와 LessonProgress 간의 관계를 선언
   has_many :lesson_progresses, dependent: :destroy
+
+  # 3. 강사 프로필 설정
+  has_one :instructor_profile, dependent: :destroy
+  # 강사 프로필의 필드를 유저 모델에서 직접 접근할 수 있도록 설정
+  delegate :specialty, :bio, to: :instructor_profile, allow_nil: true
 end
