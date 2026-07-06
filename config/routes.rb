@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   # 강좌 안에 수강신청 경로를 중첩시킨다.
   resources :courses do
     resources :registrations, only: [ :create, :destroy ] # 강좌와 수강신청 관계를 연결
+    resources :course_reviews, only[ :index, :create, :destroy ] # 강좌 상세 페이지 내부에서 후기 작성 및 삭제를 정상적으로 처리하도록 중첩 라우팅 설정
   end
 
   # 강좌 목록 페이지 설정(메인 화면)
