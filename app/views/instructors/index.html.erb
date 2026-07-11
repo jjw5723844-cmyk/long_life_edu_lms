@@ -9,8 +9,8 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <% @teachers&.each do |teacher| %>
-      <div class="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition duration-200">
-
+      <!-- 강사 계정과 연동 -->
+      <div id="teacher-<%= teacher.id %>" class="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition duration-200">
         <div>
           <div class="flex items-start gap-4 mb-4">
             <div class="w-14 h-14 rounded-full bg-stone-50 border border-stone-200 shadow-sm flex items-center justify-center text-2xl">

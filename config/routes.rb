@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "guides/index"
+  get "guides/registration"
+  get "guides/facility"
   get "instructors/index"
   get "notcices/index"
   get "pags/about"
