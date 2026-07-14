@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-  get "guides/index"
-  get "guides/registration"
-  get "guides/facility"
+  # 이용안내 페이지 경로 라우트
+  resources :guides, only: ["index"] do
+    collection do
+      get "registration" # 수강신청 안내 페이지 경로
+      get "facility" # 시설이용 안내 페이지 경로
+    end
+  end
+
   get "instructors/index"
   get "notcices/index"
   get "pags/about"

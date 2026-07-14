@@ -41,6 +41,7 @@
             <button class="text-stone-700 hover:text-emerald-700 font-semibold flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0 text-sm focus:outline-none" style="color: #44403c">
               🎓 교육 과정 <span class="text-[10px] text-stone-400 group-hover:text-emerald-700 transition">▼</span>
             </button>
+
             <div class="absolute left-0 mt-2 w-36 bg-white border border-stone-200 rounded-xl shadow-lg hidden group-hover:block py-1.5 z-50">
               <%= link_to "📚 강좌 목록", root_path,
                   class: "block px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-emerald-700 font-semibold transition text-xs",
@@ -53,6 +54,31 @@
             </div>
           </div>
           
+          <!-- 기관 종합 이용안내 메뉴 표시 -->
+          <div class="relative group py-2">
+            <button class="text-stone-700 hover:text-emerald-700 font-semibold flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0 text-sm focus:outline-none" style="color: #44403c">
+              📖 이용안내<span class="text-[10px] text-stone-400 group-hover:text-emerald-700 transition">▼</span>
+            </button>
+
+            <!-- 이용안내 하위 메뉴 표시 -->
+            <div class="absolute left-0 top-full w-40 pt-2 hidden group-hover:block z-50">
+              <div class="bg-white border border-stone-200 rounded-xl shadow-lg py-1.5">
+                <%= link_to "<!>이용안내",
+                    class: "block px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-emerald-700 font-semibold transition text-xs",
+                    style: "text-decoration: none"
+                %>
+                <%= link_to "💳 수강신청 안내", registration_guides_path,
+                    class: "block px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-emerald-700 font-semibold transition text-xs",
+                    style: "text-decoration: none"
+                %>
+                <%= link_to "🏢 시설 이용 안내", facility_guides_path,
+                    class: "block px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-emerald-700 font-semibold transition text-xs",
+                    style: "text-decoration: none"
+                %>
+              </div>
+            </div>
+          </div>
+
           <span style="color: #e7e5e4;">|</span>
           
           <!---- 로그인 상태에 따른 메뉴 표시 ---->

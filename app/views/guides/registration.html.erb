@@ -1,4 +1,36 @@
-<div>
-  <h1 class="font-bold text-4xl">Guides#registration</h1>
-  <p>Find me in app/views/guides/registration.html.erb</p>
+<% content_for :title, "수강신청 및 환불 안내" %>
+<div class="w-full max-w-4xl mx-auto py-12 px-4">
+
+  <!-- 이용안내 전체 헤더 디자인 -->
+  <div class="mb-10">
+    <div class="flex items-center gap-2 text-xs text-stone-500 mb-3 font-medium">
+      <%= link_to "이용안내", guides_path,
+          class: "hover:text-emerald-700 transition"
+      %>
+      <span class="text-stone-300">/</span>
+      <span class="text-stone-800 font-semibold">수강신청 및 환불 안내</span>
+    </div>
+    <h1 class="font-bold text-3xl text-stone-900 tracking-tight flex items-center gap-2">
+      <span>💳</span> 수강신청 및 환불 가이드
+    </h1>
+    <p class="text-stone-500 mt-2 text-sm md:text-base leading-relaxed">
+      롱라이프 평생학습관의 강좌 신청은 온라인으로 이루어지며 일부 강좌의 경우, 오프라인으로 신청 할 수 있습니다. 또한 관련 규정에 의거하여 투명하고 신속하게 수강 취소 및 환불 처리가 이루어집니다.
+    </p>
+  </div>
+
+  <!-- 3단계 과정의 수강신청 방법 -->
+  <!-- 수강신청 절차 -->
+  <section class="mb-12">
+    <h2 class="font-bold text-xl text-stone-950 mb-6 flex items-center gap-2 pb-2 border-b border-stone-200">
+      <span class="text-emerald-700">01.</span> 온라인 수강신청 절차
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- 1단계 과정 -->
+      <div class="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+
+      </div>
+    </div>
+  </section>
 </div>
