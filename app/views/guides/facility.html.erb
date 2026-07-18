@@ -110,5 +110,85 @@
     </div>
   </section>
 
-  <!-- 세 번째 섹션: 주차 및 기관 교통편 안내 -->
+  <!-- 세 번째 섹션: 주차 및 교통편 안내 -->
+  <section class="mb-12">
+    <h2 class="font-bold text-xl text-stone-950 mb-6 flex items-center gap-2 pb-2 border-b border-stone-200">
+      <span class="text-emerald-700">02.</span> 주차 및 교통편 안내
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- 주차 정보 -->
+      <div class="bg-stone-100/60 border border-stone-200/80 rounded-2xl p-5">
+        <h3 class="font-bold text-base text-stone-900 flex items-center gap-1.5 mb-3">
+          🚗 주차장 이용 수칙
+        </h3>
+        <ul class="text-xs space-y-2.5 text-stone-600 leading-relaxed">
+          <li class="flex items-start gap-1">
+            <span class="text-emerald-700">✓</span>
+            <span>수강생에 한해 최초 2시간 무료 주차권을 제공합니다.</span>
+          </li>
+          <li class="flex items-start gap-1">
+            <span class="text-emerald-700">✓</span>
+            <span>주차권을 제공 받으려면 주차 후 반드시 1층 학습관 종합 지원실 행정 패드에 차량 번호 4자리를 전산 등록하셔야 합니다.</span>
+          </li>
+          <li class="flex items-start gap-1">
+            <span class="text-stone-400">※</span>
+            <span>무료 주차시간 2시간 이후 초과 30분당 1,500원의 일반 추가 요금이 부과됩니다.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 대중교통 안내 -->
+      <div class="bg-stone-100/60 border border-stone-200/80 rounded-2xl p-5">
+        <h3 class="font-bold text-base text-stone-900 flex items-center gap-1.5 mb-3">
+          🗺️ 대중교통 안내
+        </h3>
+        <ul class="text-xs space-y-2.5 text-stone-600 leading-relaxed">
+          <li class="flex items-start gap-2">
+            <span class="bg-blue-600 text-white font-extrabold text-[9px] px-1.5 py-0.5 rounded">🚇 지하철</span>
+            <span>시청역 4번 출구에서 도보 5분 거리(직진 300m 후 신호등을 건너고 좌회전)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="bg-green-600 text-white font-extrabold text-[9px] px-1.5 py-0.5 rounded">🚌 시내버스</span>
+            <span>롱라이프 평생학습과 정류정 정차 버스(지선 7712번, 간선 270번, 순환 01번)</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 네 번째 섹션: 학습관 기자재 이용 규칙 -->
+  <section class="mb-12">
+    <h2 class="font-bold text-xl text-stone-950 mb-4 flex items-center gap-2 pb-2 border-b border-stone-200">
+      <span class="text-emerald-700">03.</span> 기자대 이용 및 안전 규칙
+    </h2>
+
+    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl">⚠️</span>
+        <div>
+          <h3 class="font-bold text-sm md:text-base text-amber-950">학습관 공용 기자재 이용 사항</h3>
+          <p class="text-xs text-amber-900/90 mt-1 leading-relaxed">
+            가상환경 실습시에 비치된 AR, VR기기 등의 기자재는 외부 무단 반출이 불가하며, 오직 학습관 내부 실습을 목적으로만 사용가능합니다. 고장이나 파손 예방을 위해 반드시 강사 지도하에 전원을 작동하고 점검에 협조해주시기를 바랍니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 하단 버튼 영역 -->
+  <div class="pt-6 border-t border-stone-200 flex flex-col sm:flex-row gap-4 justify-between items-center">
+    <%= link_to guides_path,
+        class: "inline-flex items-center text-xs font-semibold text-stone-600 hover:text-stone-900 transition gap-1.5" do
+    %>
+      <span>←</span> 이용안내 목록으로 가기
+    <% end %>
+    <%= link_to root_path,
+        class: "w-full sm:w-auto text-center px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-sm transition" do
+    %>
+      강좌 목록 보러가기 📚
+    <% end %>
+  </div>
+
 </div>
