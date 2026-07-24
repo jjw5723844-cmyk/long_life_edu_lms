@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
-  # 이용안내 페이지 경로 라우트
+
+  # 학습동아리 메뉴 경로 라우트
+  resources :clubs do
+    member do
+      post :join # 동아리 가입 신청 및 취소의 동적 처리 수행
+    end
+  end
+
+  # 이용안내 메뉴 경로 라우트
   resources :guides, only: ["index"] do
     collection do
       get "registration" # 수강신청 안내 페이지 경로
@@ -11,6 +19,7 @@ Rails.application.routes.draw do
   get "notcices/index"
   get "pags/about"
   ## 1. 인증 및 계정 관리 시스템
+
   # 로그인/로그아웃 담당
   resource :session
 
@@ -18,6 +27,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
 
   ## 2. 강좌 운영 및 수강 신청 시스템
+
   # 카테고리 관련 라우트
   resources :categories
 
