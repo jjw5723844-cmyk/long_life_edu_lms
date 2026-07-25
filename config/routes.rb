@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-
   # 학습동아리 메뉴 경로 라우트
   resources :clubs do
+    collection do
+      get :gallery # 동아리 활동 갤러리 페이지
+    end
     member do
       post :join # 동아리 가입 신청 및 취소의 동적 처리 수행
     end

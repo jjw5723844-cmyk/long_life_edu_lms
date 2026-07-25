@@ -17,22 +17,13 @@
       </p>
     </div>
     <div class="mt-6 md:mt-0 md:ml-4 flex items-center">
-      <%= link_to new_club_path,
-          class: "inline-flex items-center px-5 py-3 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-800 transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-600" do
-      %>
-        <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-        </svg>
-        신규 동아리 개설 신청
-      <% end %>
+      <%= link_to "＋ 신규 동아리 개설 신청", new_club_path, class: "inline-flex items-center px-5 py-3 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-800 transition duration-150 ease-in-out" %> <%# // [수정됨]: link_to do...end 블록을 제거하여 do/end 짝 맞춤 에러 근본적 차단 %>
     </div>
   </div>
 
   <!-- 카테고리 필터 태그 및 검색창 영역 -->
   <div class="bg-stone-50 rounded-2xl p-6 mb-10 border border-stone-200">
-    <%= from_with url: clubs_path, method: :get, local: true,
-        class: "space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:gap-4" do |f|
-    %>
+    <%= form_with url: clubs_path, method: :get, local: true, class: "space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:gap-4" do |f| %>
 
       <!-- 카테고리 태그 -->
       <div class="flex flex-wrap items-center gap-2">
@@ -40,17 +31,13 @@
         <% selected_category = params[:category].presence || "전체" %>
         <% categories.each do |cat| %>
           <% active = (selected_category == cat) %>
-          <%= link_to cat, clubs_path(category: (cat == "전체" ? nil : cat), query: params[:query]),
-              class: "px-4 py-2 rounded-full text-sm font-medium transition duration-150 #{active ? 'bg-emerald-700 text-white shadow-sm' : 'bg-white text-stone-600 hover:bg-stone-200 border border-stone-300'}"
-          %>
+          <%= link_to cat, clubs_path(category: (cat == "전체" ? nil : cat), query: params[:query]), class: "px-4 py-2 rounded-full text-sm font-medium transition duration-150 #{active ? 'bg-emerald-700 text-white shadow-sm' : 'bg-white text-stone-600 hover:bg-stone-200 border border-stone-300'}" %>
         <% end %>
       </div>
 
       <!-- 검색 입력창 -->
       <div class="relative min-w-[280px]">
-        <%= f.text_field :query, value: parmas[:query], placeholder: "동아리명 또는 내용 검색...",
-            class: "w-full pl-10 pr-4 py-2.5 bg-white border border-stone-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition"
-        %>
+        <%= f.text_field :query, value: params[:query], placeholder: "동아리명 또는 내용 검색...", class: "w-full pl-10 pr-4 py-2.5 bg-white border border-stone-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition" %>
         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -80,7 +67,7 @@
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-stone-100 text-stone-600">
                   ⚪ <%= club.status %>
                 </span>
-              <% endif %>
+              <% end %>
             </div>
 
             <!-- 동아리 제목 -->
@@ -111,14 +98,7 @@
           <!-- 하단 학습동아리 상세 보기 버튼 -->
           <div class="bg-stone-50 px-6 py-4 border-t border-stone-100 flex items-center justify-between">
             <span class="text-xs text-stone-400">자세히 보기</span>
-            <%= link_to club_path(club),
-                class: "inline-flex items-center text-xs font-bold text-emerald-700 hover:text-emerald-900 transition" do
-            %>
-              상세정보 & 가입신청
-              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            <% end %>
+            <%= link_to "상세정보 & 가입신청 →", club_path(club), class: "inline-flex items-center text-xs font-bold text-emerald-700 hover:text-emerald-900 transition" %> <%# // [수정됨]: do...end 블록을 제거하여 파싱 안전성 확보 %>
           </div>
         </div>
       <% end %>
@@ -129,12 +109,7 @@
       <div class="text-4xl mb-3">🔍</div>
       <h3 class="text-lg font-bold text-stone-800 mb-1">등록된 학습동아리가 없습니다.</h3>
       <p class="text-sm text-stone-500 mb-6">첫 번째 학습동아리의 주인공이 되어보세요!</p>
-      <%= link_to new_club_path,
-          class: "inline-flex items-center px-4 py-2.5 border border-transparent rounded-xl text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-800 transition" do
-      %>
-        🌱 신규 동아리 신청하기
-      <% end %>
+      <%= link_to "🌱 신규 동아리 신청하기", new_club_path, class: "inline-flex items-center px-4 py-2.5 border border-transparent rounded-xl text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-800 transition" %>
     </div>
   <% end %>
-  
 </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_06_063936) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_25_075109) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -43,6 +43,31 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_06_063936) do
     t.datetime "created_at", null: false
     t.string "name"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "club_activities", force: :cascade do |t|
+    t.date "activity_date"
+    t.integer "club_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.string "image_url"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["club_id"], name: "index_club_activities_on_club_id"
+  end
+
+  create_table "clubs", force: :cascade do |t|
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.integer "current_members"
+    t.text "description"
+    t.string "leader_name"
+    t.integer "max_members"
+    t.string "name"
+    t.string "status"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_clubs_on_user_id"
   end
 
   create_table "course_reviews", force: :cascade do |t|
@@ -172,6 +197,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_06_063936) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "club_activities", "clubs"
+  add_foreign_key "clubs", "users"
   add_foreign_key "course_reviews", "courses"
   add_foreign_key "course_reviews", "users"
   add_foreign_key "courses", "categories"

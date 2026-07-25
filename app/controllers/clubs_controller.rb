@@ -1,18 +1,29 @@
 class ClubsController < ApplicationController
+  # 비로그인 일반 사이트 이용자도 동아리 목록과 상세 정보는 로그인 없이 볼 수 있도록 설정
+  allow_unauthenticated_access only: [:index, :show, :gallery]
+
   before_action :set_club, only: [:show, :edit, :update, :destroy, :join]
 
   def index
     @clubs = Club.all.order(created_at: :desc)
-      # 카테고리 필터링 조건 추가
-      if params[:category],present? && params[:category] ! = "전체"
-        @clubs = @clubs.where(category: params[:category])
-      end
-      # 동아리명 및 동아리 설명 검색어 조건 추가
-      if params[:query].present?
-        @clubs = @clubs.where("name LIKE ? OR description LIKe ?", query_param, query_param)
-      end
+    # 카테고리 필터링 조건 추가
+    if params[:category].present? && params[:category] != "전체"
+      @clubs = @clubs.where(category: params[:category])
+    end
+    # 동아리명 및 동아리 설명 검색어 조건 추가
+    if params[:query].present?
+      @clubs = @clubs.where("name LIKE ? OR description LIKe ?", query_param, query_param)
+    end
   end
 
+  def gallery
+    @activities = ClubActivity.includes(:club).order(activity_date: :desc, created_at: :desc)
+    # 동아리별 필터링
+    if params[:club_id].present?
+      @activities = @activities.where(club_id: params[:club_id])
+    end
+  end
+  
   def show
   end
 

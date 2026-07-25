@@ -71,6 +71,27 @@
             </div>
           </div>
 
+          <!-- 학습동아리 드롭다운 -->
+          <div class="relative group py-2">
+            <button class="text-stone-700 hover:text-emerald-700 font-semibold flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0 text-sm focus:outline-none">
+              🤝 학습동아리<span class="text-[10px] text-stone-400 group-hover:text-emerald-700 transition">▼</span>
+            </button>
+
+            <div class="absolute left-0 top-full w-44 pt-2 hidden group-hover:block z-50">
+              <div class="bg-white border border-stone-200 rounded-xl shadow-lg py-1.5">
+                <%= link_to "🌱 학습동아리 소개 & 모집", clubs_path,
+                    class: "block px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-emerald-700 font-semibold transition text-xs"
+                %>
+                <%= link_to "📝 신규 동아리 개설 신청", new_club_path,
+                    class: "block px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-emerald-700 font-semibold transition text-xs"
+                %>
+                <%= link_to "📸 동아리 활동 갤러리", gallery_clubs_path,
+                    class: "block px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-emerald-700 font-semibold transition text-xs"
+                %>
+              </div>
+            </div>
+          </div>
+
           <span class="text-stone-300">|</span>
           
           <!-- 로그인 상태에 따른 사용자 메뉴 -->
