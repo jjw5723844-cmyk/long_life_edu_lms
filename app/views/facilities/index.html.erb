@@ -1,0 +1,123 @@
+<% content_for :title, "대관 시설 안내" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+  <!-- 대관 시설 안내 소개 섹션 -->
+  <div class="border-b border-stone-200 pb-8 mb-8">
+    <div class="flex items-center gap-2 text-emerald-700 font-semibold text-sm mb-2">
+      <span>🏛️</span>
+      <span>열린 배움의 공간</span>
+    </div>
+    <h1 class="text-3xl font-extrabold text-stone-900 sm:text-4xl sm:tracking-tight">
+      대관 시설 안내
+    </h1>
+    <p class="mt-2 text-base text-stone-500 max-w-3xl leading-relaxed">
+      롱라이프 평생학습관은 지역 주민 및 학습 동아리의 자유로운 활동과 모임을 위해 다양한 시설을 개방하고 있습니다.
+    </p>
+  </div>
+
+  <!-- 시설 유의사항 안내 -->
+  <div class="bg-stone-100 border border-stone-200 rounded-2xl p-6 mb-10">
+    <h3 class="text-stone-800 font-bold text-base mb-3 flex items-center gap-2">
+      <span>💡</span> 시설 이용 및 대관 안내 사항
+    </h3>
+    <ul class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-stone-600 font-medium">
+      <li class="flex items-start gap-2 bg-white p-3 rounded-xl border border-stone-200">
+        <span class="text-emerald-700 font-bold">01</span>
+        <span>정기 휴관일(매주 월요일, 공휴일)은 대관 신청이 불가능합니다.</span>
+      </li>
+      <li class="flex items-start gap-2 bg-white p-3 rounded-xl border border-stone-200">
+        <span class="text-emerald-700 font-bold">02</span>
+        <span>영리 목적, 정치/종교 활동 목적의 시설 대관은 엄격히 제한됩니다.</span>
+      </li>
+      <li class="flex items-start gap-2 bg-white p-3 rounded-xl border border-stone-200">
+        <span class="text-emerald-700 font-bold">03</span>
+        <span>대관 사용일 최소 3일 전까지 온라인으로 신청 및 승인이 완료되어야 합니다.(오프라인의 경우 대관사용일 최소 7일 전까지 신청하셔야 합니다.)</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 대관 시설 카드 그리드 영역 -->
+  <% if @facilities.present? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @facilities.each do |facility|%>
+        <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+
+          <div>
+            <!-- 시설 썸네일 -->
+            <div class="relative h-48 bg-stone-100 overflow-hidden">
+              <% if facility.image_url.present? %>
+                <img src="<%= facility.image_url %>"
+                     alt="<%= facility.name %>"
+                     class="w-full h-full object-cover">
+              <% else %>
+                <div class="w-full h-full flex flex-col items-center justify-center text-stone-400">
+                  <span class="text-4xl mb-1">🏛️</span>
+                  <span class="text-xs font-medium">시설 사진</span>
+                </div>
+              <% end %>
+
+              <!-- 대관 가능 상태 배지 -->
+              <div class="absolute top-3 right-3">
+                <% if facility.status == "운영중" || facfacility.status.blank? %>
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    대관 가능
+                  </span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
+                    <%= facility.status %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- 시설 상세 설명 -->
+            <div class="p-6">
+              <div class="text-xs text-stone-400 font-medium mb-1 flex items-center gap-1">
+                <span>📍</span> <%= facility.location.presence || "평생학습관 본관" %>
+              </div>
+
+              <h3 class="txte-xl font-bold text-stone-900 mb-2">
+                <%= facility.name %>
+              </h3>
+
+              <p class="text-stone-600 text-sm leading-relaxed mb-6 line-clamp-2">
+                <%= facility.description %>
+              </p>
+
+              <!-- 시설 이용 기본 정보 표시 -->
+              <div class="grid grid-cols-2 gap-3 pt-4 border-t border-stone-100 text-xs">
+                <div class="bg-stone-50 p-2.5 rounded-lg border border-stone-100">
+                  <span class="text-stone-400 block mb-0.5">수용 인원</span>
+                  <strong class="text-stone-800 text-sm font-semibold">최대 <%= facility.capacity || 0 %>명</strong>
+                </div>
+                <div class="bg-stone-50 p-2.5 rounded-lg border border-stone-100">
+                  <span class="text-stone-400 block mb-0.5">이용 요금</span>
+                  <strong class="text-emerald-700 text-sm font-bold">
+                    <%= facility.fee.to_i > 0 ? "#{number_with_delimiter(facility.fee)}원 / 시간" : "무료(승인제)" %>
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 하단 버튼 영역 -->
+          <div class="px-6 pb-6 pt-2">
+            <%= link_to facility_path(facility),
+                class: "w-full block text-center py-2.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition shadow-sm" do
+            %>
+              시설 상세보기 및 예약 신청 ➔
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- 등록된 시설 데이터가 없을 때 문구 출력 -->
+    <div class="text-center py-16 bg-stone-50 rounded-2xl border border-dashed border-stone-300">
+      <div class="text-4xl mb-3">🏢</div>
+        <h3 class="text-lg font-bold text-stone-800 mb-1">등록된 대관 시설이 없습니다.</h3>
+        <p class="text-sm text-stone-500">대관 시설 정보가 등록되는 대로 이곳에 안내됩니다.</p>
+    </div>
+
+</div>

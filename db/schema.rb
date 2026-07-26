@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_25_075109) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_26_062227) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -92,6 +92,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_075109) do
     t.integer "user_id", null: false
     t.index ["category_id"], name: "index_courses_on_category_id"
     t.index ["user_id"], name: "index_courses_on_user_id"
+  end
+
+  create_table "facilities", force: :cascade do |t|
+    t.integer "capacity"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "fee"
+    t.string "image_url"
+    t.string "location"
+    t.string "name"
+    t.string "status"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "facility_reservations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "end_time"
+    t.integer "facility_id", null: false
+    t.integer "headcount"
+    t.string "purpose"
+    t.date "reservation_date"
+    t.string "start_time"
+    t.string "status"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["facility_id"], name: "index_facility_reservations_on_facility_id"
+    t.index ["user_id"], name: "index_facility_reservations_on_user_id"
   end
 
   create_table "institutions", force: :cascade do |t|
@@ -203,6 +230,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_075109) do
   add_foreign_key "course_reviews", "users"
   add_foreign_key "courses", "categories"
   add_foreign_key "courses", "users"
+  add_foreign_key "facility_reservations", "facilities"
+  add_foreign_key "facility_reservations", "users"
   add_foreign_key "instructor_profiles", "users"
   add_foreign_key "lesson_progresses", "lessons"
   add_foreign_key "lesson_progresses", "users"

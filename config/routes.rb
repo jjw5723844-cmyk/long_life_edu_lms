@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # 시설 대관 관리 경로 라우트
+  resources :facilities, only: [:index, :show] do
+    # 향후 예약 신청 라우트 확장 지점(DB 데이터에 기반)
+  end
+
   # 학습동아리 메뉴 경로 라우트
   resources :clubs do
     collection do
