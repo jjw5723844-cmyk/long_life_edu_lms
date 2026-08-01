@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
   # 시설 대관 관리 경로 라우트
   resources :facilities, only: [:index, :show] do
-    # 향후 예약 신청 라우트 확장 지점(DB 데이터에 기반)
+    resources :facility_reservations, only: [:new, :create] # 시설 중첩 라우트로 예약 신청 기능 경로 추가
   end
+
+  # 사용자 본인의 대관 신청 내역 관리 전역 라우트
+  resources :facility_reservations, only: [:index, :show, :destroy]
 
   # 학습동아리 메뉴 경로 라우트
   resources :clubs do
@@ -18,13 +21,18 @@ Rails.application.routes.draw do
   resources :guides, only: ["index"] do
     collection do
       get "registration" # 수강신청 안내 페이지 경로
-      get "facility" # 시설이용 안내 페이지 경로
+      get "facility" # 시설 이용안내 페이지 경로
+
+      # 대관 신청 및 대관 시설 이용 내역 페이지를 이용안내 메뉴의 하위 메뉴로 경로 설정
+      get "facilitis", to: "facilities#index", as: :guide_facilities
+      get "reservations", to: "facility_reservations#index", as: :guide_reservations
     end
   end
 
   get "instructors/index"
   get "notcices/index"
   get "pags/about"
+
   ## 1. 인증 및 계정 관리 시스템
 
   # 로그인/로그아웃 담당

@@ -10,6 +10,33 @@
     </p>
   </div>
 
+  <!-- 대관 신청 내역 및 안내 퀵 카드 -->
+  <div class="mb-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm flex items-center justify-between hover:border-emerald-300 transition duration-200">
+      <div class="flex items-center gap-3.5">
+        <span class="text-2xl p-2.5 bg-emerald-50 rounded-lg border border-emerald-100">📋</span>
+        <div>
+          <h2 class="font-bold text-stone-900 text-base">나의 대관 신청 내역</h2>
+          <p class="text-stone-500 text-xs mt-0.5">신청하신 시설의 승인 상태와 이용 예약을 확인합니다.</p>
+        </div>
+      </div>
+      <%= link_to "내역 보기", facility_reservations_path, 
+          class: "shrink-0 px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-lg shadow-sm transition duration-200" %>
+    </div>
+
+    <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm flex items-center justify-between hover:border-emerald-300 transition duration-200">
+      <div class="flex items-center gap-3.5">
+        <span class="text-2xl p-2.5 bg-stone-100 rounded-lg border border-stone-200">🏛️</span>
+        <div>
+          <h2 class="font-bold text-stone-900 text-base">대관 시설 안내 & 신청</h2>
+          <p class="text-stone-500 text-xs mt-0.5">학습관 내 강의실 및 세미나실 대관을 신청합니다.</p>
+        </div>
+      </div>
+      <%= link_to "시설 둘러보기", facilities_path, 
+          class: "shrink-0 px-4 py-2 bg-stone-800 hover:bg-stone-900 text-white font-bold text-xs rounded-lg shadow-sm transition duration-200" %>
+    </div>
+  </div>
+
   <% if @enrolled_courses.empty? %>
 <!-- 전체 강좌의 보러가기 디자인 및 링크 -->
     <div class="text-center py-20 bg-stone-50 rounded-2xl border border-stone-200 border-dashed max-w-2xl mx-auto mt-10">

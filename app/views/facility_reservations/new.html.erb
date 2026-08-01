@@ -1,0 +1,97 @@
+<% content_for :title, "#{@facility.name} 대관 신청 " %>
+
+<div class="max-w-3xl mx-auto pxs-4 sm:px-6 lg:px-8 py-10">
+
+  <!-- 뒤로 가기 버튼 -->
+  <div class="mb-6">
+    <%= link_to facility_path(@facility),
+        class: "inline-flex items-center text-sm font-semibold text-stone-500 hover:text-emerald-700 transition gap-1" do
+    %>
+      <span>←</span> 시설 정보로 돌아가기
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-3xl border border-stone-200 shadow-sm p-8 sm:p-10">
+    <div class="border-b border-stone-100 pb-6 mb-6">
+      <div class="flex items-center gap-2 text-emerald-700 font-bold text-xs mb-1">
+        <span>🏛️</span>
+        <span><%= @facility.name %></span>
+      </div>
+      <h1 class="text-2xl font-extrabold text-stone-900">
+        시설 대관 신청서 작성
+      </h1>
+      <p class="text-xs text-stone-500 mt-1">
+        대관 희망 일시와 이용 목적을 입력해 주시면 담당자 확인 후 대관 승인이 처리됩니다.
+      </p>
+    </div>
+
+    <!-- 대관 신청 입력 폼 -->
+    <%= form_with(model: [@facility, @reservation], local: true, class: "space-y-6") do |f| %>
+
+      <% if @reservation.errors.any? %>
+        <div class="bg-rose-50 border border-rose-200 text-rose-700 p-4 rounded-xl text-xs space-y-1">
+          <strong class="font-bold block mb-1">다음 항목을 확인해 주세요:</strong>
+          <ul class="list-disc list-inside">
+            <% @reservation.errors.full_message.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- 대관 예약 희망 날짜 -->
+      <div>
+        <%= f.label :reservation_date, "대관 희망 날짜", class: "block text-xs font-bold text-stone-700 mb-2" %>
+        <%= f.date_field :reservation_date, value: Date.tomorrow, min: Date.today,
+            class: "w-full px-4 py-3 rounded-xl border border-stone-200 text-stone-800 text-sm focus:outline-none focus:border-emerald-700 transition bg-stone-50"
+        %>
+      </div>
+
+      <!-- 예약 이용 시간대(시작/종료) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :start_time, "시작 시간", class: "block text-xs font-bold text-stone-700 mb-2" %>
+          <%= f.select :start_time, options_for_select(["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"]), {},
+              class: "w-full px-4 py-3 rounded-xl border border-stone-200 text-stone-800 text-sm focus:outline-none focus:border-emerald-700 transition bg-stone-50"
+          %>
+        </div>
+
+        <div>
+          <%= f.label :end_time, "종료 시간", class: "block text-xs font-bold text-stone-700 mb-2" %>
+          <%= f.select :end_time, options_for_select(["10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"]), {},
+              class: "w-full px-4 py-3 rounded-xl border border-stone-200 text-stone-800 text-sm focus:outline-none focus:border-emerald-700 transition bg-stone-50"
+          %>
+        </div>
+      </div>
+
+      <!-- 예상 이용 인원 -->
+      <div>
+        <%= f.label :headcount, "예상 이용 인원 (명)", class: "block text-xs font-bold text-stone-700 mb-2" %>
+        <%= f.number_field :headcount, min: 1, max: @facility.capacity || 100, value: 5,
+            class: "w-full px-4 py-3 rounded-xl border border-stone-200 text-stone-800 text-sm focus:outline-none focus:border-emerald-700 transition bg-stone-50",
+            placeholder: "인원수를 입력하세요"
+        %>
+        <p class="text-[11px] text-stone-400 mt-1">해당 시설의 최대 수용 인원은 <%= @facility.capacity %>명 입니다.</p>
+      </div>
+
+      <!-- 대관 이용 목적 -->
+      <div>
+        <%= f.label :purpose, "대관 이용 목적 및 활동 내용", class: "block text-xs font-bold text-stone-700 mb-2" %>
+        <%= f.text_aree :purpose, rows: 4,
+            class: "w-full px-4 py-3 rounded-xl border border-stone-200 text-stone-800 text-sm focus:outline-none focus:border-emerald-700 transition bg-stone-50",
+            placeholder: "동아리 정기 모임, 수시 학습 등 대관 목적을 상세히 작성해 주세요."
+        %>
+      </div>
+
+      <!-- 대관 신청 이용 제출 버튼 -->
+      <div class="pt-4 border-t border-stone-100 flex gap-3">
+        <%= link_to "취소", facility_path(@facility),
+            class: "w-1/3 py-3 text-center bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold text-xs rounded-xl transition"
+        %>
+        <%= f.submit "대관 신청 완료",
+            class: "w-2/3 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl transition shadow-sm cursor-pointer"
+        %>
+      </div>
+    <% end %>
+  </div>
+</div>

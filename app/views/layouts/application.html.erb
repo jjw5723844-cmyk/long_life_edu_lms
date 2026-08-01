@@ -67,6 +67,12 @@
                 <%= link_to "🏢 시설 이용 안내", facility_guides_path,
                     class: "block px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-emerald-700 font-semibold transition text-xs"
                 %>
+
+                <!-- 대관 시설 안내/신청 및 학습자의 대관 신청 내역 메뉴를 이용안내의 하위 메뉴로 설정 -->
+                <div class="border-t border-stone-100 my-1"></div>
+                <%= link_to "🏛️ 대관 시설 안내 & 신청", facilities_path,
+                    class: "block px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-emerald-700 font-semibold transition text-xs"
+                %>
               </div>
             </div>
           </div>

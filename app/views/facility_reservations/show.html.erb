@@ -1,0 +1,101 @@
+<% content_for :title, "대관 신청 상세 내역" %>
+
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+  <!-- 대관 신청 목록 돌아가기 버튼(상단) -->
+  <div class="mb-6">
+    <%= linlk_to facility_reservations_path,
+        class: "inline-flex items-center text-sm font-semibold text-stone-500 hover:text-emerald-700 transition gap-1" do
+    %>
+      <span>←</span> 나의 대관 신청 목록으로 돌아가기
+    <% end %>
+  </div>
+
+  <!-- 대관 신청 상세 내역 카드 -->
+  <div class="bg-white rounded-3xl border border-stone-200 shadow-sm overflow-hidden p-8 sm:p-10">
+
+    <!-- 카드 헤더 -->
+    <div class="border-b border-stone-100 pb-6 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 text-emerald-700 font-bold text-xs mb-1">
+          <span>📄</span>
+          <span>대관 신청 확인서</span>
+        </div>
+        <h1 class="text-2xl font-extrabold text-stone-900">
+          <%= @reservation.facility.name %>
+        </h1>
+        <p class="text-xs text-stone-400 mt-1">
+          신청일시: <%= @reservation.created_at.strftime("%Y년 %m월 %d일 %H:%M") %>
+        </p>
+      </div>
+
+      <!-- 상태 표시 배지 -->
+      <div>
+        <% case @reservation.status %>
+        <% when "승인완료" %>
+          <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+            ✅ 대관 승인완료
+          </span>
+        <% when "신청 반려" %>
+          <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
+            ❌ 대관 신청 반려
+          </span>
+        <% else %>
+          <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
+            ⏳ 승인 대기 중
+          </span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- 대관 신청 상세 정보 -->
+    <div class="space-y-4 mb-8">
+      <div class="bg-stone-50 rounded-2xl p-6 border border-stone-100 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+        <div>
+          <span class="text-stone-400 block font-medium mb-1">대관 희망 날짜</span>
+          <strong class="text-stone-800 text-sm font-bold"><%= @reservation.reservation_date.strftime("%Y년 %m월 %d일") %></strong>
+        </div>
+
+        <div>
+          <span class="text-stone-400 block font-medium mb-1">이용 시간대</span>
+          <strong class="text-emerald-700 text-sm font-bold"><%= @reservation.start_time %> ~ <%= @reservation.end_time %></strong>
+        </div>
+
+        <div>
+          <span class="text-stone-400 block font-medium mb-1">이용 인원</span>
+          <strong class="text-stone-800 text-sm font-bold"><%= @reservation.headcount %>명</strong>
+        </div>
+
+        <div>
+          <span class="text-stone-400 block font-medium mb-1">시설 위치</span>
+          <strong class="text-stone-800 text-sm font-bold"><%= @reservation.facility.location.presence || "평생학습관 본관" %></strong>
+        </div>
+      </div>
+
+      <!-- 이용 목적 내용 -->
+      <div class="bg-stone-50 rounded-2xl p-6 border border-stone-100 text-xs">
+        <span class="text-stone-400 block font-medium mb-2">대관 목적 및 활동 내용</span>
+        <div class="text-stone-700 font-medium leading-relaxed whitespace-pre-line">
+          <%= @reservation.purpose.presence || "작성된 이용 목적이 없습니다." %>
+        </div>
+      </div>
+    </div>
+
+    <!-- 대관 처리 안내 및 취소 버튼 -->
+    <div class="pt-6 border-t border-stone-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-xs text-stone-400">
+        * 대관 승인 취소 문의는 평생학습관 운영팀(02-123-4567)으로 연락 바랍니다.
+      </p>
+      <% if @reservation.status == "승인 대기" %>
+      <!-- 취소 버튼 -->
+        <%= button_to facility_reservations_path(@reservation),
+            method: :delete,
+            data: {turbo_confirm: "정말로 대관 신청을 취소하시겠습니까?"},
+            class: "px-5 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-xl border border-rose-200 transition cursor-pointer" do
+        %>
+        <% end %>
+      <% end %> 
+    </div>
+    
+  </div>
+</div>
