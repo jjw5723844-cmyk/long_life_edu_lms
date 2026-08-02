@@ -17,4 +17,9 @@ class Course < ApplicationRecord
   # 각 강좌별 대표 썸네일 이미지 파일을 첨부할 수 있도록 선언
   has_one_attached :thumbnail
   has_one_attached :image # 강좌 레코드당 하나의 이미지 파일을 첨부한다.
+
+  # 강사 이름을 안전하게 가져오는 대표 메서드
+  def display_instructor_name
+    instructor_profile&.name.presence || instructor_name.presence || user&.name || "담당 강사"
+  end
 end
