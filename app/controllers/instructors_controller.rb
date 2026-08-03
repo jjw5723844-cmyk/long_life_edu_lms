@@ -4,8 +4,8 @@ class InstructorsController < ApplicationController
   def index
     # 권한은 강사인 유저만 출력되도록 한다.
     # 하지만 유저가 직접 웹에서 등록할 프로필과 강좌 데이터를 한번에 가져올 수 있도록 설정한다.
-    @techers = User.where(role: :teacher)
-                   .includes(:instructor_profile, :courses)
-                   .order(name: :asc) # 강사의 이름을 기준으로 가나다순으로 정렬
+    @teachers = User.teacher
+                    .includes(:instructor_profile, :courses)
+                    .order(name: :asc) # 강사의 이름을 기준으로 가나다순 정렬
   end
 end

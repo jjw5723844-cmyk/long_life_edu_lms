@@ -7,67 +7,80 @@ ko:
         restrict_dependent_destroy:
           has_one: "%{record}(이)가 존재하기 때문에 삭제할 수 없습니다"
           has_many: "%{record}(이)가 존재하기 때문에 삭제할 수 없습니다"
-  attributes:
+    models:
+      user: "사용자"
+      notice: "공지사항"
+      institution: "기관소개"
+      course: "강좌"
+      category: "카테고리"
+      instructor_profile: "강사 프로필"
+      registration: "수강신청"
+    attributes:
       user:
         name: "이름"
         email: "이메일"
-      user/role:        # Rails 7+ 버전부터는 단수형(/role) 구성을 권장합니다.
-        learner: "수강생"
-        instructor: "강사"
-        admin: "관리자"
+        email_address: "이메일 주소"
+        password: "비밀번호"
+        role: "역할"
+      notice:
+        title: "제목"
+        content: "내용"
+      institution:
+        name: "기관명"
+        greeting_title: "인사말 제목"
   date:
     abbr_day_names:
-    - 일
-    - 월
-    - 화
-    - 수
-    - 목
-    - 금
-    - 토
+      - 일
+      - 월
+      - 화
+      - 수
+      - 목
+      - 금
+      - 토
     abbr_month_names:
-    -
-    - 1월
-    - 2월
-    - 3월
-    - 4월
-    - 5월
-    - 6월
-    - 7월
-    - 8월
-    - 9월
-    - 10월
-    - 11월
-    - 12월
+      -
+      - 1월
+      - 2월
+      - 3월
+      - 4월
+      - 5월
+      - 6월
+      - 7월
+      - 8월
+      - 9월
+      - 10월
+      - 11월
+      - 12월
     day_names:
-    - 일요일
-    - 월요일
-    - 화요일
-    - 수요일
-    - 목요일
-    - 금요일
-    - 토요일
+      - 일요일
+      - 월요일
+      - 화요일
+      - 수요일
+      - 목요일
+      - 금요일
+      - 토요일
     formats:
       default: "%Y-%m-%d"
       long: "%Y년 %m월 %d일"
       short: "%m월 %d일"
     month_names:
-    -
-    - 1월
-    - 2월
-    - 3월
-    - 4월
-    - 5월
-    - 6월
-    - 7월
-    - 8월
-    - 9월
-    - 10월
-    - 11월
-    - 12월
+      -
+      - 1월
+      - 2월
+      - 3월
+      - 4월
+      - 5월
+      - 6월
+      - 7월
+      - 8월
+      - 9월
+      - 10월
+      - 11월
+      - 12월
     order:
-    - :year
-    - :month
-    - :day
+      - :year
+      - :month
+      - :day
   datetime:
     distance_in_words:
       about_x_hours: 대략 %{count}시간
@@ -107,7 +120,7 @@ ko:
       invalid: 올바르지 않은 값입니다
       less_than: 값은 %{count}보다 작아야 합니다
       less_than_or_equal_to: 값은 %{count}보다 작거나 같아야 합니다
-      model_invalid: '데이터 검증에 실패하였습니다: %{errors}'
+      model_invalid: "데이터 검증에 실패하였습니다: %{errors}"
       not_a_number: 숫자를 입력해 주세요
       not_an_integer: 정수를 입력해 주세요
       odd: 홀수를 입력해 주세요
@@ -154,9 +167,9 @@ ko:
           quadrillion: 천조
           thousand: 천
           trillion: 조
-          unit: ''
+          unit: ""
       format:
-        delimiter: ''
+        delimiter: ""
         precision: 3
         significant: true
         strip_insignificant_zeros: true
@@ -172,11 +185,11 @@ ko:
           tb: TB
     percentage:
       format:
-        delimiter: ''
+        delimiter: ""
         format: "%n%"
     precision:
       format:
-        delimiter: ''
+        delimiter: ""
   support:
     array:
       last_word_connector: ", "

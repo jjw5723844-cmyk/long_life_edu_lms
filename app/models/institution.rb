@@ -1,6 +1,4 @@
 class Institution < ApplicationRecord
-  belongs_to :user
-
-  # 강사 프로필 화면에서 해당 강사가 담당하는 강좌 목록(@instructor_profile.courses)을 User 모델을 통해 역추적할 수 있도록 연동
-  has_many :course, through: :user
+  # 기관 필수 입력 정보 검증 (schema.rb 기준)
+  validates :name, :greeting_title, :greeting_content, :mission, :core_values, presence: true
 end
