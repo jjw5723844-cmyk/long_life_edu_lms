@@ -16,7 +16,14 @@ class CoursesController < ApplicationController
 
   # 1. 개설된 모든 강좌들을 가져오는 액션
   def index
-    @courses = Course.includes(:category, :registrations).all.order(created_at: :desc)
+    # 뷰 탭 출력을 위한 카테고리 목록 수집
+    @categories = Category.pluck(:name)
+    @selected_category = params[:category]
+
+    # 모델의 by_category 스코프를 활용한 카테고리별 필터링
+    @courses = Course.includes(:category, :registrations)
+                     .by_category(@selected_category)
+                     .order(created_at: :desc)
   end
 
   # 2. 특정 강좌 하나를 가져오는 세부 액션
