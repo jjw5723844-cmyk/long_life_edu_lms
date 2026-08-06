@@ -81,3 +81,5 @@ group :test do
   gem "selenium-webdriver"
   gem "shoulda-matchers"
 end
+
+gem "sitemap_generator", "~> 7.1"

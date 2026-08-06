@@ -99,6 +99,11 @@
           </div>
 
           <span class="text-stone-300">|</span>
+
+          <!-- 사이트맵 버튼(사이트를 이용하는 모든 이용자들에게 공개) -->
+          <%= link_to "🗺️ 사이트맵", sitemap_path,
+              class: "rounded-lg px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 hover:text-emerald-800 font-semibold text-xs border border-stone-200 transition"
+          %>
           
           <!-- 로그인 상태에 따른 사용자 메뉴 -->
           <% if current_user %>

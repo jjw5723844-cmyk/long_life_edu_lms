@@ -27,6 +27,9 @@ class Course < ApplicationRecord
     end
   }
 
+  # 사이트맵 조회 시 N+1 쿼리 오류 방지 및 데이터 연결을 위한 전용 스코프 설정
+  scope :sitemap_courses, -> {includes(:user, :instructor_profile)}
+
   # 강사 이름을 안전하게 가져오는 대표 메서드
   def display_instructor_name
     instructor_profile&.name.presence || instructor_name.presence || user&.name || "담당 강사"

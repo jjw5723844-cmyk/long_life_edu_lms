@@ -29,9 +29,9 @@ Rails.application.routes.draw do
     end
   end
 
-  get "instructors/index"
-  get "notcices/index"
-  get "pags/about"
+  get "instructors/index" # 강사소개
+  get "notcices/index"  # 공지사항
+  get "pags/about" 
 
   ## 1. 인증 및 계정 관리 시스템
 
@@ -78,4 +78,7 @@ Rails.application.routes.draw do
 
   # 강사 소개 페이지 라우트
   resources :instructors, only: [:index]
+
+  # 사이트맵 매핑 라우트
+  get "sitemap", to: "static_pages#sitemap", as: :sitemap
 end
