@@ -7,7 +7,7 @@
     <p class="text-stone-500 mt-1 text-base">최고 관리자<strong class="text-red-700 font-bold"> <%= current_user.name %></strong>님, 전체 플랫폼 현황을 모니터링합니다.</p>
   </div>
 
-<!-- 평생학습관의 총 회원 수 현황-->
+<!-- 평생학습관의 총 회원 수 현황 -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
     <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
       <span class="text-sm font-medium text-stone-400 block mb-1">총 회원 수</span>
@@ -20,7 +20,7 @@
       <strong class="text-3xl font-bold text-emerald-700"><%= @total_courses_count %>개</strong>
     </div>
 
-<!-- 학습관에 실시한 평생학습 강좌의 누적 신청 건수 통계-->
+<!-- 학습관에 실시한 평생학습 강좌의 누적 신청 건수 통계 -->
     <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
       <span class="text-sm font-medium text-stone-400 block mb-1">누적 수강 신청 건수</span>
       <strong class="text-3xl font-bold text-blue-600"><%= @total_registrations_count %>건</strong>
@@ -44,7 +44,7 @@
           <tbody>
             <% @all_users.each do |user| %>
               <tr class="border-b border-stone-100 hover:bg-stone-50/30 transition">
-                <td class="p-2.5 font-semiblod text-stone-800"><%= user.name %></td>
+                <td class="p-2.5 font-semibold text-stone-800"><%= user.name %></td>
                 <td class="p-2.5 text-stone-500"><%= user.email_address %></td>
                 <td class="p-2.5 text-right">
                 <!-- 관리자 계정인지 판단 -->
@@ -61,6 +61,48 @@
             <% end %>
           </tbody>
         </table></div>
+      </div>
+    </div>
+
+    <!-- 행정 제어 센터 및 시스템 상태 모니터링 -->
+    <div class="space-y-6">
+      <!-- 행정 업무 신속 실행 패널 -->
+      <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+        <h2 class="font-bold text-xl text-stone-800 mb-4 flex items-center gap-2">
+          ⚡ 행정 제어 및 빠른 실행
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <%= link_to notices_path,
+              class: "p-3.5 bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-300 rounded-lg text-stone-700 font-semibold text-sm flex items-center gap-2 transition" do
+          %>
+            <span class="text-emerald-700 font-bold">📢</span> 공지사항 관리
+          <% end %>
+          <%= link_to courses_path,
+              class: "p-3.5 bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-300 rounded-lg text-stone-700 font-semibold text-sm flex items-center gap-2 transition" do
+          %>
+            <span class="text-emerald-700 font-bold">📚</span> 전체 강좌 관리
+          <% end %>
+        </div>
+      </div>
+
+      <!-- LMS 인프라 상태 모니터링 -->
+      <div class="bg-stone-900 text-stone-300 p-6 rounded-xl shadow-sm space-y-3">
+        <h3 class="font-bold text-white text-base border-b border-stone-800 pb-2 flex items-center justify-between">
+          <span>💻 평생학습관 제어 시스템 상태</span>
+          <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
+        </h3>
+        <div class="flex justify-between text-xs py-1 border-b border-stone-800">
+          <span>서버 엔진</span>
+          <span class="font-mono text-emerald-400">Ruby on Rails 8</span>
+        </div>
+        <div class="flex justify-between text-xs py-1 border-b border-stone-800">
+          <span>접근 권한 관리</span>
+          <span class="font-mono text-stone-200">RBAC (Active)</span>
+        </div>
+        <div class="flex justify-between text-xs py-1">
+          <span>디자인 팔레트 규격</span>
+          <span class="font-mono text-emerald-400">Stone & Emerald Only(일부 디자인 팔레트의 경우 다른 색을 제한적으로 사용)</span>
+        </div>
       </div>
     </div>
   </div>

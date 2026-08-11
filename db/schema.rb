@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_26_062227) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_09_062004) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -68,6 +68,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_26_062227) do
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_clubs_on_user_id"
+  end
+
+  create_table "course_registrations", force: :cascade do |t|
+    t.datetime "cancelled_at"
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.string "discount_proof"
+    t.integer "discount_status"
+    t.integer "paid_amount"
+    t.integer "refund_amount"
+    t.integer "status"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.integer "waitlist_position"
+    t.index ["course_id"], name: "index_course_registrations_on_course_id"
+    t.index ["user_id"], name: "index_course_registrations_on_user_id"
   end
 
   create_table "course_reviews", force: :cascade do |t|
@@ -226,6 +242,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_26_062227) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "club_activities", "clubs"
   add_foreign_key "clubs", "users"
+  add_foreign_key "course_registrations", "courses"
+  add_foreign_key "course_registrations", "users"
   add_foreign_key "course_reviews", "courses"
   add_foreign_key "course_reviews", "users"
   add_foreign_key "courses", "categories"

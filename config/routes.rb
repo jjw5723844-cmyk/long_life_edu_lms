@@ -81,4 +81,15 @@ Rails.application.routes.draw do
 
   # 사이트맵 매핑 라우트
   get "sitemap", to: "static_pages#sitemap", as: :sitemap
+
+  # 수강 신청/감면/환불 승인 관리 라우트
+  namespace :admin do
+    resources :course_registrations, only: [:index] do
+      member do
+        patch :approve_discount
+        patch :reject_discount
+        patch :process_refund
+      end
+    end
+  end
 end
