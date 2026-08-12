@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_09_062004) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_12_062300) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -147,6 +147,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_09_062004) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "instructor_payrolls", force: :cascade do |t|
+    t.integer "calculated_amount"
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "instructor_profile_id", null: false
+    t.integer "status"
+    t.string "target_month"
+    t.integer "teaching_hours"
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_instructor_payrolls_on_course_id"
+    t.index ["instructor_profile_id"], name: "index_instructor_payrolls_on_instructor_profile_id"
+  end
+
   create_table "instructor_profiles", force: :cascade do |t|
     t.text "bio"
     t.datetime "created_at", null: false
@@ -250,6 +263,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_09_062004) do
   add_foreign_key "courses", "users"
   add_foreign_key "facility_reservations", "facilities"
   add_foreign_key "facility_reservations", "users"
+  add_foreign_key "instructor_payrolls", "courses"
+  add_foreign_key "instructor_payrolls", "instructor_profiles"
   add_foreign_key "instructor_profiles", "users"
   add_foreign_key "lesson_progresses", "lessons"
   add_foreign_key "lesson_progresses", "users"

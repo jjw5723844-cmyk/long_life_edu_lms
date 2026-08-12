@@ -1,0 +1,148 @@
+<% content_for :title, "출강 강사 관리 및 강사료 정산" %>
+
+<div class="w-full max-w-7xl mx-auto py-8 px-4 space-y-8">
+  <!-- 상단 타이틀 영역 -->
+  <div class="border-b border-stone-200 pb-5">
+    <h1 class="text-3xl font-bold text-stone-900 tracking-tight">👨‍🏫 출강 강사 관리 & 강사료 정산</h1>
+    <p class="text-stone-500 text-sm mt-1">담당 강좌 출강 현황, 수강생 만족도 평가 모니터링 및 월별 강사 수당 정산을 관리합니다.</p>
+  </div>
+
+  <!-- 출강 강사 이력 및 강의 평가 모니터링 -->
+  <div class="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
+    <div class="p-5 bg-stone-50 border-b border-stone-200 flex justify-between items-center">
+      <h2 class="font-bold text-stone-800 text-lg flex items-center gap-2">
+        <span class="w-2.5 h-2.5 bg-emerald-700 rounded-full"></span>
+        출강 강사 모니터링 및 만족도 현황
+      </h2>
+      <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-md border border-emerald-200">
+        총 <%= @instructors.count %>명 등록
+      </span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left border-collapse">
+        <thead>
+          <tr class="bg-stone-50/50 text-stone-400 border-b border-stone-200 text-xs uppercase">
+            <th class="p-3">강사명</th>
+            <th class="p-3">이메일</th>
+            <th class="p-3">강사 등급</th>
+            <th class="p-3">담당 강좌 수</th>
+            <th class="p-3">평균 강의 평점</th>
+            <th class="p-3 text-right">시수당 단가</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-stone-100">
+          <% if @instructors.any? %>
+            <% @instructors.each do |inst| %>
+              <tr class="hover:bg-stone-50 transition">
+                <td class="p-3 font-semibold text-stone-800"><%= inst.user.name %></td>
+                <td class="p-3 text-stone-500"><%= inst.user.email_address %></td>
+                <td class="p-3 text-stone-700"><%= inst.grade.presence || "일반강사" %></td>
+                <td class="p-3 font-semibold text-emerald-800"><%= inst.courses.size %>개 강좌</td>
+                <td class="p-3 font-bold text-stone-800">⭐ <%= inst.average_rating %> / 5.0</td>
+                <td class="p-3 text-right font-mono text-stone-700"><%= inst.default_hourly_rate %>원</td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="p-6 text-center text-stone-400 text-sm">등록된 강사 프로필 정보가 없습니다.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 월별 강사료 정산 대기 목록 -->
+  <div class="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
+    <div class="p-5 bg-stone-50 border-b border-stone-200 flex justify-between items-center">
+      <h2 class="font-bold text-stone-800 text-lg flex items-center gap-2">
+        <span class="w-2.5 h-2.5 bg-emerald-700 rounded-full"></span>
+        강사료 미지급 및 정산 요청 내역
+      </h2>
+      <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-md border border-emerald-200">
+        <%= @unpaid_payrolls.count %>건 미지급
+      </span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left border-collapse">
+        <thead>
+          <tr class="bg-stone-50/50 text-stone-400 border-b border-stone-200 text-xs uppercase">
+            <th class="p-3">정산 귀속월</th>
+            <th class="p-3">강사명</th>
+            <th class="p-3">대상 강좌</th>
+            <th class="p-3">강의 시수</th>
+            <th class="p-3">산출 정산액</th>
+            <th class="p-3 text-right">지급 승인</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-stone-100">
+          <% if @unpaid_paytolls.any? %>
+            <% @unpaid_payrolls.each do |payroll| %>
+              <tr class="hover:bg-stone-50 transition">
+                <td class="p-3 font-mono text-stone-600"><%= payroll.target_month %></td>
+                <td class="p-3 font-semibold text-stone-800"><%= payroll.instructor_profile.user.name %></td>
+                <td class="p-3 text-stone-700"><%= payroll.course.title %></td>
+                <td class="p-3 text-stone-600"><%= payroll.teaching_hours %>시간</td>
+                <td class="p-3 font-bold text-emerald-800"><%= payroll.calculate_amount.to_i %>원</td>
+                <td class="p-3 text-right">
+                  <%= button_to "지급 확정", process_payroll_admin_instructors_path(payroll_id: payroll.id), method: :patch,
+                      class: "px-3 py-1 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold rounded-lg transition inline-block"
+                  %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="p-6 text-center text-stone-400 text-sm">지급 대기 중인 강사료 정산 내역이 없습니다.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 강사료 지급 완료 이력 -->
+  <div class="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
+    <div class="p-5 bg-stone-50 border-b border-stone-200">
+      <h2 class="font-bold text-stone-800 text-lg flex items-center gap-2">
+        <span class="w-2.5 h-2.5 bg-emerald-700 rounded-full"></span>
+        최근 강사료 지급 완료 내역
+      </h2>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left border-collapse">
+        <thead>
+          <tr class="bg-stone-50/50 text-stone-400 border-b border-stone-200 text-xs uppercase">
+            <th class="p-3">귀속월</th>
+            <th class="p-3">강사명</th>
+            <th class="p-3">강좌명</th>
+            <th class="p-3">지급 확정액</th>
+            <th class="p-3 text-right">처리 상태</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-stone-100">
+          <% if @processed_payrolls.any? %>
+            <% @processed_payrolls.each do |payroll| %>
+              <tr class="hover:bg-stone-50 transition">
+                <td class="p-3 font-mono text-stone-600"><%= payroll.target_month %></td>
+                <td class="p-3 font-semibold text-stone-800"><%= payroll.instructor_profile.user.name %></td>
+                <td class="p-3 text-stone-700"><%= payroll.course.title %></td>
+                <td class="p-3 font-bold text-emerald-800"><%= payroll.calculate_amount.to_i %>원</td>
+                <td class="p-3 text-right">
+                  <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded border border-emerald-200">지급 완료</span>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="5" class="p-6 text-center text-stone-400 text-sm">최근 지급 처리된 강사료 내역이 없습니다.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

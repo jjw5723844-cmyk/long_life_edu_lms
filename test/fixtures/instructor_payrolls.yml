@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  instructor_profile: one
+  course: one
+  target_month: MyString
+  teaching_hours: 1
+  calculated_amount: 1
+  status: 1
+
+two:
+  instructor_profile: two
+  course: two
+  target_month: MyString
+  teaching_hours: 1
+  calculated_amount: 1
+  status: 1
