@@ -33,7 +33,7 @@ module Admin
       @registration = CourseRegistration.find(params[:id])
     end
 
-    # RBAC 관리자 권한 확인
+    # 관리자 권한 확인
     def require_admin
       unless current_user&.admin?
         redirect_to root_path, alert: "관리자 전용 기능입니다."

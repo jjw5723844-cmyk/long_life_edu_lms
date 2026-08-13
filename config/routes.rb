@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 
   get "instructors/index" # 강사소개
   get "notcices/index"  # 공지사항
-  get "pags/about" 
+  get "pags/about" # 기관소개
 
   ## 1. 인증 및 계정 관리 시스템
 
@@ -97,6 +97,25 @@ Rails.application.routes.draw do
     resources :instructors, only: [:index] do
       collection do
         patch :process_payroll
+      end
+    end
+
+    # 교육관 학습동아리 관리
+    resources :clubs, only: [:index] do
+      member do
+        patch :approve
+        patch :reject
+      end
+      collction do
+        patch :review_report
+      end
+    end
+
+    # 시설 대관 승인 관리
+    resources :facility_reservations, only: [:index] do
+      member do
+        patch :approve
+        patch :reject
       end
     end
   end

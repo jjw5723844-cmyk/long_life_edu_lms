@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  learning_club: one
+  title: MyString
+  activity_date: 2026-08-13
+  content: MyText
+  status: 1
+
+two:
+  learning_club: two
+  title: MyString
+  activity_date: 2026-08-13
+  content: MyText
+  status: 1

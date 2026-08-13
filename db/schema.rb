@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_12_062300) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_13_060527) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -54,6 +54,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_062300) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["club_id"], name: "index_club_activities_on_club_id"
+  end
+
+  create_table "club_activity_reports", force: :cascade do |t|
+    t.date "activity_date"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.integer "learning_club_id", null: false
+    t.integer "status"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["learning_club_id"], name: "index_club_activity_reports_on_learning_club_id"
   end
 
   create_table "clubs", force: :cascade do |t|
@@ -169,6 +180,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_062300) do
     t.index ["user_id"], name: "index_instructor_profiles_on_user_id"
   end
 
+  create_table "learning_clubs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.integer "status"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_learning_clubs_on_user_id"
+  end
+
   create_table "lesson_progresses", force: :cascade do |t|
     t.boolean "completed", default: false, null: false
     t.datetime "created_at", null: false
@@ -254,6 +275,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_062300) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "club_activities", "clubs"
+  add_foreign_key "club_activity_reports", "learning_clubs"
   add_foreign_key "clubs", "users"
   add_foreign_key "course_registrations", "courses"
   add_foreign_key "course_registrations", "users"
@@ -266,6 +288,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_062300) do
   add_foreign_key "instructor_payrolls", "courses"
   add_foreign_key "instructor_payrolls", "instructor_profiles"
   add_foreign_key "instructor_profiles", "users"
+  add_foreign_key "learning_clubs", "users"
   add_foreign_key "lesson_progresses", "lessons"
   add_foreign_key "lesson_progresses", "users"
   add_foreign_key "lessons", "courses"
