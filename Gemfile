@@ -83,3 +83,5 @@ group :test do
 end
 
 gem "sitemap_generator", "~> 7.1"
+
+gem "csv"

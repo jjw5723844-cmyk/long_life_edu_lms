@@ -1,3 +1,5 @@
+require "csv"
+
 class Course < ApplicationRecord
   # optional: true를 적용하여 연관 데이터가 없어도 에러가 발생하지 않도록 보호 관계를 선언
   belongs_to :category, optional: true
@@ -21,16 +23,40 @@ class Course < ApplicationRecord
   # 카테고리 필터링을 위한 스코프 적용
   scope :by_category, ->(cat) {
     if cat.present?
-      joins(:category).where(categories: {name: cat})
+      joins(:category).where(categories: { name: cat })
     else
       all
     end
   }
 
   # 사이트맵 조회 시 N+1 쿼리 오류 방지 및 데이터 연결을 위한 전용 스코프 설정
-  scope :sitemap_courses, -> {includes(:user, :instructor_profile)}
+  scope :sitemap_courses, -> { includes(:user, :instructor_profile) }
 
-  # 강사 이름을 안전하게 가져오는 대표 메서드
+  # 전체 등록 강좌 수 집계 모델
+  def self.total_courses_count
+    count
+  end
+
+  # 강좌 목록 데이터 CSV 변환 모델
+  def self.to_csv
+    headers = ["강좌ID", "강좌명", "카테고리명", "담당강사명", "수강신청건수", "등록일시"]
+
+    CSV.generate(headers: true, col_sep: ",") do |csv|
+      csv << headers
+      includs(:category, :user, :instructor_profile, :registrations).find_each do |course|
+        csv << [
+          course.id,
+          course.title,
+          course.category&.name || "미지정",
+          course.display_instructor_name,
+          course.registrations.size,
+          course.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        ]
+      end
+    end
+  end
+
+  # 강사 이름을 안전하게 가져오는 대표 모델
   def display_instructor_name
     instructor_profile&.name.presence || instructor_name.presence || user&.name || "담당 강사"
   end

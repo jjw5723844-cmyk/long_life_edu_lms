@@ -84,6 +84,8 @@ Rails.application.routes.draw do
 
   # 관리자 기능 라우트 
   namespace :admin do
+    get "reports/index"
+    get "reports/export_csv"
     # 수강 신청/감면/환불 승인 관리
     resources :course_registrations, only: [:index] do
       member do
@@ -106,7 +108,7 @@ Rails.application.routes.draw do
         patch :approve
         patch :reject
       end
-      collction do
+      collection do
         patch :review_report
       end
     end
@@ -116,6 +118,13 @@ Rails.application.routes.draw do
       member do
         patch :approve
         patch :reject
+      end
+    end
+
+    # 행정 통계 및 CSV 내보내기 라우트
+    resources :reports, only: [:index] do
+      collection do
+        get :export_csv
       end
     end
   end
