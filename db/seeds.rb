@@ -1,21 +1,33 @@
 puts "==== 테스트 유저 데이터 생성 시작 ===="
 
-# 잔여 데이터 정리(중복 방지)
+# 외래키 제약조건 오류를 방지하기 위해 자식 테이블부터 부모 테이블 순으로 삭제 순서 정리
+LessonProgress.destroy_all rescue nil # 레슨 진행률 데이터 삭제
+Lesson.destroy_all rescue nil # [추가됨]: 레슨 데이터 삭제
+CourseRegistration.destroy_all rescue nil # 수강신청 데이터 삭제
+CourseReview.destroy_all rescue nil # 수강후기 데이터 삭제
+InstructorPayroll.destroy_all rescue nil # 강사 수당 데이터 삭제
+FacilityReservation.destroy_all rescue nil # 시설 예약 데이터 삭제
+Facility.destroy_all rescue nil # 시설 데이터 삭제
+ClubActivityReport.destroy_all rescue nil # 동아리 보고서 삭제
+LearningClub.destroy_all rescue nil # 학습동아리 데이터 삭제
+ClubActivity.destroy_all rescue nil # 동아리 활동 데이터 삭제
+Club.destroy_all rescue nil # 동아리 데이터 삭제
 Registration.destroy_all rescue nil
 Course.destroy_all rescue nil
 InstructorProfile.destroy_all rescue nil
+Session.destroy_all rescue nil # 세션 데이터 삭제 (User 삭제 시 외래키 충돌 방지)
 Notice.destroy_all rescue nil
 Institution.destroy_all rescue nil
 User.destroy_all rescue nil
 Category.destroy_all rescue nil
 
 # 강의 카테고리 생성
-default_category = Category.create!(name: "실용/취미교육")
+default_category = Category.find_or_create_by!(name: "실용/취미교육") # [수정됨]: 중복 생성 방지를 위해 find_or_create_by! 사용
 puts "-> 기본 카테고리 생성 완료 (실용/취미교육)"
 
 # 1. 학습자 계정
-User.create!(
-  email_address: "student@test.com",
+student_user = User.find_or_initialize_by(email_address: "student@test.com") # [수정됨]: 이메일 기준 기존 유저 조회 또는 초기화
+student_user.update!(
   password: "password123",
   role: :student,
   name: "홍금보"
@@ -23,36 +35,36 @@ User.create!(
 puts "-> 학생 계정 생성 완료 (student@test.com / password123)"
 
 # 2. 강사 계정 (오맹달)
-teacher_user = User.create!(
-  email_address: "teacher@test.com",
+teacher_user = User.find_or_initialize_by(email_address: "teacher@test.com") # [수정됨]: 이메일 기준 기존 유저 조회 또는 초기화
+teacher_user.update!(
   password: "password456",
   role: :teacher,
   name: "오맹달"
 )
 
-InstructorProfile.create!(
-  user: teacher_user,
+inst_prof1 = InstructorProfile.find_or_initialize_by(user: teacher_user) # [수정됨]: 기존 프로필 조회 또는 초기화
+inst_prof1.update!(
   specialty: "문화/취미 예술 전문",
   bio: "오맹달 강사는 다양한 문화와 취미 예술 분야에서 풍부한 경험을 가지고 있으며, 학습자들에게 창의적이고 실용적인 교육을 제공하는 것을 목표로 합니다."
 )
 puts "-> 강사 계정 및 프로필 생성 완료 (오맹달 강사)"
 
 # 3. 천마이클잭슨 강사 계정, 프로필 및 강좌
-cheon_user = User.create!(
-  email_address: "michael@test.com",
+cheon_user = User.find_or_initialize_by(email_address: "michael@test.com") # [수정됨]: 이메일 기준 기존 유저 조회 또는 초기화
+cheon_user.update!(
   password: "password123",
   role: :teacher,
   name: "천마이클잭슨"
 )
 
-InstructorProfile.create!(
-  user: cheon_user,
+inst_prof2 = InstructorProfile.find_or_initialize_by(user: cheon_user) # [수정됨]: 기존 프로필 조회 또는 초기화
+inst_prof2.update!(
   specialty: "80-90 팝송 및 보컬 트레이닝",
   bio: "80-90년대 레트로 팝송과 발성을 쉽고 재미있게 지도하는 20년 경력의 보컬 트레이너입니다."
 )
 
-Course.create!(
-  title: "80-90 추억의 팝송 여행",
+cheon_course = Course.find_or_initialize_by(title: "80-90 추억의 팝송 여행") # [수정됨]: 기존 강좌 조회 또는 초기화
+cheon_course.update!(
   description: "40대 이상 성인을 위한 레트로 팝송과 함께하는 추억 여행 강좌입니다.",
   category: default_category,
   user: cheon_user,
@@ -62,15 +74,15 @@ Course.create!(
 puts "-> 강사 및 강좌 생성 완료 (천마이클잭슨 / 80-90 추억의 팝송 여행)"
 
 # 4. 운영관리자 계정
-User.create!(
-  email_address: "admin@test.com",
+admin_user = User.find_or_initialize_by(email_address: "admin@test.com") # [수정됨]: 이메일 기준 기존 유저 조회 또는 초기화
+admin_user.update!(
   password: "password789",
   role: :admin,
   name: "주성치"
 )
 puts "-> 관리자 계정 생성 완료 (admin@test.com / password789)"
 
-# 🚨🚨🚨 5개 분야별 강사 및 강좌 데이터 안전 생성 🚨🚨🚨
+# 5개 분야별 강사 및 강좌 테스트 데이터 생성
 categories_data = [
   {
     category_name: "인문/교양",
@@ -144,19 +156,21 @@ categories_data.each do |cat_hash|
 
   cat_hash[:instructors].each do |inst|
     begin
-      u = User.create!(
-        email_address: inst[:email],
+      u = User.find_or_initialize_by(email_address: inst[:email])
+      u.update!(
         password: "password123",
         role: :teacher,
         name: inst[:name]
       )
-      InstructorProfile.create!(
-        user: u,
+
+      prof = InstructorProfile.find_or_initialize_by(user: u)
+      prof.update!(
         specialty: inst[:specialty],
         bio: inst[:bio]
       )
-      Course.create!(
-        title: inst[:course_title],
+
+      crs = Course.find_or_initialize_by(title: inst[:course_title])
+      crs.update!(
         description: inst[:course_desc],
         category: cat,
         user: u,
@@ -265,19 +279,115 @@ notices_data = [
 ]
 
 notices_data.each do |n|
-  Notice.create!(n)
+  Notice.find_or_create_by!(title: n[:title]) do |notice|
+    notice.content = n[:content]
+    notice.view_count = n[:view_count]
+    notice.is_pinned = n[:is_pinned]
+  end
 end
 puts "~> 공지사항 데이터 생성 완료"
 
 # 기관소개 실제 데이터 생성
-Institution.create!([
-  {
-    name: "롱라이프 평생학습관",
-    greeting_title: "원장 인사말",
-    greeting_content: "안녕하세요. 롱라이프 평생학습관에 오신 것을 환영합니다. 저희 기관은 다양한 평생학습 프로그램을 통해 지역사회 구성원들의 자기계발과 삶의 질 향상을 위해 최선을 다하고 있습니다. 여러분의 많은 참여와 관심 부탁드립니다.",
-    mission: "롱라이프 평생학습관은 지역사회 구성원들의 자기계발과 삶의 질 향상을 위해 다양한 평생학습 프로그램을 제공하고, 학습자 중심의 교육 환경을 조성하여 지속적인 학습 문화를 확산시키는 것을 목표로 합니다.",
-    core_values: "1. 학습자 중심: 학습자의 필요와 관심을 최우선으로 고려한 교육 프로그램 제공\n2. 평생학습 문화 확산: 지역사회 구성원들이 지속적으로 학습할 수 있는 환경 조성\n3. 다양성과 포용성: 다양한 배경과 경험을 가진 학습자들을 위한 포용적인 교육 환경 제공\n4. 혁신과 창의성: 새로운 교육 방법과 기술을 도입하여 창의적이고 혁신적인 학습 경험 제공\n5. 지역사회 기여: 지역사회 발전과 구성원들의 삶의 질 향상에 기여하는 교육 기관으로서의 역할 수행"
-  }
-]) rescue nil
+Institution.find_or_create_by!(name: "롱라이프 평생학습관") do |inst|
+  inst.greeting_title = "원장 인사말"
+  inst.greeting_content = "안녕하세요. 롱라이프 평생학습관에 오신 것을 환영합니다. 저희 기관은 다양한 평생학습 프로그램을 통해 지역사회 구성원들의 자기계발과 삶의 질 향상을 위해 최선을 다하고 있습니다. 여러분의 많은 참여와 관심 부탁드립니다."
+  inst.mission = "롱라이프 평생학습관은 지역사회 구성원들의 자기계발과 삶의 질 향상을 위해 다양한 평생학습 프로그램을 제공하고, 학습자 중심의 교육 환경을 조성하여 지속적인 학습 문화를 확산시키는 것을 목표로 합니다."
+  inst.core_values = "1. 학습자 중심: 학습자의 필요와 관심을 최우선으로 고려한 교육 프로그램 제공\n2. 평생학습 문화 확산: 지역사회 구성원들이 지속적으로 학습할 수 있는 환경 조성\n3. 다양성과 포용성: 다양한 배경과 경험을 가진 학습자들을 위한 포용적인 교육 환경 제공\n4. 혁신과 창의성: 새로운 교육 방법과 기술을 도입하여 창의적이고 혁신적인 학습 경험 제공\n5. 지역사회 기여: 지역사회 발전과 구성원들의 삶의 질 향상에 기여하는 교육 기관으로서의 역할 수행" # [수정됨]: 핵심 가치
+end rescue nil
+
+# 통합 검증 데이터 구축 
+
+# 1. 수강신청 테스트 데이터
+begin
+  student_user = User.find_by(email_address: "student@test.com")
+  sample_course = Course.first
+
+  if student_user && sample_course
+    reg = CourseRegistration.find_or_initialize_by(user: student_user, course: sample_course)
+    reg.update!(
+      status: 1,
+      discount_status: 0,
+      paid_amount: 30000
+    )
+    puts "-> 수강신청 테스트 데이터 생성 완료"
+  end
+rescue => e
+  puts "  ❌ 수강신청 데이터 생성 실패: #{e.message}"
+end
+
+# 2. 강사 정산 테스트 데이터 생성
+begin
+  teacher_inst = InstructorProfile.first
+  sample_course = Course.first
+
+  if teacher_inst && sample_course
+    pay = InstructorPayroll.find_or_initialize_by(instructor_profile: teacher_inst, course: sample_course, target_month: "2026-08")
+    pay.update!(
+      teaching_hours: 15,
+      calculated_amount: 750000,
+      status: 0
+    )
+    puts "-> 강사 정산 테스트 데이터 생성 완료"
+  end
+rescue => e
+  puts "  ❌ 강사 정산 데이터 생성 실패: #{e.message}"
+end
+
+# 3. 학습 동아리 및 활동 내역 테스트
+begin
+  student_user = User.find_by(email_address: "student@test.com")
+
+  if student_user
+    test_club = Club.find_or_initialize_by(name: "롱라이프 인문학 독서회")
+    test_club.update!(
+      user: student_user,
+      category: "인문/교양",
+      description: "매주 고전을 읽고 토론하는 시민 동아리입니다.",
+      leader_name: student_user.name,
+      current_members: 6,
+      max_members: 12,
+      status: "approved"
+    )
+
+    # 동아리 활동 중복 생성 방지
+    act = ClubActivity.find_or_initialize_by(club: test_club, title: "8월 정기 독서 토론회")
+    act.update!(
+      content: "논어 1장 독해 및 자유 토론 진행",
+      activity_date: Date.current
+    )
+    puts "-> 학습 동아리 및 활동 내역 생성 완료"
+  end
+rescue => e
+  puts "  ❌ 학습 동아리 데이터 생성 실패: #{e.message}"
+end
+
+# 4. 시설 및 대관 예약 테스트 데이터
+begin
+  fac = Facility.find_or_initialize_by(name: "제1세미나실")
+  fac.update!(
+    location: "평생학습관 2층",
+    capacity: 30,
+    fee: 20000,
+    description: "빔프로젝터 및 마이크 음향 시설 구비",
+    status: "available"
+  )
+
+  student_user = User.find_by(email_address: "student@test.com")
+
+  if student_user
+
+    res = FacilityReservation.find_or_initialize_by(facility: fac, user: student_user, reservation_date: Date.tomorrow)
+    res.update!(
+      start_time: "14:00",
+      end_time: "16:00",
+      purpose: "동아리 정기 모임",
+      headcount: 8,
+      status: "pending"
+    )
+    puts "-> 시설 및 대관 예약 데이터 생성 완료"
+  end
+rescue => e
+  puts "  ❌ 시설 대관 데이터 생성 실패: #{e.message}"
+end
 
 puts "==== 모든 테스트 데이터 생성 완료! ===="
