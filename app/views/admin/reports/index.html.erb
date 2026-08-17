@@ -65,7 +65,7 @@
         강좌별 등록 및 수입 현황 상세
       </h2>
       <span class="text-xs font-semibold px-2.5 py-1 bg-stone-200 text-stone-700 rounded-md border border-stone-300">
-        총 <%= @course_stats.size %>개 강좌
+        총 <%= @course_stats&.size || 0 %>개 강좌
       </span>
     </div>
 
@@ -81,7 +81,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-stone-100">
-          <% if @course_stats.any? %>
+          <% if @course_stats&.any? %>
             <% @course_stats.each do |stat| %>
               <tr class="hover:bg-stone-50 transition">
                 <td class="p-3 font-mono text-xs text-stone-400">#<%= stat[:id] %></td>

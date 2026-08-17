@@ -39,8 +39,7 @@
               <th class="p-2.5 text-right">부여된 권한</th>
             </tr>
           </thead>
-        
-
+          
           <tbody>
             <% @all_users.each do |user| %>
               <tr class="border-b border-stone-100 hover:bg-stone-50/30 transition">
@@ -81,6 +80,36 @@
               class: "p-3.5 bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-300 rounded-lg text-stone-700 font-semibold text-sm flex items-center gap-2 transition" do
           %>
             <span class="text-emerald-700 font-bold">📚</span> 전체 강좌 관리
+          <% end %>
+          <!-- 시스템 관리자 서브모듈(수강신청/감면/환불) -->
+          <%= link_to admin_course_registrations_path,
+              class: "p-3.5 bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-300 rounded-lg text-stone-700 font-semibold text-sm flex items-center gap-2 transition" do
+          %>
+            <span class="text-emerald-700 font-bold">🎓</span> 수강신청 & 감면/환불
+          <% end %>
+          <!-- 시스템 관리자 서브모듈(출강 강사/강사료 정산) -->
+          <%= link_to admin_instructors_path,
+              class: "p-3.5 bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-300 rounded-lg text-stone-700 font-semibold text-sm flex items-center gap-2 transition" do
+          %>
+            <span class="text-emerald-700 font-bold">👨‍🏫</span> 강사 & 강사료 정산
+          <% end %>
+          <!-- 시스템 관리자 서브모듈(학습동아리/보고서) -->
+          <%= link_to admin_clubs_path,
+              class: "p-3.5 bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-300 rounded-lg text-stone-700 font-semibold text-sm flex items-center gap-2 transition" do
+          %>
+            <span class="text-emerald-700 font-bold">👥</span> 학습동아리 & 보고서
+          <% end %>
+          <!-- 시스템 관리자 서브모듈(시설 대관 승인) -->
+          <%= link_to admin_facility_reservations_path,
+              class: "p-3.5 bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-300 rounded-lg text-stone-700 font-semibold text-sm flex items-center gap-2 transition" do
+          %>
+            <span class="text-emerald-700 font-bold">🏛️</span> 시설 대관 승인
+          <% end %>
+          <!-- 시스템 관리자 서브모듈(행정 통계/CSV) -->
+          <%= link_to admin_reports_path,
+              class: "p-3.5 bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-300 rounded-lg text-stone-700 font-semibold text-sm flex items-center gap-2 transition" do
+          %>
+            <span class="text-emerald-700 font-bold">📊</span> 행정 통계 & CSV
           <% end %>
         </div>
       </div>

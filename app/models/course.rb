@@ -8,7 +8,8 @@ class Course < ApplicationRecord
   # 라우트와 컨트롤러에서 구현한 수강 후기 기능이 안전하게 작동하고,
   # 강좌 삭제 시 강좌에 해당하는 관련 후기도 함께 지워지도록 설정
   has_many :course_reviews, dependent: :destroy
-  has_many :registrations
+  has_many :registrations, class_name: "CourseRegistration"
+  has_many :course_registrations, class_name: "CourseRegistration"
   has_many :students, through: :registrations, source: :user
   has_many :lessons, dependent: :destroy # 강좌와 강의 간 관계 선언
 
@@ -32,6 +33,10 @@ class Course < ApplicationRecord
   # 사이트맵 조회 시 N+1 쿼리 오류 방지 및 데이터 연결을 위한 전용 스코프 설정
   scope :sitemap_courses, -> { includes(:user, :instructor_profile) }
 
+  def capacity
+    (self[:capacity] || self[:max_students]).to_i
+  end
+
   # 전체 등록 강좌 수 집계 모델
   def self.total_courses_count
     count
@@ -43,7 +48,7 @@ class Course < ApplicationRecord
 
     CSV.generate(headers: true, col_sep: ",") do |csv|
       csv << headers
-      includs(:category, :user, :instructor_profile, :registrations).find_each do |course|
+      includes(:category, :user, :instructor_profile, :registrations).find_each do |course|
         csv << [
           course.id,
           course.title,

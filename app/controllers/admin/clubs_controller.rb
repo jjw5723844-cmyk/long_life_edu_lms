@@ -1,7 +1,8 @@
 module Admin
   class ClubsController < ApplicationController
-    # 관리자 접근 권한 검증
-    before_action :require_admin
+    # 접근 권한 검증
+    before_action :require_authentication
+    before_action :ensure_admin!
     # 대상 동아리 조회
     before_action :set_club, only: [:approve, :reject]
 
@@ -36,13 +37,6 @@ module Admin
     # ID 기반 Club 데이터 조회
     def set_club
       @club = Club.find(params[:id])
-    end
-
-    # 관리자 권한 확인
-    def require_admin
-      unless current_user&.admin?
-        redirect_to root_path, alert: "관리자 전용 기능입니다."
-      end
     end
   end
 end

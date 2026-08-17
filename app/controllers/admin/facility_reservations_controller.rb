@@ -1,7 +1,8 @@
 module Admin
-  class Admin::FacilityReservationsController < ApplicationController
-    # 관리자 접근 권한 검증
-    before_action :require_admin
+  class FacilityReservationsController < ApplicationController
+    # 접근 권한 검증
+    before_action :require_authentication
+    before_action :ensure_admin!
     # 해당 대상 대관 건수 조회
     before_action :set_reservation, only: [:approve, :reject]
 
@@ -28,13 +29,6 @@ module Admin
     # ID 기반 대관 데이터 조회
     def set_reservation
       @reservation = FacilityReservation.find(params[:id])
-    end
-
-    # 관리자 권한 확인
-    def require_admin
-      unless current_user&.admin?
-        redirect_to root_path, alert: "관리자 전용 기능입니다."
-      end
     end
   end
 end

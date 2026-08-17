@@ -11,6 +11,19 @@ class InstructorPayroll < ApplicationRecord
   # 지급 완료 항목 조회 scope
   scope :processed_list, -> { where(status: :processed) }
 
+  # 뷰에서 payroll.calculate_amount 호출 시 산출 금액을 반환하는 메서드
+  def calculate_amount
+    if has_attribute?(:calculate_amount) && read_attribute(:calculate_amount).present?
+      read_attribute(:calculate_amount)
+    elsif respond_to?(:amount) && send(:amount).present?
+      send(:amount)
+    else
+      rate = instructor_profile&.default_hourly_rate.to_i
+      hours = teaching_hours.to_i
+      hours * rate
+    end
+  end
+
   # 강의 시수 및 강사 단가 기반 강사료 자동 산출 모델
   def calculate_amount!
     rate = instructor_profile.default_hourly_rate

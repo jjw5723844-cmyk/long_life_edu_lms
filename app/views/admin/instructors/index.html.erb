@@ -38,7 +38,7 @@
                 <td class="p-3 font-semibold text-stone-800"><%= inst.user.name %></td>
                 <td class="p-3 text-stone-500"><%= inst.user.email_address %></td>
                 <td class="p-3 text-stone-700"><%= inst.grade.presence || "일반강사" %></td>
-                <td class="p-3 font-semibold text-emerald-800"><%= inst.courses.size %>개 강좌</td>
+                <td class="p-3 font-semibold text-emerald-800"><%= inst.course.size %>개 강좌</td>
                 <td class="p-3 font-bold text-stone-800">⭐ <%= inst.average_rating %> / 5.0</td>
                 <td class="p-3 text-right font-mono text-stone-700"><%= inst.default_hourly_rate %>원</td>
               </tr>
@@ -78,7 +78,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-stone-100">
-          <% if @unpaid_paytolls.any? %>
+          <% if @unpaid_payrolls.any? %>
             <% @unpaid_payrolls.each do |payroll| %>
               <tr class="hover:bg-stone-50 transition">
                 <td class="p-3 font-mono text-stone-600"><%= payroll.target_month %></td>

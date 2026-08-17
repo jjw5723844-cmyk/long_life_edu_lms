@@ -27,6 +27,10 @@ class CourseRegistration < ApplicationRecord
     where(status: :confirmed).count
   end
 
+  def self.approved_count
+    where(status: :confirmed).count
+  end
+
   # 대기 중인 수강신청 건수 집계 모델
   def self.pending_count
     where(status: :pending).count
@@ -103,7 +107,7 @@ class CourseRegistration < ApplicationRecord
         cancelled_at: Time.current,
         refund_amount: calculate_refund
       )
-      promte_next_waitlisted_student!
+      promote_next_waitlisted_student!
     end
   end
 
@@ -111,8 +115,8 @@ class CourseRegistration < ApplicationRecord
 
   # 취소 발생 시 최우선 대기자를 수강 확정으로 승급시키는 모델
   def promote_next_waitlisted_student!
-    next_student = course.course_rgistrations.waitlisted_queue.first
-    retrun unless next_student
+    next_student = course.course_registrations.waitlisted_queue.first
+    return unless next_student
 
     next_student.update!(status: :confirmed, waitlist_position: nil)
   end
