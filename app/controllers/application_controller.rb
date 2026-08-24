@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   stale_when_importmap_changes
 
   def current_user
+    resume_session if Current.session.nil? # 비로그인 허용 페이지에서도 세션 쿠키를 복원하여 current_user를 정상 반환하도록 처리
     Current.user
   end
   helper_method :current_user # 뷰 파일에서도 current_user를 쓸 수 있게 설정
