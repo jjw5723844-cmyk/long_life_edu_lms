@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   # 시설 대관 관리 경로 라우트
-  resources :facilities, only: [:index, :show] do
-    resources :facility_reservations, only: [:new, :create] # 시설 중첩 라우트로 예약 신청 기능 경로 추가
+  resources :facilities, only: [ :index, :show ] do
+    resources :facility_reservations, only: [ :new, :create ] # 시설 중첩 라우트로 예약 신청 기능 경로 추가
   end
 
   # 사용자 본인의 대관 신청 내역 관리 전역 라우트
-  resources :facility_reservations, only: [:index, :show, :destroy]
+  resources :facility_reservations, only: [ :index, :show, :destroy ]
 
   # 학습동아리 메뉴 경로 라우트
   resources :clubs do
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   end
 
   # 이용안내 메뉴 경로 라우트
-  resources :guides, only: ["index"] do
+  resources :guides, only: [ "index" ] do
     collection do
       get "registration" # 수강신청 안내 페이지 경로
       get "facility" # 시설 이용안내 페이지 경로
@@ -74,18 +74,18 @@ Rails.application.routes.draw do
 
   # 공지사항 게시판 라우트
   get "notices", to: "notices#index", as: :notices
-  resources :notices, only: [ :index, :show ]
+  resources :notices
 
   # 강사 소개 페이지 라우트
-  resources :instructors, only: [:index]
+  resources :instructors, only: [ :index ]
 
   # 사이트맵 매핑 라우트
   get "sitemap", to: "static_pages#sitemap", as: :sitemap
 
-  # 관리자 기능 라우트 
+  # 관리자 기능 라우트
   namespace :admin do
     # 수강 신청/감면/환불 승인 관리
-    resources :course_registrations, only: [:index] do
+    resources :course_registrations, only: [ :index ] do
       member do
         patch :approve_discount
         patch :reject_discount
@@ -93,15 +93,15 @@ Rails.application.routes.draw do
       end
     end
 
-    # 출강 강사 및 강사료 정산 관리 
-    resources :instructors, only: [:index] do
+    # 출강 강사 및 강사료 정산 관리
+    resources :instructors, only: [ :index ] do
       collection do
         patch :process_payroll
       end
     end
 
     # 교육관 학습동아리 관리
-    resources :clubs, only: [:index] do
+    resources :clubs, only: [ :index ] do
       member do
         patch :approve
         patch :reject
@@ -112,7 +112,7 @@ Rails.application.routes.draw do
     end
 
     # 시설 대관 승인 관리
-    resources :facility_reservations, only: [:index] do
+    resources :facility_reservations, only: [ :index ] do
       member do
         patch :approve
         patch :reject
@@ -120,7 +120,7 @@ Rails.application.routes.draw do
     end
 
     # 행정 통계 및 CSV 내보내기 라우트
-    resources :reports, only: [:index] do
+    resources :reports, only: [ :index ] do
       collection do
         get :export_csv
       end
