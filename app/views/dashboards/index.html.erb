@@ -28,12 +28,12 @@
     </div>
   </div>
   
-  <!-- 평생학습과정 교육 주기 트래커(1. 수강신청 -> 2. 수강확정 -> 3. 교육진행 -> 4. 학습 종료 후 수료/설문) -->
+  <!-- 평생학습과정 교육 주기 트래커 -->
   <div class="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
       <div class="flex items-center gap-2">
         <span class="text-xl">🌱</span>
-        <h2 class="font-bold text-stone-900 text-base"><%= current_user.current_learning_term %>학습 여정</h2>
+        <h2 class="font-bold text-stone-900 text-base"><%= current_user.current_learning_term %> 학습 여정</h2>
         <span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold rounded-md">
           학습 진행률 <%= current_user.learning_term_progress_percentage %>%
         </span>
@@ -88,187 +88,201 @@
     <% end %>
   </div>
 
-  <!-- 이용자 메인 대시보드 2열 분할 레이아웃(좌: 수강강좌 및 대관 내역/우: 공지 및 학습관 안내 서비스) -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <!-- 좌측 영역 -->
-    <div class="lg:col-span-2 space-y-8">
-      <!-- 학습자 강의실 디자인 기본 설계 -->
-      <div class="pb-3 border-b border-stone-200 flex items-center justify-between">
-        <div>
-          <h2 class="font-bold text-2xl text-stone-900 tracking-tight">나의 수강목록</h2>
-          <p class="text-stone-500 mt-0.5 text-sm">
-            <strong class="text-emerald-700 font-semibold"><%= current_user.name %></strong> 학습자님, 오늘도 배움을 통해 한 걸음 성장해 보세요.
-          </p>
-        </div>
-      </div>
-
-      <!-- 대관 신청 내역 및 안내 퀵 카드 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm flex items-center justify-between hover:border-emerald-300 transition duration-200">
-          <div class="flex items-center gap-3.5">
-            <span class="text-2xl p-2.5 bg-emerald-50 rounded-lg border border-emerald-100">📋</span>
-          </div>
-            <h3 class="font-bold text-stone-900 text-base">나의 대관 신청 내역</h3>
-            <p class="text-stone-500 text-xs mt-0.5">신청하신 시설의 승인 상태와 이용 예약을 확인합니다.</p>
-        </div>
-      </div>
-      <%= link_to "내역 보기", facility_reservations_path,
-          class: "shrink-0 px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-lg shadow-sm transition duration-200"
-      %>
-    </div>
-
-    <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm flex items-center justify-between hover:border-emerald-300 transition duration-200">
-      <div class="flex items-center gap-3.5">
-        <span class="text-2xl p-2.5 bg-stone-100 rounded-lg border border-stone-200">🏛️</span>
-        <div>
-          <h3 class="font-bold text-stone-900 text-base">대관 시설 안내 & 신청</h3>
-          <p class="text-stone-500 text-xs mt-0.5">학습관 내 강의실 및 세미나실 대관을 신청합니다.</p>
-        </div>
-      </div>
-      <%= link_to "시설 둘러보기", facilities_path,
-          class: "shrink-0 px-4 py-2 bg-stone-800 hover:bg-stone-900 text-white font-bold text-xs rounded-lg shadow-sm transition duration-200"
-      %>
-    </div>
-  </div>
-
-  <% if @enrolled_courses.empty? %>
-    <!-- 전체 강좌 보러가기 디자인 및 링크 -->
-    <div class="text-center py-16 bg-stone-50 rounded-2xl border border-stone-200 border-dashed max-w-2xl mx-auto">
-      <span class="text-5xl block mb-4">📖</span>
-      <p class="text-xl text-stone-600 font-semibold">현재 수강 중인 강좌가 없습니다.</p>
-      <p class="text-stone-400 mt-2 text-sm mb-6">시민들을 위해 준비된 다양하고 유익한 평생교육 과정을 만나보세요.</p>
-      <%= link_to "전체 강좌 보러가기", courses_path,
-          class: "inline-block rounded-xl px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-base shadow-sm transition duration-200"
-      %>
-    </div>
-  <% else %>
-    <div class="flex justify-between items-center">
-      <span class="text-stone-600 font-medium text-sm">
-        총 <strong class="text-emerald-700 font-bold"><%= @enrolled_courses.count %>개</strong>의 강좌를 수강하고 있습니다.
-      </span>
-      <%= link_to "추가 강좌 신청하기", courses_path,
-          class: "text-sm text-emerald-700 hover:text-emerald-900 font-semibold transition"
-      %>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <% @enrolled_courses.each do |course| %>
-        <div class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition duration-200">
+  <!-- 이용자 메인 대시보드 2열 분할 레이아웃 -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+    
+    <!-- 좌측 영역 (2/3) -->
+    <div class="lg:col-span-2 flex flex-col justify-between space-y-6">
+      <div class="space-y-6">
+        <!-- 학습자 강의실 타이틀 -->
+        <div class="pb-3 border-b border-stone-200 flex items-center justify-between">
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="inline-block bg-stone-100 text-stone-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-                <%= course.category&.name || "일반 분류" %>
-              </span>
-              <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-md border border-emerald-200">
-                수강 중
-              </span>
-            </div>
-            <h3 class="font-bold text-lg text-stone-900 mb-2 truncate">
-              <% course.title %>
-            </h3>
-            <p class="text-stone-600 text-sm mb-2">
-              <strong>담당 강사:</strong> <%= course.display_instructor_name %> 강사님
-            </p>
-            <p class="text-stone-500 text-xs line-clamp-2 mb-4 leading-relaxed">
-              <%= course.description %>
+            <h2 class="font-bold text-2xl text-stone-900 tracking-tight">나의 수강목록</h2>
+            <p class="text-stone-500 mt-0.5 text-sm">
+              <strong class="text-emerald-700 font-semibold"><%= current_user.name %></strong> 학습자님, 오늘도 배움을 통해 한 걸음 성장해 보세요.
             </p>
           </div>
+        </div>
 
-          <div class="mt-4 pt-4 border-t border-stone-100">
-            <div class="flex items-center justify-between mb-4 text-xs text-stone-500">
-              <span>정원 대비 신청인원</span>
-              <span><strong class="text-stone-800 font-semibold"><%= course.registrations.count %></strong> / <%= course.capacity %>명</span>
+        <!-- 대관 신청 내역 및 안내 퀵 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 대관 신청 내역 -->
+          <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex flex-col justify-between hover:border-emerald-300 transition duration-200">
+            <div class="flex items-start gap-3.5 mb-4">
+              <span class="text-2xl p-2.5 bg-emerald-50 rounded-xl border border-emerald-100 shrink-0">📋</span>
+              <div class="min-w-0 flex-1">
+                <h3 class="font-bold text-stone-900 text-base leading-snug">나의 대관 신청 내역</h3>
+                <p class="text-stone-500 text-xs mt-1 leading-relaxed">신청하신 시설의 승인 상태와 이용 예약을 확인합니다.</p>
+              </div>
             </div>
-            <div class="grid grid-cols-2 gap-2">
-              <%= link_to "강의실 입장", course,
-                  class: "rounded-lg py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-center text-xs border border-emerald-200 transition"
-              %>
-              <%= link_to "수강 취소", course_registration_path(course_id: course.id, id: :current),
-                  date: {turbo_method: :delete, turbo_confirm: "정말로 이 강좌의 수강신청을 취소하시겠습니까?"},
-                  class: "rounded-lg py-2 bg-stone-50 hover:bg-stone-200 text-stone-700 font-medium text-center text-xs border border-stone-200 transition"
-              %>
+            <div class="pt-3 border-t border-stone-100 flex justify-end">
+              <%= link_to "내역 보기", facility_reservations_path, 
+                  class: "px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-sm transition duration-200" %>
+            </div>
+          </div>
+
+          <!-- 대관 시설 안내 및 신청 -->
+          <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex flex-col justify-between hover:border-emerald-300 transition duration-200">
+            <div class="flex items-start gap-3.5 mb-4">
+              <span class="text-2xl p-2.5 bg-stone-100 rounded-xl border border-stone-200 shrink-0">🏛️</span>
+              <div class="min-w-0 flex-1">
+                <h3 class="font-bold text-stone-900 text-base leading-snug">대관 시설 안내 & 신청</h3>
+                <p class="text-stone-500 text-xs mt-1 leading-relaxed">학습관 내 강의실 및 세미나실 대관을 신청합니다.</p>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-stone-100 flex justify-end">
+              <%= link_to "시설 둘러보기", facilities_path, 
+                  class: "px-4 py-2 bg-stone-800 hover:bg-stone-900 text-white font-bold text-xs rounded-xl shadow-sm transition duration-200" %>
             </div>
           </div>
         </div>
-      <% end %>
-    </div>
-  <% end %>
 
-  <!-- 이용자의 평생학습관 학습 일정 컴포넌트 -->
-  <div class="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
-    <div class="flex items-center justify-between pb-4 border-b border-stone-100 mb-4">
-      <h3 class="font-bold text-stone-900 text-base flex items-center gap-2">
-        <span>📅</span> 나의 학습 일정
-      </h3>
-      <span class="text-stone-400 text-xs"><%= Time.zone.now.strftime('%Y.%m.%d') %> 기준</span>
-    </div>
-    <p class="text-stone-500 text-xs py-4 text-center">
-      신청하신 강좌 및 동아리 활동 일정이 정상적으로 반영되어 있습니다.
-    </p>
-  </div>
-</div>
+        <% if @enrolled_courses.empty? %>
+          <!-- [수정됨]: max-w-2xl 제거하여 가로 길이를 나의 학습 일정 카드와 일치시킴 -->
+          <div class="w-full text-center py-12 px-6 bg-stone-50 rounded-2xl border border-stone-200 border-dashed">
+            <span class="text-5xl block mb-3">📖</span>
+            <p class="text-xl text-stone-700 font-bold">현재 수강 중인 강좌가 없습니다.</p>
+            <p class="text-stone-500 mt-1 text-sm mb-6">시민들을 위해 준비된 다양하고 유익한 평생교육 과정을 만나보세요.</p>
+            <%= link_to "전체 강좌 보러가기", courses_path,
+                class: "inline-block rounded-xl px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm shadow-sm transition duration-200"
+            %>
+          </div>
+        <% else %>
+          <div class="flex justify-between items-center">
+            <span class="text-stone-600 font-medium text-sm">
+              총 <strong class="text-emerald-700 font-bold"><%= @enrolled_courses.count %>개</strong>의 강좌를 수강하고 있습니다.
+            </span>
+            <%= link_to "추가 강좌 신청하기", courses_path,
+                class: "text-sm text-emerald-700 hover:text-emerald-900 font-semibold transition"
+            %>
+          </div>
 
-<!-- 우측 영역 -->
-<div class="space-y-6">
-  <!-- 평생학습관 알림 및 공지사항 -->
-  <div class="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
-    <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
-      <h3 class="font-bold text-stone-900 text-base">평생학습관 공지사항</h3>
-      <%= link_to "전체보기>", notices_path,
-          class: "text-xs font-semibold text-emerald-700 hover:text-emerald-900"
-      %>
-    </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <% @enrolled_courses.each do |course| %>
+              <div class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition duration-200">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="inline-block bg-stone-100 text-stone-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                      <%= course.category&.name || "일반 분류" %>
+                    </span>
+                    <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-md border border-emerald-200">
+                      수강 중
+                    </span>
+                  </div>
+                  <h3 class="font-bold text-lg text-stone-900 mb-2 truncate">
+                    <%= course.title %>
+                  </h3>
+                  <p class="text-stone-600 text-sm mb-2">
+                    <strong>담당 강사:</strong> <%= course.display_instructor_name %> 강사님
+                  </p>
+                  <p class="text-stone-500 text-xs line-clamp-2 mb-4 leading-relaxed">
+                    <%= course.description %>
+                  </p>
+                </div>
 
-    <!-- 공지 분류 탭 -->
-    <div class="flex items-center gap-1 border-b border-stone-200 pb-2 mb-4 text-xs font-medium overflow-x-auto">
-      <span class="px-2.5 py-1 text-emerald-800 font-bold border-b-2 border-emerald-600 whitespace-nowrap">전체</span>
-      <span class="px-2.5 py-1 text-stone-500 hover:text-stone-800 whitespace-nowrap">모집안내</span>
-      <span class="px-2.5 py-1 text-stone-500 hover:text-stone-800 whitespace-nowrap">시설/대관</span>
-      <span class="px-2.5 py-1 text-stone-500 hover:text-stone-800 whitespace-nowrap">행사/소식</span>
-    </div>
-
-    <!-- 공지글 목록 -->
-    <div class="space-y-3">
-      <% [
-        ["2026년 여름학기 디지털 배움터 1:1 맞춤형 교육 수강생 모집", "2026.08.17"],
-        ["평생학습관 개관 5주년 기념 '지역 주민 힐링 콘서트' 개최", "2026.08.17"],
-        ["8월 중 세미나실 및 다목적 강의실 무료 대관 신청 안내", "2026.08.17"],
-        ["2026 시민 인문학 특강: 'AI 시대, 인간의 지혜를 묻다.'", "2026.08.17"],
-        ["시니어 맞춤형 실용 영어회화 주말반 추가 수강생 모집", "2026.08.17"]
-      ].each do |title, date|
-      %>
-        <%= link_to notices_path,
-            class: "block p-2.5 rounded-lg hover:bg-stone-50 transition border border-transparent hover:border-stone-200" do
-        %>
-          <p class="text-xs text-stone-800 font-medium truncate mb-1"><%= title %></p>
-          <span class="text-[10px] text-stone-400 block"><%= date %></span>
+                <div class="mt-4 pt-4 border-t border-stone-100">
+                  <div class="flex items-center justify-between mb-4 text-xs text-stone-500">
+                    <span>정원 대비 신청인원</span>
+                    <span><strong class="text-stone-800 font-semibold"><%= course.registrations.count %></strong> / <%= course.capacity %>명</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <%= link_to "강의실 입장", course,
+                        class: "rounded-lg py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-center text-xs border border-emerald-200 transition"
+                    %>
+                    <%= link_to "수강 취소", course_registration_path(course_id: course.id, id: :current),
+                        data: { turbo_method: :delete, turbo_confirm: "정말로 이 강좌의 수강신청을 취소하시겠습니까?" },
+                        class: "rounded-lg py-2 bg-stone-50 hover:bg-stone-200 text-stone-700 font-medium text-center text-xs border border-stone-200 transition"
+                    %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         <% end %>
-      <% end %>
-    </div>
-  </div>
+      </div>
 
-  <!-- 학습관 원스톱 이용 안내 및 콜센터 -->
-  <div class="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm space-y-3">
-    <h3 class="font-bold text-stone-900 text-base mb-2">롱라이프 학습지원 서비스</h3>
-    <!-- 해당 안내로 이동 -->
-    <div class="grid grid-cols-2 gap-2 text-center text-xs">
-      <%= link_to "수강안내", guides_path,
-          class: "p-3 bg-stone-50 hover:bg-emerald-50 hover:text-emerald-800 border border-stone-200 rounded-xl font-medium text-stone-700 transition"
-      %>
-      <%= link_to "시설안내", facilities_path,
-          class: "p-3 bg-stone-50 hover:bg-emerald-50 hover:text-emerald-800 border border-stone-200 rounded-xl font-medium text-stone-700 transition"
-      %>
-      <%= link_to "학습동아리", clubs_path,
-          class: "p-3 bg-stone-50 hover:bg-emerald-50 hover:text-emerald-800 border border-stone-200 rounded-xl font-medium text-stone-700 transition"
-      %>
-      <%= link_to "깅사소개", instructors_path,
-          class: "p-3 bg-stone-50 hover:bg-emerald-50 hover:text-emerald-800 border border-stone-200 rounded-xl font-medium text-stone-700 transition"
-      %>
+      <!-- 이용자의 평생학습관 학습 일정 컴포넌트 -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
+        <div class="flex items-center justify-between pb-4 border-b border-stone-100 mb-4">
+          <h3 class="font-bold text-stone-900 text-base flex items-center gap-2">
+            <span>📅</span> 나의 학습 일정
+          </h3>
+          <span class="text-stone-400 text-xs"><%= Time.zone.now.strftime('%Y.%m.%d') %> 기준</span>
+        </div>
+        <p class="text-stone-500 text-xs py-4 text-center">
+          신청하신 강좌 및 동아리 활동 일정이 정상적으로 반영되어 있습니다.
+        </p>
+      </div>
+
     </div>
 
-    <div class="mt-4 pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-600">
-      <span>학습관 종합 지원실</span>
-      <strong class="text-emerald-700 font-bold text-sm">032-1234-5678</strong>
+    <!-- 우측 영역 (1/3) [수정됨]: flex-col justify-between으로 좌측과 세로 하단 라인을 맞춤 -->
+    <div class="flex flex-col justify-between gap-6">
+      
+      <!-- 평생학습관 알림 및 공지사항 -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+          <h3 class="font-bold text-stone-900 text-base">평생학습관 공지사항</h3>
+          <%= link_to "전체보기>", notices_path,
+              class: "text-xs font-semibold text-emerald-700 hover:text-emerald-900"
+          %>
+        </div>
+
+        <!-- 공지 분류 탭 -->
+        <div class="flex items-center gap-1 border-b border-stone-200 pb-2 mb-4 text-xs font-medium overflow-x-auto">
+          <span class="px-2.5 py-1 text-emerald-800 font-bold border-b-2 border-emerald-600 whitespace-nowrap">전체</span>
+          <span class="px-2.5 py-1 text-stone-500 hover:text-stone-800 whitespace-nowrap">모집안내</span>
+          <span class="px-2.5 py-1 text-stone-500 hover:text-stone-800 whitespace-nowrap">시설/대관</span>
+          <span class="px-2.5 py-1 text-stone-500 hover:text-stone-800 whitespace-nowrap">행사/소식</span>
+        </div>
+
+        <!-- 공지글 목록 -->
+        <div class="space-y-3">
+          <% [
+            ["2026년 여름학기 디지털 배움터 1:1 맞춤형 교육 수강생 모집", "2026.08.17"],
+            ["평생학습관 개관 5주년 기념 '지역 주민 힐링 콘서트' 개최", "2026.08.17"],
+            ["8월 중 세미나실 및 다목적 강의실 무료 대관 신청 안내", "2026.08.17"],
+            ["2026 시민 인문학 특강: 'AI 시대, 인간의 지혜를 묻다.'", "2026.08.17"],
+            ["시니어 맞춤형 실용 영어회화 주말반 추가 수강생 모집", "2026.08.17"]
+          ].each do |title, date|
+          %>
+            <%= link_to notices_path,
+                class: "block p-2.5 rounded-lg hover:bg-stone-50 transition border border-transparent hover:border-stone-200" do
+            %>
+              <p class="text-xs text-stone-800 font-medium truncate mb-1"><%= title %></p>
+              <span class="text-[10px] text-stone-400 block"><%= date %></span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- 학습관 원스톱 이용 안내 및 콜센터 -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm space-y-3">
+        <h3 class="font-bold text-stone-900 text-base mb-2">롱라이프 학습지원 서비스</h3>
+        
+        <div class="grid grid-cols-2 gap-2 text-center text-xs">
+          <%= link_to "수강안내", guides_path,
+              class: "p-3 bg-stone-50 hover:bg-emerald-50 hover:text-emerald-800 border border-stone-200 rounded-xl font-medium text-stone-700 transition"
+          %>
+          <%= link_to "시설안내", facilities_path,
+              class: "p-3 bg-stone-50 hover:bg-emerald-50 hover:text-emerald-800 border border-stone-200 rounded-xl font-medium text-stone-700 transition"
+          %>
+          <%= link_to "학습동아리", clubs_path,
+              class: "p-3 bg-stone-50 hover:bg-emerald-50 hover:text-emerald-800 border border-stone-200 rounded-xl font-medium text-stone-700 transition"
+          %>
+          <%= link_to "강사소개", instructors_path,
+              class: "p-3 bg-stone-50 hover:bg-emerald-50 hover:text-emerald-800 border border-stone-200 rounded-xl font-medium text-stone-700 transition"
+          %>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-600">
+          <span>학습관 종합 지원실</span>
+          <strong class="text-emerald-700 font-bold text-sm">032-1234-5678</strong>
+        </div>
+      </div>
+
     </div>
+
   </div>
+
 </div>
