@@ -12,6 +12,7 @@ class ClubsController < ApplicationController
     end
     # 동아리명 및 동아리 설명 검색어 조건 추가
     if params[:query].present?
+      query = "%#{params[:query]}"
       @clubs = @clubs.where("name LIKE ? OR description LIKe ?", query_param, query_param)
     end
   end
@@ -33,10 +34,17 @@ class ClubsController < ApplicationController
 
   def create
     @club = Club.new(club_params)
+    # current_user 세션 연관 관계 할당
+    if respond_to?(:current_user) && current_user
+      @club = current_user.clubs.build(club_params)
+    else
+      @club = Club.new(club_params)
+    end
+
     if @club.save
       redirect_to clubs_path, notice: "학습동아리가 성공적으로 개설 신청되었습니다."
     else
-      render :new, status: :unpeocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -47,7 +55,7 @@ class ClubsController < ApplicationController
     if @club.update(club_params)
       redirect_to club_path(@club), notice: "동아리 정보가 수정되었습니다."
     else
-      render :edit, status: :unpeocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
 

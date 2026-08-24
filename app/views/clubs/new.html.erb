@@ -1,4 +1,88 @@
-<div>
-  <h1 class="font-bold text-4xl">Clubs#new</h1>
-  <p>Find me in app/views/clubs/new.html.erb</p>
+<% content_for :title, "동아리 개설 신청" %>
+
+<!-- 상단 헤더(학습동아리 개설) -->
+<div class="w-full bg-stone-100 border-b border-stone-200 py-10 px-6">
+  <div class="max-w-3xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="font-bold text-2xl text-stone-900 m-0">🤝 학습동아리 개설 신청</h1>
+      <p class="text-stone-500 text-sm mt-1.5">지역사회 구성원과 함께 성장할 학습동아리를 신청하세요.</p>
+    </div>
+    <%= link_to clubs_path,
+        class: "inline-flex items-center gap-1.5 text-stone-600 hover:text-stone-900 font-medium text-xs transition" do
+    %>
+      ← 목록으로 돌아가기
+    <% end %>
+  </div>
+</div>
+
+<!-- 개설 신청 -->
+<div class="max-w-3xl mx-auto py-10 px-6">
+  <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+    <%= form_with(model: @club, local: true, class: "space-y-6") do |f| %>
+      <!-- 유효성 검증 에러 메시지 -->
+      <% if @club.errors.any? %>
+        <div class="p-4 bg-stone-100 border border-stone-300 rounded-xl text-stone-800 text-xs space-y-1">
+          <p class="font-bold text-emerald-800">⚠️ 입력 내용을 확인해 주세요(<%= @club.errors.count %>개의 오류):</p>
+          <ul class="list-disc list-inside space-y-0.5 text-stone-600">
+            <% @club.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- 동아리명 -->
+      <div>
+        <%= f.label :name, "동아리명", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+        <%= f.text_field :name, placeholder: "인공지능 코딩 연구회",
+            class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition"
+        %>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- 카테고리 -->
+        <div>
+          <%= f.label :category, "분야/카테고리", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+          <%= f.select :category, options_for_select(["전체", "실용/취미", "인문/교양", "IT/디지털", "문화/예술", "언어/어학", "시민/교양"]),
+              { include_blank: "카테고리 선택" },
+              class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition"
+          %>
+        </div>
+
+        <!-- 학습동아리 대표자 성명 -->
+        <div>
+          <%= f.label :leader_name, "대표자 성명", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+          <%= f.text_field :leader_name, value: @club.leader_name || (current_user.respond_to?(:name) ? current_user.name : ""), placeholder: "대표자 이름",
+              class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition"
+          %>
+        </div>
+      </div>
+
+      <!-- 모집 정원 -->
+      <div>
+        <%= f.label :max_members, "모집 정원(명)", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+        <%= f.number_field :max_members, min:2, max: 100, value: @club.max_members || 10,
+            class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition"
+        %>
+      </div>
+
+      <!-- 동아리 소개 -->
+      <div>
+        <%= f.label :description, "동아리 소개 및 활동 계획", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+        <%= f.text_area :description, rows: 5, placeholder: "동아리의 주요 활동 목적, 정기 모임 일정 등을 상세하게 입력해 주세요.",
+            class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition"
+        %>
+      </div>
+
+      <!-- 하단 버튼 영역 -->
+      <div class="pt-4 border-t border-stone-100 flex items-center justify-end gap-3">
+        <%= link_to "취소", clubs_path,
+            class: "px-5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-xs rounded-xl transition"
+        %>
+        <%= f.submit "개설 신청 제출",
+            class: "px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer"
+        %>
+      </div>
+    <% end %>
+  </div>
 </div>

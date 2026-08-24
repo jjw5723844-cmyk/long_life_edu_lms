@@ -1,4 +1,83 @@
-<div>
-  <h1 class="font-bold text-4xl">Clubs#edit</h1>
-  <p>Find me in app/views/clubs/edit.html.erb</p>
+<% content_for :title, "동아리 정보 수정" %>
+
+<!-- 상단 헤더 영역 -->
+<div class="w-full bg-stone-100 border-b border-stone-200 py-10 px-6">
+  <div class="max-w-3xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="font-bold text-2xl text-stone-900 m-0">✏️ 동아리 정보 수정</h1>
+      <p class="text-stone-500 text-sm mt-1.5"><%= @club.name %> 동아리의 상세 정보 및 모임 계획을 수정합니다.</p>
+    </div>
+    <%= link_to club_path(@club),
+        class: "inline-flex items-center gap-1.5 text-stone-600 hover:text-stone-900 font-medium text-xs transition" do
+    %>
+      ← 상세보기로 돌아가기
+    <% end %>
+  </div>
+</div>
+
+<!-- 정보 수정 -->
+<div class="max-w-3xl mx-auto py-10 px-6">
+  <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+    <%= form_with(model: @club, local: true, class: "space-y-6") do |f| %>
+      <!-- 유효성 검증 에러 메시지 -->
+      <% if @club.errors.any? %>
+        <div class="p-4 bg-stone-100 border border-stone-300 rounded-xl text-stone-800 text-xs space-y-1">
+          <p class="font-bold text-emerald-800">⚠️ 입력 내용을 확인해 주세요(<%= @club.errors.count %>개의 오류):</p>
+          <ul class="list-disc list-inside space-y-0.5 text-stone-600">
+            <% @club.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- 동아리명 -->
+      <div>
+        <%= f.label :name, "동아리명", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+        <%= f.text_field :name, 
+            class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition" %>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- 카테고리 -->
+        <div>
+          <%= f.label :category, "분야/카테고리", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+          <%= f.select :category, options_for_select(["전체", "실용/취미", "인문/교양", "IT/디지털", "문화/예술", "언어/어학", "시민/교양"], @club.category), 
+              { include_blank: "카테고리 선택" }, 
+              class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition" %>
+        </div>
+
+        <!-- 대표자 성명 -->
+        <div>
+          <%= f.label :leader_name, "대표자 성명", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+          <%= f.text_field :leader_name, 
+              class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition" %>
+        </div>
+      </div>
+
+      <!-- 모집 정원 -->
+      <div>
+        <%= f.label :max_members, "모집 정원 (명)", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+        <%= f.number_field :max_members, min: 2, max: 100,
+            class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition" %>
+      </div>
+
+      <!-- 동아리 소개 -->
+      <div>
+        <%= f.label :description, "동아리 소개 및 활동 계획", class: "block text-xs font-bold text-stone-700 mb-1.5" %>
+        <%= f.text_area :description, rows: 5, 
+            class: "w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition" %>
+      </div>
+
+      <!-- 하단 버튼 영역 -->
+      <div class="pt-4 border-t border-stone-100 flex items-center justify-end gap-3">
+        <%= link_to "취소", club_path(@club),
+            class: "px-5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-xs rounded-xl transition"
+        %>
+        <%= f.submit "수정 완료",
+            class: "px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer"
+        %>
+      </div>
+    <% end %>
+  </div>
 </div>

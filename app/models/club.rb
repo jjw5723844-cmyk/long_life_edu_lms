@@ -7,7 +7,7 @@ class Club < ApplicationRecord
   enum :status, { pending: 0, approved: 1, rejected: 2 }, default: :pending
 
   # 동아리명 필수 및 중복 검증
-  validates :name, presence: true, uniqueness: { messagg: "이미 존재하는 동아리명입니다." }
+  validates :name, presence: true, uniqueness: { message: "이미 존재하는 동아리명입니다." }
 
   # 승인 대기 중인 동아리 조회를 위한 scope
   scope :waiting_approval, -> { where(status: :pending).order(created_at: :asc) }

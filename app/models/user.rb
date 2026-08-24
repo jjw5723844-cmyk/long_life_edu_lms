@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :enrolled_courses, through: :registrations, source: :course
   # 진도율 트래킹(학습자별 개별 강의 수강 상태 기록)을 위한 User와 LessonProgress 간의 관계를 선언
   has_many :lesson_progresses, dependent: :destroy
+  # 학습동아리 개설 및 관리를 위해 User와 Club 간의 1:N 연관 관계 선언
+  has_many :clubs, dependent: :destroy
 
   # 3. 강사 프로필 설정
   has_one :instructor_profile, dependent: :destroy
