@@ -1,8 +1,8 @@
 class ClubsController < ApplicationController
   # 비로그인 일반 사이트 이용자도 동아리 목록과 상세 정보는 로그인 없이 볼 수 있도록 설정
-  allow_unauthenticated_access only: [:index, :show, :gallery]
+  allow_unauthenticated_access only: [ :index, :show, :gallery ]
 
-  before_action :set_club, only: [:show, :edit, :update, :destroy, :join]
+  before_action :set_club, only: [ :show, :edit, :update, :destroy, :join ]
 
   def index
     @clubs = Club.all.order(created_at: :desc)
