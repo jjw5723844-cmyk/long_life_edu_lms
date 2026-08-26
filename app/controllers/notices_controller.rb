@@ -1,7 +1,7 @@
 class NoticesController < ApplicationController
   # 공지사항 목록(index)과 상세 내용(show)은 로그인 없이 누구나 조회 가능하도록 설정
   skip_before_action :require_authentication, only: [ :index, :show ], raise: false
-  before_action :set_notice, only: [:show]
+  before_action :set_notice, only: [ :show ]
 
   # 공지사항 목록 페이지
   def index

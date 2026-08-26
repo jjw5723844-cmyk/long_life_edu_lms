@@ -1,5 +1,5 @@
 class FacilityReservationsController < ApplicationController
-  before_action :set_facility, only: [:new, :create]
+  before_action :set_facility, only: [ :new, :create ]
 
   def new
     @reservation = @facility.facility_reservations.build(reservation_params)

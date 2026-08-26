@@ -9,7 +9,7 @@ class InstructorProfile < ApplicationRecord
   validates :user_id, uniqueness: { message: "이미 강사 프로필이 존재합니다." }
 
   # 출강 강사 조회를 위한 scope
-  scope :active_instructors, -> { joins(:user).where(user: { role: :teacher}) }
+  scope :active_instructors, -> { joins(:user).where(user: { role: :teacher }) }
 
   # 뷰, 컨트롤러에서 호출하는 grade 메서드
   def grade

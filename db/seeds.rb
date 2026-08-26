@@ -2,7 +2,7 @@ puts "==== 테스트 유저 데이터 생성 시작 ===="
 
 # 외래키 제약조건 오류를 방지하기 위해 자식 테이블부터 부모 테이블 순으로 삭제 순서 정리
 LessonProgress.destroy_all rescue nil # 레슨 진행률 데이터 삭제
-Lesson.destroy_all rescue nil # [추가됨]: 레슨 데이터 삭제
+Lesson.destroy_all rescue nil # 레슨 데이터 삭제
 CourseRegistration.destroy_all rescue nil # 수강신청 데이터 삭제
 CourseReview.destroy_all rescue nil # 수강후기 데이터 삭제
 InstructorPayroll.destroy_all rescue nil # 강사 수당 데이터 삭제
@@ -22,11 +22,11 @@ User.destroy_all rescue nil
 Category.destroy_all rescue nil
 
 # 강의 카테고리 생성
-default_category = Category.find_or_create_by!(name: "실용/취미교육") # [수정됨]: 중복 생성 방지를 위해 find_or_create_by! 사용
+default_category = Category.find_or_create_by!(name: "실용/취미교육") #  중복 생성 방지를 위해 find_or_create_by! 사용
 puts "-> 기본 카테고리 생성 완료 (실용/취미교육)"
 
 # 1. 학습자 계정
-student_user = User.find_or_initialize_by(email_address: "student@test.com") # [수정됨]: 이메일 기준 기존 유저 조회 또는 초기화
+student_user = User.find_or_initialize_by(email_address: "student@test.com") # 이메일 기준 기존 유저 조회 또는 초기화
 student_user.update!(
   password: "password123",
   role: :student,
@@ -35,14 +35,14 @@ student_user.update!(
 puts "-> 학생 계정 생성 완료 (student@test.com / password123)"
 
 # 2. 강사 계정 (오맹달)
-teacher_user = User.find_or_initialize_by(email_address: "teacher@test.com") # [수정됨]: 이메일 기준 기존 유저 조회 또는 초기화
+teacher_user = User.find_or_initialize_by(email_address: "teacher@test.com") # 이메일 기준 기존 유저 조회 또는 초기화
 teacher_user.update!(
   password: "password456",
   role: :teacher,
   name: "오맹달"
 )
 
-inst_prof1 = InstructorProfile.find_or_initialize_by(user: teacher_user) # [수정됨]: 기존 프로필 조회 또는 초기화
+inst_prof1 = InstructorProfile.find_or_initialize_by(user: teacher_user) #  기존 프로필 조회 또는 초기화
 inst_prof1.update!(
   specialty: "문화/취미 예술 전문",
   bio: "오맹달 강사는 다양한 문화와 취미 예술 분야에서 풍부한 경험을 가지고 있으며, 학습자들에게 창의적이고 실용적인 교육을 제공하는 것을 목표로 합니다."
@@ -50,20 +50,20 @@ inst_prof1.update!(
 puts "-> 강사 계정 및 프로필 생성 완료 (오맹달 강사)"
 
 # 3. 천마이클잭슨 강사 계정, 프로필 및 강좌
-cheon_user = User.find_or_initialize_by(email_address: "michael@test.com") # [수정됨]: 이메일 기준 기존 유저 조회 또는 초기화
+cheon_user = User.find_or_initialize_by(email_address: "michael@test.com") # 이메일 기준 기존 유저 조회 또는 초기화
 cheon_user.update!(
   password: "password123",
   role: :teacher,
   name: "천마이클잭슨"
 )
 
-inst_prof2 = InstructorProfile.find_or_initialize_by(user: cheon_user) # [수정됨]: 기존 프로필 조회 또는 초기화
+inst_prof2 = InstructorProfile.find_or_initialize_by(user: cheon_user) # 기존 프로필 조회 또는 초기화
 inst_prof2.update!(
   specialty: "80-90 팝송 및 보컬 트레이닝",
   bio: "80-90년대 레트로 팝송과 발성을 쉽고 재미있게 지도하는 20년 경력의 보컬 트레이너입니다."
 )
 
-cheon_course = Course.find_or_initialize_by(title: "80-90 추억의 팝송 여행") # [수정됨]: 기존 강좌 조회 또는 초기화
+cheon_course = Course.find_or_initialize_by(title: "80-90 추억의 팝송 여행") # 기존 강좌 조회 또는 초기화
 cheon_course.update!(
   description: "40대 이상 성인을 위한 레트로 팝송과 함께하는 추억 여행 강좌입니다.",
   category: default_category,
@@ -74,7 +74,7 @@ cheon_course.update!(
 puts "-> 강사 및 강좌 생성 완료 (천마이클잭슨 / 80-90 추억의 팝송 여행)"
 
 # 4. 운영관리자 계정
-admin_user = User.find_or_initialize_by(email_address: "admin@test.com") # [수정됨]: 이메일 기준 기존 유저 조회 또는 초기화
+admin_user = User.find_or_initialize_by(email_address: "admin@test.com") # 이메일 기준 기존 유저 조회 또는 초기화
 admin_user.update!(
   password: "password789",
   role: :admin,
