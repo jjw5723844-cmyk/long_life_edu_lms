@@ -1,7 +1,8 @@
 class NoticesController < ApplicationController
   # 공지사항 목록(index)과 상세 내용(show)은 로그인 없이 누구나 조회 가능하도록 설정
   skip_before_action :require_authentication, only: [ :index, :show ], raise: false
-  before_action :set_notice, only: [ :show ]
+  before_action :set_notice, only: [ :show, :edit, :update, :destroy ]
+  before_action :ensure_admin!, only: [ :new, :create, :edit, :update, :destroy ]
 
   # 공지사항 목록 페이지
   def index
@@ -18,9 +19,52 @@ class NoticesController < ApplicationController
     @notice.increment!(:view_count)
   end
 
+  # 공지사항 작성 페이지
+  def new
+    @notice = Notice.new
+  end
+
+  # 공지사항 DB 저장 처리
+  def create
+    @notice = Notice.new(notice_params)
+    if @notice.save
+      redirect_to notice_path(@notice), notice: "공지사항이 성공적으로 등록되었습니다."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  # 공지사항 수정 페이지
+  def edit
+  end
+
+  # 공지사항 수정 처리
+  def update
+    if @notice.update(notice_params)
+      redirect_to notice_path(@notice), notice: "공지사항이 성공적으로 수정되었습니다."
+    end
+  end
+
+  def destroy
+    @notice.destroy
+    redirect_to notices_path, notice: "공지사항이 성공적으로 삭제되었습니다."
+  end
+
   private
 
   def set_notice
     @notice = Notice.find(params[:id])
+  end
+
+  # 공지사항 파라미터 허용 설정
+  def notice_params
+    params.require(:notice).permit(:title, :content, :is_pinned)
+  end
+
+  # 관리자 권한 접근 제한
+  def ensure_admin!
+    unless respond_to?(:current_user) && current_user&.admin?
+      redirect_to notices_path, alert: "관리자 권한이 필요합니다."
+    end
   end
 end

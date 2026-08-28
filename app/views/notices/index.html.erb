@@ -82,16 +82,16 @@
             </tr>
           <% else %>
             <% @notices.each_with_index do |notice, index| %>
-              <tr class="hover:bg-stone-50/80 transition-colors <%= 'bg-amber-50/70' if notice.is_pinned %>">
+              <tr class="hover:bg-stone-50/80 transition-colors <%= 'bg-emerald-50/60' if notice.is_pinned %>">
                 <!-- 번호 / [중요] 표시 -->
-                <td class="py-4 px-5 text-center <%= notice.is_pinned ? 'text-amber-700 font-bold' : 'text-stone-400 text-xs' %>">
+                <td class="py-4 px-5 text-center <%= notice.is_pinned ? 'text-emerald-700 font-bold' : 'text-stone-400 text-xs' %>">
                   <%= notice.is_pinned ? "[중요]" : (@notices.size - index) %>
                 </td>
           
                 <!-- 게시글 제목 및 필독 배지 -->
                 <td class="py-4 px-5 <%= 'font-semibold' if notice.is_pinned %>">
                   <% if notice.is_pinned %>
-                    <span class="inline-block bg-amber-100 text-amber-800 text-[11px] font-bold px-1.5 py-0.5 rounded mr-1.5">필독</span>
+                    <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] font-bold px-1.5 py-0.5 rounded mr-1.5">필독</span>
                   <% end %>
                   <%= link_to notice.title, notice_path(notice),
                       class: "text-stone-900 hover:text-emerald-800 transition-colors font-medium"
