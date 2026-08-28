@@ -295,7 +295,7 @@ Institution.find_or_create_by!(name: "롱라이프 평생학습관") do |inst|
   inst.core_values = "1. 학습자 중심: 학습자의 필요와 관심을 최우선으로 고려한 교육 프로그램 제공\n2. 평생학습 문화 확산: 지역사회 구성원들이 지속적으로 학습할 수 있는 환경 조성\n3. 다양성과 포용성: 다양한 배경과 경험을 가진 학습자들을 위한 포용적인 교육 환경 제공\n4. 혁신과 창의성: 새로운 교육 방법과 기술을 도입하여 창의적이고 혁신적인 학습 경험 제공\n5. 지역사회 기여: 지역사회 발전과 구성원들의 삶의 질 향상에 기여하는 교육 기관으로서의 역할 수행" # [수정됨]: 핵심 가치
 end rescue nil
 
-# 통합 검증 데이터 구축 
+# 통합 검증 데이터 구축
 
 # 1. 수강신청 테스트 데이터
 begin
@@ -363,7 +363,7 @@ end
 
 # 4. 시설 및 대관 예약 테스트 데이터
 begin
-  fac = Facility.find_or_initialize_by(name: "제1세미나실")
+  fac = Facility.find_or_initialize_by(name: "다목적 세미나실")
   fac.update!(
     location: "평생학습관 2층",
     capacity: 30,

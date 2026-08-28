@@ -1,4 +1,81 @@
-<div>
-  <h1 class="font-bold text-4xl">FacilityReservations#index</h1>
-  <p>Find me in app/views/facility_reservations/index.html.erb</p>
+<% content_for :title, "나의 대관 신청 내역" %>
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+  <div lass="border-b border-stone-200 pb-6 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-extrabold text-stone-900">
+        나의 대관 신청 내역
+      </h1>
+      <p class="mt-1 text-sm text-stone-500">
+        신청하신 대관 시설의 승인 현황을 확인하고 관리할 수 있습니다.
+      </p>
+    </div>
+    <%= link_to facilities_path,
+        class: "inline-flex items-center justify-center px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-sm transition" do
+    %>
+      <span>🏛️</span> 시설 목록 보기
+    <% end %>
+  </div>
+
+  <% if @reservations.present? %>
+    <div>
+      <% @reservations.each do |reservation| %>
+        <div class="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:border-emerald-600 transition">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <% if reservation.approved? %>
+                <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-md border border-emerald-200">승인완료</span>
+              <% elsif reservation.rejected? %>
+                <span class="px-2.5 py-0.5 bg-stone-200 text-stone-800 text-xs font-bold rounded-md border border-stone-300">신청 반려</span>
+              <% else %>
+                <span class="px-2.5 py-0.5 bg-emerald-50 text-emerald-800 text-xs font-bold rounded-md border border-emerald-200">승인 대기</span>
+              <% end %>
+              <span class="text-xs text-stone-400">신청일: <%= reservation.created_at.strftime("%Y-%m-%d") %></span>
+            </div>
+
+            <h3 class="text-lg font-bold text-stone-900">
+              <%= reservation.facility.name %>
+            </h3>
+
+            <div class="text-xs text-stone-600 flex flex-wrap items-center gap-x-4 gap-y-1">
+              <span>📅 대관일:<strong><%= reservation.reservation_date.strftime("%Y-%m-%d") %></strong></span>
+              <span>⏰ 시간:<strong><%= reservation.start_time %> ~ <%= reservation.end_time %> </strong></span>
+              <span>👥 인원:<strong><%= reservation.headcount %>명</strong></span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <%= link_to facility_reservation_path(reservation),
+                class: "flex-1 sm:flex-none text-center px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold rounded-xl border border-stone-200 transition" do
+            %>
+              상세보기
+            <% end %>
+
+            <% if reservation.status == "승인 대기" %>
+              <%= button_to facility_reservation_path(reservation),
+                  method: :delete,
+                  data: { turbo_confirm: "정말로 대관 신청을 취소하시겠습니까?" },
+                  class: "flex-1 sm:flex-none text-center px-4 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-900 text-xs font-bold rounded-xl transition cursor-pointer" do
+              %>
+                신청 취소
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-16 bg-stone-50 rounded-2xl border border-dashed border-stone-300">
+      <div class="text-4xl mb-3">📄</div>
+      <h3 class="text-lg font-bold text-stone-800 mb-1">대관 신청 내역이 없습니다.</h3>
+      <p class="text-sm text-stone-500 mb-6">필요한 대관 시설을 둘러보고 대관을 신청해 보세요.</p>
+      <%= link_to facilities_path,
+          class: "inline-flex items-center px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-sm transition" do
+      %>
+        대관 시설 보러가기
+      <% end %>
+    </div>
+  <% end %>
+
 </div>

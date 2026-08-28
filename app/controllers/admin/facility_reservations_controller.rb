@@ -4,7 +4,7 @@ module Admin
     before_action :require_authentication
     before_action :ensure_admin!
     # 해당 대상 대관 건수 조회
-    before_action :set_reservation, only: [:approve, :reject]
+    before_action :set_reservation, only: [ :approve, :reject ]
 
     # 대관 승인 대기 및 내역 목록
     def index
@@ -14,13 +14,13 @@ module Admin
 
     # 대관 신청 승인
     def approve
-      @reservation.approve!
+      @reservation.approved!
       redirect_to admin_facility_reservations_path, notice: "시설 대관 신청이 승인되었습니다."
     end
 
     # 대관 신청 반려
     def reject
-      @reservation.reject!
+      @reservation.rejected!
       redirect_to admin_facility_reservations_path, notice: "시설 대관 신청이 반려되었습니다."
     end
 

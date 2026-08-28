@@ -4,7 +4,7 @@
 
   <!-- 대관 신청 목록 돌아가기 버튼(상단) -->
   <div class="mb-6">
-    <%= linlk_to facility_reservations_path,
+    <%= link_to facility_reservations_path,
         class: "inline-flex items-center text-sm font-semibold text-stone-500 hover:text-emerald-700 transition gap-1" do
     %>
       <span>←</span> 나의 대관 신청 목록으로 돌아가기
@@ -32,11 +32,11 @@
       <!-- 상태 표시 배지 -->
       <div>
         <% case @reservation.status %>
-        <% when "승인완료" %>
+        <% when "approved" %>
           <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
             ✅ 대관 승인완료
           </span>
-        <% when "신청 반려" %>
+        <% when "rejected" %>
           <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
             ❌ 대관 신청 반려
           </span>
@@ -86,9 +86,9 @@
       <p class="text-xs text-stone-400">
         * 대관 승인 취소 문의는 평생학습관 운영팀(02-123-4567)으로 연락 바랍니다.
       </p>
-      <% if @reservation.status == "승인 대기" %>
+      <% if @reservation.pending? %>
       <!-- 취소 버튼 -->
-        <%= button_to facility_reservations_path(@reservation),
+        <%= button_to facility_reservation_path(@reservation),
             method: :delete,
             data: {turbo_confirm: "정말로 대관 신청을 취소하시겠습니까?"},
             class: "px-5 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-xl border border-rose-200 transition cursor-pointer" do

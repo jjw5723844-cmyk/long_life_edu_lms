@@ -22,6 +22,8 @@ class User < ApplicationRecord
   has_many :lesson_progresses, dependent: :destroy
   # 학습동아리 개설 및 관리를 위해 User와 Club 간의 1:N 연관 관계 선언
   has_many :clubs, dependent: :destroy
+  # 학습관 이용자의 대관 신청 내역을 조회하기 위해 User와 FacilityReservation 간의 1:N 연관 관계를 선언
+  has_many :facility_reservations, dependent: :destroy
 
   # 3. 강사 프로필 설정
   has_one :instructor_profile, dependent: :destroy
@@ -30,7 +32,7 @@ class User < ApplicationRecord
 
   # 평생학습관의 LMS 수강 강좌 정렬 및 N+1 오류 방지
   def ordered_enrolled_courses
-    enrolled_courses.includs(:category, :registrations, :user).references(:registrations).order("registrations.created_at DESC")
+    enrolled_courses.includes(:category, :registrations, :user).references(:registrations).order("registrations.created_at DESC")
   end
 
   # 평생학습관의 학습자 식별 회원번호 포맷팅 로직

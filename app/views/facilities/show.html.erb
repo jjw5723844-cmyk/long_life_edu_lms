@@ -1,4 +1,60 @@
-<div>
-  <h1 class="font-bold text-4xl">Facilities#show</h1>
-  <p>Find me in app/views/facilities/show.html.erb</p>
+<% content_for :title, "#{@facility.name} - 시설 상세 정보" %>
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+  <!-- 목록으로 돌아가기 -->
+  <div class="mb-6">
+    <%= link_to facilities_path,
+        class: "inline-flex items-center text-sm font-semibold text-stone-500 hover:text-emerald-700 transition gap-1" do
+    %>
+      <span>←</span> 대관 시설 목록으로 돌아가기
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-3xl border border-stone-200 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-8 sm:p-10">
+    <!-- 시설 이미지 -->
+    <div class="bg-stone-100 rounded-2xl h-64 md:h-full min-h-[280px] flex items-center justify-center overflow-hidden border border-stone-200">
+      <% if @facility.image_url.present? %>
+        <img src="<%= @facility.image_url %>" alt="<%= @facility.name %>" class="w-full h-full object-cover">
+      <% else %>
+        <div class="text-center text-stone-400">
+          <span class="text-5xl block mb-2">🏛️</span>
+          <span class="text-xs font-medium">시설 사진 준비 중</span>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- 시설 상세 정보 및 신청 안내 -->
+    <div class="flex flex-col justify-between space-y-6">
+      <div>
+        <div class="text-xs text-emerald-700 font-bold mb-1 flex items-center gap-1">
+          <span>📍</span> <%= @facility.location.presence || "평생학습관 본관" %>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-stone-900 mb-3"><%= @facility.name %></h1>
+        <p class="text-stone-600 text-sm leading-relaxed mb-6"><%= @facility.description %></p>
+
+        <div class="grid grid-cols-2 gap-4 border-t border-b border-stone-100 py-4 text-xs">
+          <div>
+            <span class="text-stone-400 block mb-1 font-medium">최대 수용 인원</span>
+            <strong class="text-stone-800 text-base font-bold">최대 <%= @facility.capacity || 0 %>명</strong>
+          </div>
+          <div>
+            <span class="text-stone-400 block mb-1 font-medium">이용 요금</span>
+            <strong class="text-emerald-700 text-base font-bold">
+              <%= @facility.fee.to_i > 0 ? "#{number_with_delimiter(@facility.fee)}원 / 시간" : "무료(승인제)" %>
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <%= link_to new_facility_facility_reservation_path(@facility),
+            class: "w-full block text-center py-3.5 px-6 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm rounded-xl transition shadow-sm" do
+        %>
+          이 시설 대관 신청하기 📝
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
 </div>
