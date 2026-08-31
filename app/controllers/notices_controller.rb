@@ -6,6 +6,22 @@ class NoticesController < ApplicationController
 
   # 공지사항 목록 페이지
   def index
+    @notices = Notice.all
+    # 카테고리 필터링 처리(전체 또는 미선택 시)
+    if params[:category].present? && params[:category] != "전체"
+      if Notice.column_names.include?("category")
+        @notices = @notices.where(category: params[:category])
+      else
+        @notices = @notices.where("title LIKE :cat OR content LIKE :cat", cat: "%#{params[:category]}")
+      end
+    end
+
+    # 검색어(제목/내용) 필터링 처리
+    if params[:query].present?
+      query_str = "%#{params[:query]}"
+      @notices = @notices.where("title LIKE :q OR content LIKE :q", q: query_str)
+    end
+
     # 중요 공지사항들 중 중요 공지가 먼저 나열되고, 그 다음부터는 최신순으로 정렬하여 데이터를 가져와 페이지에 나타나도록 한다.
     @notices = Notice.order(is_pinned: :desc, created_at: :desc)
   end

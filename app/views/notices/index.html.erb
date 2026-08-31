@@ -26,18 +26,25 @@
 
   <!-- 카테고리 필터 & 검색 바 -->
   <div class="bg-white border border-stone-200 rounded-xl p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-
-    <!-- 카테고리 필터 -->
     <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
-      <button type="button" class="px-3.5 py-1.5 bg-stone-900 text-white font-bold text-xs rounded-lg shadow-sm whitespace-nowrap">전체</button>
-      <button type="button" class="px-3.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-medium text-xs rounded-lg transition whitespace-nowrap">모집안내</button>
-      <button type="button" class="px-3.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-medium text-xs rounded-lg transition whitespace-nowrap">행사/소식</button>
-      <button type="button" class="px-3.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-medium text-xs rounded-lg transition whitespace-nowrap">시설/대관</button>
+      <% 
+        current_cat = params[:category].presence || "전체"
+        categories = ["전체", "모집안내", "행사/소식", "시설/대관"]
+      %>
+      <% categories.each do |cat| %>
+        <% is_active = (current_cat == cat) %>
+        <%= link_to cat, notices_path(category: (cat == "전체" ? nil : cat), query: params[:query]),
+            class: "px-3.5 py-1.5 font-bold text-xs rounded-lg transition whitespace-nowrap #{is_active ? 'bg-stone-900 text-white shadow-sm' : 'bg-stone-100 hover:bg-stone-200 text-stone-700 font-medium'}"
+        %>
+      <% end %>
     </div>
 
     <!-- 검색 입력창 -->
     <div class="w-full sm:w-72">
       <%= form_with url: notices_path, method: :get, class: "relative flex items-center" do |f| %>
+        <% if params[:category].present? %>
+          <%= f.hidden_field :category, value: params[:category] %>
+        <% end %>
         <%= f.text_field :query, value: params[:query], placeholder: "제목 또는 내용 검색...",
             class: "w-full pl-3.5 pr-9 py-2 bg-stone-50 border border-stone-200 rounded-lg text-xs text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition"
         %>
