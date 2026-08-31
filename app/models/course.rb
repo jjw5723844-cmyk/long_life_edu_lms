@@ -8,10 +8,11 @@ class Course < ApplicationRecord
   # 라우트와 컨트롤러에서 구현한 수강 후기 기능이 안전하게 작동하고,
   # 강좌 삭제 시 강좌에 해당하는 관련 후기도 함께 지워지도록 설정
   has_many :course_reviews, dependent: :destroy
-  has_many :registrations, class_name: "CourseRegistration"
+  has_many :registrations, dependent: :destroy, class_name: "CourseRegistration"
   has_many :course_registrations, class_name: "CourseRegistration"
   has_many :students, through: :registrations, source: :user
   has_many :lessons, dependent: :destroy # 강좌와 강의 간 관계 선언
+  has_many :enrolled_users, through: :registrations, source: :user
 
   # 강좌 객체에서 담당 강사의 프로필 정보(@course.instructor_profile)를 User 모델을 거쳐 바로 조회할 수 있도록 연동
   has_one :instructor_profile, through: :user

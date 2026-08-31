@@ -15,9 +15,9 @@ class User < ApplicationRecord
   # 2. 강사의 강좌 개설 권한 정의
   has_many :courses, dependent: :destroy
   # 학생의 수강신청 권한 정의
-  has_many :registrations, dependent: :destroy
+  has_many :course_registrations, dependent: :destroy
   # 등록 대장을 거쳐서 이용자가 최종적으로 수강 중인 강좌 내역 출력
-  has_many :enrolled_courses, through: :registrations, source: :course
+  has_many :enrolled_courses, through: :course_registrations, source: :course
   # 진도율 트래킹(학습자별 개별 강의 수강 상태 기록)을 위한 User와 LessonProgress 간의 관계를 선언
   has_many :lesson_progresses, dependent: :destroy
   # 학습동아리 개설 및 관리를 위해 User와 Club 간의 1:N 연관 관계 선언
@@ -32,7 +32,7 @@ class User < ApplicationRecord
 
   # 평생학습관의 LMS 수강 강좌 정렬 및 N+1 오류 방지
   def ordered_enrolled_courses
-    enrolled_courses.includes(:category, :registrations, :user).references(:registrations).order("registrations.created_at DESC")
+    enrolled_courses.includes(:category, :course_registrations, :user).references(:course_registrations).order("course_registrations.created_at DESC")
   end
 
   # 평생학습관의 학습자 식별 회원번호 포맷팅 로직
