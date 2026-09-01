@@ -80,6 +80,7 @@ rails db:migrate
 rails db:seed
 
 ```
+rails db:seed 명령어를 치시면 만들어두었던 계정 및 테스트 데이터들이 생성됩니다.
 
 ### 4. 서버 실행
 
