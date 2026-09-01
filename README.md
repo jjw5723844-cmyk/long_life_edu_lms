@@ -88,7 +88,7 @@ rails db:seed
 rails tailwindcss:watch
 
 # 메인 터미널에서 Rails 서버 실행
-rails server
+rails server # 짧게 rails s로 쓰셔도 서버가 실행됩니다.
 
 ```
 
