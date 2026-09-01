@@ -59,7 +59,7 @@
 
 ### 1. 저장소 클론
 ```bash
-git clone [https://github.com/본인계정/long-life-edu-lms.git](https://github.com/본인계정/long-life-edu-lms.git)
+git clone https://github.com/jjw5723844-cmyk/long_life_edu_lms.git
 cd long-life-edu-lms
 
 ```
