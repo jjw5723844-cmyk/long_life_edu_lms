@@ -52,6 +52,13 @@
 * **Database:** SQLite3
 * **Version Control:** Git, GitHub
 * **IDE:** Visual Studio Code
+* vscode 확장 프로그램(서버 실행하거나 프로젝트의 코드 내용을 살펴볼때 권장함)
+  - Ruby LSP(Shopify): vscode에서 대표적으로 사용되는 루비 플러그인 확장 프로그램입니다.
+  - Rails Fast Nav(jemmyw): Rails의 수많은 파일들을 빠르게 검색하거나 해당 파일로 이동할 때 유용합니다.
+  - Ruby on Rails(Hridoy): Rails의 각종 기능을 보조해주는 확장프로그램입니다.
+  - Ruby Solargrapt(Castwide): 루비의 클래스, 메서드, 문법 등을 설명해주고 자동완성 기능을 제공해줍니다.
+  - SQLite Viewer(Florian Klampfer): vscode 내부에서 데이터를 살펴볼 때 필수적으로 필요한 확장프로그램입니다.
+  - vscode-icons(VSCode Icons Team): vscode에서 열린 각종 폴더나 파일들의 아이콘을 기능에 맞는 이미지로 만들어줍니다.
 
 <br>
 
